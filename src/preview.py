@@ -14,6 +14,7 @@ from common import (
 )
 
 INDEX_FILE = INDEX_DIR / "album-index.csv"
+SINGLE_ARTIST_FILE = ANALYSIS_DIR / "single-artist-candidates.csv"
 PREVIEW_DIR = PROJECT_ROOT / "runtime" / "preview"
 SUMMARY_FILE = PREVIEW_DIR / "preview-summary.json"
 PLAN_FILE = PREVIEW_DIR / "apply-plan.json"
@@ -55,6 +56,42 @@ def album_id(library: str, folder: str) -> str:
 
 
 
+
+def build_actions() -> list[dict]:
+    actions = []
+
+    with SINGLE_ARTIST_FILE.open(
+        "r",
+        encoding="utf-8-sig",
+        newline="",
+    ) as handle:
+        reader = csv.DictReader(handle)
+
+        action_no = 1
+
+        for row in reader:
+            if row["needs_albumartist"] != "yes":
+                continue
+
+            actions.append(
+                {
+                    "id": f"ACT-{action_no:06d}",
+                    "album_id": album_id(
+                        row["library"],
+                        row["folder"],
+                    ),
+                    "library": row["library"],
+                    "folder": row["folder"],
+                    "action": "ADD_ALBUMARTIST",
+                    "approval": "PENDING",
+                }
+            )
+
+            action_no += 1
+
+    return actions
+
+
 def main() -> int:
     PREVIEW_DIR.mkdir(
         parents=True,
@@ -85,13 +122,15 @@ def main() -> int:
 
     generated_at = utc_timestamp()
 
+    actions = build_actions()
+
     summary = {
         "schema_version": "1.0",
         "generated_at": generated_at,
         "mode": "READ_ONLY",
         "status": "PREVIEW_READY",
         "album_count": album_count,
-        "action_count": 0,
+        "action_count": len(actions),
     }
 
     apply_plan = {
@@ -99,8 +138,8 @@ def main() -> int:
         "generated_at": generated_at,
         "mode": "READ_ONLY",
         "album_count": album_count,
-        "action_count": 0,
-        "actions": [],
+        "action_count": len(actions),
+        "actions": actions,
     }
 
     write_json(SUMMARY_FILE, summary)
