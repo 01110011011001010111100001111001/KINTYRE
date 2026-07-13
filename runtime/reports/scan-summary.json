@@ -1,0 +1,21 @@
+{
+  "project": "KINTYRE-LIBRARY",
+  "mode": "audit",
+  "read_only": true,
+  "scan_started": "2026-07-13T15:38:04.881750+02:00",
+  "music_root": "/data/Music",
+  "total_audio_files": 39832,
+  "total_audio_bytes": 392072683452,
+  "total_audio_gib": 365.15,
+  "formats": {
+    "aif": 2,
+    "flac": 11652,
+    "m4a": 7878,
+    "m4p": 20,
+    "mp3": 20209,
+    "ogg": 1,
+    "wma": 70
+  },
+  "unreadable_file_count": 0,
+  "unreadable_files": []
+}

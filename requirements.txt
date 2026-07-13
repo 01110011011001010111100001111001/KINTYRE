@@ -1,0 +1,12 @@
+# KINTYRE DAM
+#
+# Python dependencies
+#
+# Install with:
+#
+#     python -m venv .venv
+#     source .venv/bin/activate
+#     pip install -r requirements.txt
+
+mutagen>=1.47.0
+PyYAML>=6.0
