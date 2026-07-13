@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 from pathlib import Path
 
@@ -44,6 +45,16 @@ def write_json(path: Path, payload: dict) -> None:
         handle.write("\n")
 
 
+
+def album_id(library: str, folder: str) -> str:
+    key = f"{library}|{folder}"
+    digest = hashlib.sha1(
+        key.encode("utf-8")
+    ).hexdigest()
+    return "ALB-" + digest[:8].upper()
+
+
+
 def main() -> int:
     PREVIEW_DIR.mkdir(
         parents=True,
@@ -51,6 +62,27 @@ def main() -> int:
     )
 
     album_count = read_album_count()
+
+    with INDEX_FILE.open(
+        "r",
+        encoding="utf-8-sig",
+        newline="",
+    ) as handle:
+        albums = list(csv.DictReader(handle))
+
+    album_ids = {
+        album_id(
+            row.get("library", ""),
+            row.get("folder", ""),
+        )
+        for row in albums
+    }
+
+    if len(album_ids) != album_count:
+        raise RuntimeError(
+            "Album ID collision or incomplete album index detected."
+        )
+
     generated_at = utc_timestamp()
 
     summary = {
