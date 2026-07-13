@@ -1,0 +1,60 @@
+project:
+  name: KINTYRE-LIBRARY
+  mode: audit
+
+storage:
+  music_root: /data/Music
+
+  database_dir: /home/richard/kintyre-dam/runtime/database
+  reports_dir: /home/richard/kintyre-dam/runtime/reports
+  logs_dir: /home/richard/kintyre-dam/runtime/logs
+  cache_dir: /home/richard/kintyre-dam/runtime/cache
+  previews_dir: /home/richard/kintyre-dam/runtime/previews
+  staging_dir: /home/richard/kintyre-dam/runtime/staging
+
+libraries:
+  contemporary:
+    name: CONTEMPORARY
+    root: /data/Music/CONTEMPORARY
+    enabled: true
+    profile: contemporary
+
+  classical:
+    name: CLASSICAL
+    root: /data/Music/CLASSICAL
+    enabled: true
+    profile: classical
+
+protection:
+  read_only: true
+  allow_tag_writes: false
+  allow_renames: false
+  allow_moves: false
+  allow_deletes: false
+
+music_assistant:
+  objective: clean_library
+  local_music_path: /data/Music
+  container_music_path: /media
+  providers:
+    contemporary:
+      host_path: /data/Music/CONTEMPORARY
+      container_path: /media/contemporary
+    classical:
+      host_path: /data/Music/CLASSICAL
+      container_path: /media/classical
+
+scan:
+  include:
+    - mp3
+    - flac
+    - m4a
+    - m4p
+    - wma
+    - wav
+    - aif
+    - aiff
+    - ogg
+  exclude_directories:
+    - lost+found
+  follow_symbolic_links: false

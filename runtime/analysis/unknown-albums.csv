@@ -1,0 +1,267 @@
+library,folder,tracks,artist_count,albumartist_count,album_count,date_count,candidate_reason,quality_score,issue_count,flags
+CLASSICAL,/data/Music/CLASSICAL/Mozart/Piano Sonata #10 in Cmajor,2,1,0,0,1,missing_album_tag,58,6,missing_albumartist;missing_album_tag
+CLASSICAL,/data/Music/CLASSICAL/Schubert/Various,1,1,1,0,1,missing_album_tag,74,2,missing_album_tag
+CONTEMPORARY,/data/Music/CONTEMPORARY/3ala/Unknown Album,2,1,0,0,0,unknown_album_folder;missing_album_tag,21,8,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/A-Ha/Unknown Album,23,1,0,0,0,unknown_album_folder;missing_album_tag,13,92,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Air/Unknown Album,7,2,1,0,1,unknown_album_folder;missing_album_tag,26,20,multiple_artists;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Alanis Morissette/Unknown Album,7,3,0,0,2,unknown_album_folder;missing_album_tag,6,23,multiple_artists;missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Amy MacDonald/Unknown Album,4,1,0,0,0,unknown_album_folder;missing_album_tag,13,16,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Amy Winehouse/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Annie Lennox/Unknown Album,1,1,0,0,1,unknown_album_folder;missing_album_tag,32,2,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Ayo/Unknown Album,5,1,0,0,0,unknown_album_folder;missing_album_tag,13,24,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Bangles/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/BB King/Unknown Album,3,2,0,0,1,unknown_album_folder;missing_album_tag,21,9,multiple_artists;missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Beach Boys/Unknown Album,12,1,0,0,6,unknown_album_folder;missing_album_tag,10,26,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Beyonce/Unknown Album,9,7,0,0,1,unknown_album_folder;missing_album_tag,14,32,multiple_artists;missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Billie Holiday/Unknown Album,5,2,0,0,1,unknown_album_folder;missing_album_tag,14,18,multiple_artists;missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Billie Myers/Unknown Album,2,1,0,0,1,unknown_album_folder;missing_album_tag,28,6,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Black Eyed Peas/Unknown Album,8,3,0,0,1,unknown_album_folder;missing_album_tag,14,26,multiple_artists;missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Blur/Unknown Album,1,1,0,0,1,unknown_album_folder;missing_album_tag,31,3,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Bob Dylan/Unknown Album,15,1,0,0,3,unknown_album_folder;missing_album_tag,10,53,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Bob Marley & The Wailers/Unknown Album,15,3,0,0,2,unknown_album_folder;missing_album_tag,6,55,multiple_artists;missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Bob Seger & The Silver Bullet Band/Live Bullet,1,0,0,0,0,missing_album_tag,23,6,missing_artist;missing_albumartist;missing_album_tag;missing_date
+CONTEMPORARY,/data/Music/CONTEMPORARY/Bob Seger System/Unknown Album,1,1,0,0,1,unknown_album_folder;missing_album_tag,32,2,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Bob Sinclair/Unknown Album,9,4,0,0,1,unknown_album_folder;missing_album_tag,14,35,multiple_artists;missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Bon Jovi/Unknown Album,11,1,0,0,3,unknown_album_folder;missing_album_tag,10,30,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Bonnie Tyler/Unknown Album,4,1,0,0,0,unknown_album_folder;missing_album_tag,14,15,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Bourvil/Unknown Album,1,1,0,1,0,unknown_album_folder,51,3,missing_albumartist;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/BOY/Mutual Friends,11,0,0,0,0,missing_album_tag,13,66,missing_artist;missing_albumartist;missing_album_tag;missing_date
+CONTEMPORARY,/data/Music/CONTEMPORARY/Britney Spears Vs Michael Jackson/Unknown Album,1,1,0,0,1,unknown_album_folder;missing_album_tag,32,2,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Britney Spears/Unknown Album,6,1,1,0,2,unknown_album_folder;missing_album_tag,22,18,missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Brotherhood Of Man/Unknown Album,2,1,0,0,1,unknown_album_folder;missing_album_tag,30,4,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Bruce Springsteen/Unknown Album,3,1,0,0,2,unknown_album_folder;missing_album_tag,18,8,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Bruno Mars/Unknown Album,2,1,0,0,0,unknown_album_folder;missing_album_tag,21,8,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,"/data/Music/CONTEMPORARY/Bryan Adams, Sting & Rod Stewart/Unknown Album",2,1,0,0,1,unknown_album_folder;missing_album_tag,30,4,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Bryan Adams/Unknown Album,5,1,0,0,2,unknown_album_folder;missing_album_tag,14,12,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Buddy Holly/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Buena Vista Social Club/Unknown Album,2,1,0,0,0,unknown_album_folder;missing_album_tag,22,7,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Café del Mar/Unknown Album,5,2,0,0,0,unknown_album_folder;missing_album_tag,9,20,multiple_artists;missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Cake/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Chemical Brothers/Unknown Album,4,1,0,0,2,unknown_album_folder;missing_album_tag,12,14,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Cher/Unknown Album,5,1,0,0,4,unknown_album_folder;missing_album_tag,14,12,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Cindy Lauper/Unknown Album,2,1,0,0,1,unknown_album_folder;missing_album_tag,27,7,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Cinematic Orchestra/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,24,5,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Club Ibiza/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Cold Play/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Coldplay/Unknown Album,8,2,1,0,2,unknown_album_folder;missing_album_tag,18,27,multiple_artists;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Coldplay/Viva La Vida,10,0,0,0,0,missing_album_tag,13,60,missing_artist;missing_albumartist;missing_album_tag;missing_date
+CONTEMPORARY,/data/Music/CONTEMPORARY/Corrs/Unknown Album,1,1,0,0,1,unknown_album_folder;missing_album_tag,32,2,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Cramberies/Unknown Album,1,1,0,0,1,unknown_album_folder;missing_album_tag,31,3,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Cranberries/Unknown Album,8,1,0,0,2,unknown_album_folder;missing_album_tag,10,20,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Culture Club/Unknown Album,3,1,0,0,0,unknown_album_folder;missing_album_tag,17,12,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,"/data/Music/CONTEMPORARY/Cure, The/Unknown Album",2,1,0,0,1,unknown_album_folder;missing_album_tag,29,5,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Cyndi Lauper/Unknown Album,4,1,0,0,0,unknown_album_folder;missing_album_tag,13,16,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Daft Punk Vs. Fat Boy Slim/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Daft Punk/Unknown Album,4,1,1,0,1,unknown_album_folder;missing_album_tag,33,13,missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/David Bowie & Iggy Pop/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/David Bowie & Pat Methany Group/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/David Bowie/Unknown Album,10,2,0,0,1,unknown_album_folder;missing_album_tag,14,38,multiple_artists;missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/De Phazz feat. Pat Appleton/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,26,3,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/De Phazz/Unknown Album,4,1,0,0,0,unknown_album_folder;missing_album_tag,15,14,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Deep Purple/Unknown Album,2,1,0,0,0,unknown_album_folder;missing_album_tag,22,7,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Depeche Mode/Unknown Album,3,1,0,0,1,unknown_album_folder;missing_album_tag,22,12,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Destiney's Child/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Destiny Child/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Destiny's Child/Unknown Album,5,1,0,0,2,unknown_album_folder;missing_album_tag,15,11,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Deus/Unknown Album,2,2,0,0,1,unknown_album_folder;missing_album_tag,24,6,multiple_artists;missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Diana Ross & Supremes & Temptations/Unknown Album,1,1,0,0,1,unknown_album_folder;missing_album_tag,32,2,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Diana Ross & The Supremes/Unknown Album,6,2,0,0,2,unknown_album_folder;missing_album_tag,7,15,multiple_artists;missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Diana Ross and the Supremes/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Diana Ross/Unknown Album,3,1,0,0,2,unknown_album_folder;missing_album_tag,19,7,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/dianna ross/Unknown Album,2,1,0,0,0,unknown_album_folder;missing_album_tag,21,8,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Dido/Unknown Album,2,1,0,0,1,unknown_album_folder;missing_album_tag,27,7,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/dire straits/Unknown Album,5,2,0,0,0,unknown_album_folder;missing_album_tag,9,18,multiple_artists;missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Don McLean/Unknown Album,3,3,0,0,0,unknown_album_folder;missing_album_tag,14,11,multiple_artists;missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Donna Summer/Unknown Album,7,1,1,0,2,unknown_album_folder;missing_album_tag,22,22,missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Doors/Unknown Album,3,1,0,0,2,unknown_album_folder;missing_album_tag,18,8,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Duran Duran/Unknown Album,6,1,0,0,1,unknown_album_folder;missing_album_tag,18,20,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/E. Clapton/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Eagles/Unknown Album,8,1,0,0,2,unknown_album_folder;missing_album_tag,10,26,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Edward Sharpe and the Magnetic Zeros/Up from Below,1,0,0,0,0,missing_album_tag,23,6,missing_artist;missing_albumartist;missing_album_tag;missing_date
+CONTEMPORARY,/data/Music/CONTEMPORARY/Elton John/Unknown Album,18,1,0,0,6,unknown_album_folder;missing_album_tag,10,45,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Elvis Presley/Unknown Album,27,1,0,0,8,unknown_album_folder;missing_album_tag,10,76,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Eminem/Unknown Album,25,2,0,0,0,unknown_album_folder;missing_album_tag,9,81,multiple_artists;missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Empire of the Sun/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Enigma/Unknown Album,36,3,1,0,3,unknown_album_folder;missing_album_tag,18,105,multiple_artists;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Enya/Unknown Album,1,1,0,0,1,unknown_album_folder;missing_album_tag,32,2,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Erasure/Unknown Album,19,1,0,0,1,unknown_album_folder;missing_album_tag,18,71,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Eric Clapton/Unknown Album,78,6,0,0,3,unknown_album_folder;missing_album_tag,6,234,multiple_artists;missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Eurythmics/Unknown Album,6,3,1,0,2,unknown_album_folder;missing_album_tag,18,18,multiple_artists;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Everly Brothers/Unknown Album,7,1,0,0,3,unknown_album_folder;missing_album_tag,12,14,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Fleetwood Mac/Unknown Album,7,2,0,0,3,unknown_album_folder;missing_album_tag,6,19,multiple_artists;missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Florence + The Machine/Ceremonials,12,0,0,0,0,missing_album_tag,13,72,missing_artist;missing_albumartist;missing_album_tag;missing_date
+CONTEMPORARY,/data/Music/CONTEMPORARY/Four Seasons/Unknown Album,10,1,0,0,5,unknown_album_folder;missing_album_tag,10,20,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Frank Sanatra/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,26,3,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Frank Sinatra/Unknown Album,11,1,0,0,1,unknown_album_folder;missing_album_tag,18,42,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Frankie Goes to Hollywood/Unknown Album,3,2,0,0,0,unknown_album_folder;missing_album_tag,13,12,multiple_artists;missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Fugees/Unknown Album,10,1,1,0,1,unknown_album_folder;missing_album_tag,30,42,missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Gainsbourg/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,26,3,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Garbage/Unknown Album,4,1,0,0,0,unknown_album_folder;missing_album_tag,15,14,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Gotan Project/Unknown Album,2,2,0,0,0,unknown_album_folder;missing_album_tag,16,9,multiple_artists;missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Grease/Unknown Album,2,1,0,0,0,unknown_album_folder;missing_album_tag,22,7,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Groove Armada/Unknown Album,4,1,0,0,1,unknown_album_folder;missing_album_tag,19,15,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Guns N Roses/Unknown Album,7,6,0,0,1,unknown_album_folder;missing_album_tag,14,27,multiple_artists;missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Handel/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,26,3,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/House of Pain/Unknown Album,2,2,0,0,0,unknown_album_folder;missing_album_tag,18,7,multiple_artists;missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Housemartins/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Ice Cube/Unknown Album,2,2,0,0,1,unknown_album_folder;missing_album_tag,25,5,multiple_artists;missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Iggy & The Stooges/Unknown Album,3,3,0,0,0,unknown_album_folder;missing_album_tag,13,12,multiple_artists;missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/INXS/Unknown Album,4,1,0,0,2,unknown_album_folder;missing_album_tag,13,13,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Jakson Five/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/JAY-Z/Unknown Album,4,2,0,1,1,unknown_album_folder,43,12,multiple_artists;missing_albumartist;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Jem/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,26,3,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Jennifer Lopez/_                            _,1,1,0,0,0,missing_album_tag,56,3,missing_albumartist;missing_album_tag;missing_date
+CONTEMPORARY,/data/Music/CONTEMPORARY/Jennifer Lopez/Unknown Album,8,1,0,0,2,unknown_album_folder;missing_album_tag,10,19,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Joao Gilberto/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,24,5,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/John Legend/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Justin Timberlake/Unknown Album,7,3,1,1,2,unknown_album_folder,43,20,multiple_artists;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Kanye West/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Kate Bush/Unknown Album,2,1,0,0,0,unknown_album_folder;missing_album_tag,21,8,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Katy Perry/Unknown Album,1,1,0,0,1,unknown_album_folder;missing_album_tag,32,2,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Kenny Roger/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Kenny Rogers & The First Edition/Unknown Album,2,1,0,0,1,unknown_album_folder;missing_album_tag,30,4,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Kenny Rogers/Unknown Album,2,1,0,0,0,unknown_album_folder;missing_album_tag,21,8,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Kinks/Unknown Album,5,1,0,0,3,unknown_album_folder;missing_album_tag,16,10,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Kylie Minogue/_   _,1,1,0,0,1,missing_album_tag,62,2,missing_albumartist;missing_album_tag
+CONTEMPORARY,/data/Music/CONTEMPORARY/Kylie Minogue/Unknown Album,5,2,0,0,0,unknown_album_folder;missing_album_tag,9,16,multiple_artists;missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Lady GaGa/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Lamb/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Lauryn Hill/Unknown Album,5,4,0,0,1,unknown_album_folder;missing_album_tag,16,14,multiple_artists;missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Led Zeppelin/_                            _,2,1,0,0,0,missing_album_tag,51,8,missing_albumartist;missing_album_tag;missing_date
+CONTEMPORARY,/data/Music/CONTEMPORARY/Led Zeppelin/Unknown Album,18,1,0,0,0,unknown_album_folder;missing_album_tag,13,56,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Lemon Jelly/Unknown Album,2,1,0,0,1,unknown_album_folder;missing_album_tag,28,6,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Linkin Park/Unknown Album,5,2,0,0,0,unknown_album_folder;missing_album_tag,9,17,multiple_artists;missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/lionel richie & diana ross/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Lionel Richie/Unknown Album,8,1,0,0,0,unknown_album_folder;missing_album_tag,13,25,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/LLoyd Cole & The Commotions/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Lou Reed/Unknown Album,2,1,0,0,0,unknown_album_folder;missing_album_tag,21,8,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Louis Armstrong/Unknown Album,7,3,0,0,1,unknown_album_folder;missing_album_tag,14,25,multiple_artists;missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/LOUNGE 2004/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,"/data/Music/CONTEMPORARY/Ludwig van Beethoven, composer. Seattle Symphony. Gerard Schwarz, director/Unknown Album",2,1,0,0,0,unknown_album_folder;missing_album_tag,23,6,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Madness/Unknown Album,9,1,0,0,0,unknown_album_folder;missing_album_tag,13,33,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Madonna/Unknown Album,30,1,0,0,5,unknown_album_folder;missing_album_tag,10,111,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Mamas and the Papas/Unknown Album,4,2,0,0,2,unknown_album_folder;missing_album_tag,12,10,multiple_artists;missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Manu Chao/Unknown Album,3,2,0,0,0,unknown_album_folder;missing_album_tag,11,14,multiple_artists;missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Manu Chao/Unknown Album 2,21,1,0,0,0,unknown_album_folder;missing_album_tag,13,63,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Mary J Blige/Unknown Album,5,2,1,0,2,unknown_album_folder;missing_album_tag,22,12,multiple_artists;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Massive Attack/Unknown Album,10,3,0,0,1,unknown_album_folder;missing_album_tag,14,36,multiple_artists;missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Mazzy Star/Unknown Album,5,1,0,0,0,unknown_album_folder;missing_album_tag,13,20,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Michael Jackson/Unknown Album,102,2,0,0,5,unknown_album_folder;missing_album_tag,6,329,multiple_artists;missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Mika/Unknown Album,2,1,0,0,0,unknown_album_folder;missing_album_tag,21,8,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Mike Oldfield/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Miles Davis/Unknown Album,4,3,0,0,0,unknown_album_folder;missing_album_tag,10,15,multiple_artists;missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/MInistry of sound/Unknown Album,2,2,0,0,0,unknown_album_folder;missing_album_tag,17,8,multiple_artists;missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Mission- Impossible II/Unknown Album,16,1,0,0,0,unknown_album_folder;missing_album_tag,13,48,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Moby/Unknown Album,7,1,0,0,1,unknown_album_folder;missing_album_tag,18,23,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Monkees/Unknown Album,5,1,0,0,2,unknown_album_folder;missing_album_tag,16,10,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Morcheeba/Unknown Album,3,1,0,0,0,unknown_album_folder;missing_album_tag,20,9,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Muse/Unknown Album,5,1,0,0,2,unknown_album_folder;missing_album_tag,10,19,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Natalie Imbruglia/Unknown Album,2,1,0,0,1,unknown_album_folder;missing_album_tag,28,6,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Neil Diamond/Unknown Album,4,1,0,0,3,unknown_album_folder;missing_album_tag,18,8,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Nelly Furtado Ft. Timbaland/Unknown Album,2,1,0,0,0,unknown_album_folder;missing_album_tag,23,6,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Nelly Furtado/Unknown Album,5,2,1,1,3,unknown_album_folder,46,13,multiple_artists;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/New Order/Unknown Album,2,1,1,1,1,unknown_album_folder,66,5,unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Nightmares On Wax/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,24,5,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Nitin Sawhney/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Noir Désir/Unknown Album,6,3,0,2,2,unknown_album_folder,16,19,multiple_artists;missing_albumartist;multiple_album_tags;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Norah Jones/Unknown Album,2,1,0,0,0,unknown_album_folder;missing_album_tag,21,8,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Oasis/Unknown Album,10,1,1,0,2,unknown_album_folder;missing_album_tag,22,33,missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Omd/Unknown Album,3,2,0,0,0,unknown_album_folder;missing_album_tag,13,12,multiple_artists;missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Otis Redding/Unknown Album,1,1,0,0,1,unknown_album_folder;missing_album_tag,32,2,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Outkast/Unknown Album,9,2,1,0,3,unknown_album_folder;missing_album_tag,18,24,multiple_artists;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Page & Plant/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,26,3,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Paul McCartney/Unknown Album,4,2,0,0,2,unknown_album_folder;missing_album_tag,11,11,multiple_artists;missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Paul Simon/Unknown Album,2,1,0,1,1,unknown_album_folder,54,5,missing_albumartist;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Pearl Jam/Unknown Album,10,1,0,1,3,unknown_album_folder,35,32,missing_albumartist;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Pet Shop Boys/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Pharrell Williams/Unknown Album,2,1,1,0,1,unknown_album_folder;missing_album_tag,40,6,missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Pink Floyd/Unknown Album,13,1,0,0,1,unknown_album_folder;missing_album_tag,18,49,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Police/Unknown Album,5,1,0,0,0,unknown_album_folder;missing_album_tag,13,21,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Portishead & DJ Shadow/Unknown Album,3,2,0,0,0,unknown_album_folder;missing_album_tag,11,14,multiple_artists;missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Portishead/Unknown Album,3,1,0,0,1,unknown_album_folder;missing_album_tag,25,9,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Primal Scream/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,26,3,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Prince/Unknown Album,16,1,0,0,2,unknown_album_folder;missing_album_tag,10,66,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Prodigy/Unknown Album,6,1,1,0,2,unknown_album_folder;missing_album_tag,22,18,missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Public Enemy/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Public Ennemy/Unknown Album,2,1,0,0,0,unknown_album_folder;missing_album_tag,22,7,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Puff Daddy & The Family/Unknown Album,4,1,0,0,1,unknown_album_folder;missing_album_tag,26,8,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Pulp Fiction/Unknown Album,4,1,0,0,0,unknown_album_folder;missing_album_tag,17,12,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Pulp/Unknown Album,2,1,0,0,0,unknown_album_folder;missing_album_tag,21,8,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Quantic/Unknown Album,6,2,0,0,1,unknown_album_folder;missing_album_tag,14,23,multiple_artists;missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Queen & David Bowie/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Queen/Unknown Album,12,1,0,1,1,unknown_album_folder,43,43,missing_albumartist;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/R.E.M_/Unknown Album,7,1,0,0,0,unknown_album_folder;missing_album_tag,13,23,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Radiohead/Unknown Album,2,1,0,0,0,unknown_album_folder;missing_album_tag,21,8,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Ray Charles/Unknown Album,26,3,0,0,8,unknown_album_folder;missing_album_tag,6,84,multiple_artists;missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Red Hot Chili Peppers/Unknown Album,35,2,0,0,2,unknown_album_folder;missing_album_tag,6,133,multiple_artists;missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Red Hot Chili Peppers/Unknown Album (8_19_2005 11_57_38 AM),1,1,1,1,1,unknown_album_folder,70,0,unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Reservoir Dogs/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Righteous Brothers/Unknown Album,4,1,0,0,2,unknown_album_folder;missing_album_tag,18,8,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Rihanna/Unknown Album,10,3,0,0,0,unknown_album_folder;missing_album_tag,9,35,multiple_artists;missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,"/data/Music/CONTEMPORARY/Robbie Williams/Lock, Stock & Two Smoking Barrels",1,0,0,0,0,missing_album_tag,23,6,missing_artist;missing_albumartist;missing_album_tag;missing_date
+CONTEMPORARY,/data/Music/CONTEMPORARY/Robbie Williams/Unknown Album,20,1,0,1,5,unknown_album_folder,35,71,missing_albumartist;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Robyn Hitchcock and The Soft Boys,1,1,1,0,0,missing_album_tag,68,3,missing_album_tag;missing_date
+CONTEMPORARY,/data/Music/CONTEMPORARY/Robyn/Unknown Album,2,1,0,0,2,unknown_album_folder;missing_album_tag,22,4,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Roxette/Unknown Album,15,1,0,0,2,unknown_album_folder;missing_album_tag,10,45,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Roy Orbison/Unknown Album,8,1,0,0,5,unknown_album_folder;missing_album_tag,10,16,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Saint Germain/Unknown Album,2,1,0,0,0,unknown_album_folder;missing_album_tag,22,7,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Salsa Sensual MIX/Unknown Album,6,1,0,0,0,unknown_album_folder;missing_album_tag,13,18,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Sean Kingston/Unknown Album,2,1,0,0,1,unknown_album_folder;missing_album_tag,27,7,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Serge Gainsbourg/Unknown Album,7,2,0,0,0,unknown_album_folder;missing_album_tag,9,22,multiple_artists;missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Sex Pistols/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Shaggy/Unknown Album,14,1,0,0,2,unknown_album_folder;missing_album_tag,10,49,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Sheryl Crow/Unknown Album,6,1,0,0,4,unknown_album_folder;missing_album_tag,14,12,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Sia/Unknown Album,2,2,0,0,0,unknown_album_folder;missing_album_tag,17,8,multiple_artists;missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Simon and Garfunkel/Unknown Album,16,3,0,0,4,unknown_album_folder;missing_album_tag,6,46,multiple_artists;missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Simple Minds/Unknown Album,5,1,0,0,0,unknown_album_folder;missing_album_tag,13,21,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Sinéad O'Connor/Unknown Album,2,1,0,0,1,unknown_album_folder;missing_album_tag,28,6,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Smashing Pumpkins/Unknown Album,2,1,0,0,1,unknown_album_folder;missing_album_tag,30,4,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Soft Cell/Unknown Album,2,1,1,0,1,unknown_album_folder;missing_album_tag,41,5,missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/SoundCloud,11,4,3,0,0,missing_album_tag,43,47,multiple_artists;multiple_albumartists;missing_album_tag;missing_date
+CONTEMPORARY,/data/Music/CONTEMPORARY/Spice Girls/Unknown Album,11,1,0,0,2,unknown_album_folder;missing_album_tag,10,24,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Stan Getz/Unknown Album,2,2,0,0,1,unknown_album_folder;missing_album_tag,24,6,multiple_artists;missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Sting/Unknown Album,3,1,0,0,2,unknown_album_folder;missing_album_tag,18,8,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Stranglers/Unknown Album,1,1,0,0,1,unknown_album_folder;missing_album_tag,32,2,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Style Council/Unknown Album,2,1,0,0,0,unknown_album_folder;missing_album_tag,21,8,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Sugar Cubes/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,24,5,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Suzanne Vega/Unknown Album,3,1,0,1,1,unknown_album_folder,49,10,missing_albumartist;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Take That/Unknown Album,3,1,0,0,3,unknown_album_folder;missing_album_tag,19,7,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Animals/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Beatles/_                            _,1,1,0,0,0,missing_album_tag,56,3,missing_albumartist;missing_album_tag;missing_date
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Beatles/Unknown Album,28,1,0,0,8,unknown_album_folder;missing_album_tag,10,63,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Beautiful South/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,26,3,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Black Eyed Peas/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,26,3,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Cardigans/Unknown Album,2,1,1,0,1,unknown_album_folder;missing_album_tag,40,6,missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Chemical Brothers/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Cinematic Orchestra/Unknown Album,17,1,0,0,0,unknown_album_folder;missing_album_tag,13,69,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Clash/_                            _,1,1,0,0,0,missing_album_tag,56,3,missing_albumartist;missing_album_tag;missing_date
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Clash/Unknown Album,2,1,0,0,0,unknown_album_folder;missing_album_tag,22,7,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Corrs/Unknown Album,5,1,1,0,2,unknown_album_folder;missing_album_tag,23,15,missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Cranberries/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Cure/Unknown Album,11,2,0,1,0,unknown_album_folder,34,45,multiple_artists;missing_albumartist;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/the doors/Unknown Album,10,2,0,0,0,unknown_album_folder;missing_album_tag,9,36,multiple_artists;missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Eagles/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Jam/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Kinks/Unknown Album,2,1,0,0,0,unknown_album_folder;missing_album_tag,21,8,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Libertines/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,25,4,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Psychedelic Furs/Unknown Album,3,1,1,0,1,unknown_album_folder;missing_album_tag,40,6,missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/the quantic soul orchestra/Unknown Album,2,1,0,0,1,unknown_album_folder;missing_album_tag,28,6,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Rolling Stones/Unknown Album,22,1,0,0,4,unknown_album_folder;missing_album_tag,10,69,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Specials/Unknown Album,7,1,0,0,1,unknown_album_folder;missing_album_tag,18,28,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Temptation/Unknown Album,1,1,0,0,1,unknown_album_folder;missing_album_tag,32,2,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Temptations/Unknown Album,2,1,0,0,0,unknown_album_folder;missing_album_tag,21,8,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Verve Pipe/Unknown Album,2,1,0,0,1,unknown_album_folder;missing_album_tag,30,4,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Verve/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,24,5,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/The Who/Unknown Album,4,1,0,0,0,unknown_album_folder;missing_album_tag,13,16,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Thievery Corporation/Unknown Album,9,1,0,0,0,unknown_album_folder;missing_album_tag,13,33,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Tina Turner/Unknown Album,5,1,1,0,2,unknown_album_folder;missing_album_tag,27,11,missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Tokens/Unknown Album,3,1,0,0,0,unknown_album_folder;missing_album_tag,17,12,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Tom Petty & the Heartbreakers/Unknown Album,4,1,1,0,4,unknown_album_folder;missing_album_tag,30,8,missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Tori Amos/Unknown Album,3,1,0,0,0,unknown_album_folder;missing_album_tag,19,10,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Tracy Ullman/Unknown Album,4,1,0,0,0,unknown_album_folder;missing_album_tag,13,16,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Trainspotting/Unknown Album,5,1,0,0,0,unknown_album_folder;missing_album_tag,13,20,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Tricky/Unknown Album,1,1,0,0,0,unknown_album_folder;missing_album_tag,26,3,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/U2/Unknown Album,28,1,0,0,3,unknown_album_folder;missing_album_tag,10,86,missing_albumartist;missing_album_tag;multiple_dates;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Ultravox/Unknown Album,2,1,0,0,0,unknown_album_folder;missing_album_tag,22,7,missing_albumartist;missing_album_tag;missing_date;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Underworld/Unknown Album,2,1,0,0,1,unknown_album_folder;missing_album_tag,30,4,missing_albumartist;missing_album_tag;unknown_album_folder
+CONTEMPORARY,/data/Music/CONTEMPORARY/Unknown Artist/Unknown Album,2,0,0,0,0,unknown_album_folder;missing_album_tag,0,5,missing_artist;missing_albumartist;missing_album_tag;missing_date;unknown_album_folder;unknown_artist_folder;metadata_read_error

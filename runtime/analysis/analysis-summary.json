@@ -1,0 +1,44 @@
+{
+  "album_folders": 4099,
+  "engine": "KINTYRE DAM Analysis Engine",
+  "folders_by_library": {
+    "CLASSICAL": 525,
+    "CONTEMPORARY": 3574
+  },
+  "folders_by_quality_grade": {
+    "A": 1286,
+    "B": 1086,
+    "C": 1068,
+    "D": 394,
+    "E": 265
+  },
+  "generated_at": "2026-07-13T15:44:40Z",
+  "inputs": {
+    "album_index": "/home/richard/kintyre-dam/runtime/index/album-index.csv",
+    "metadata_reports_found": [
+      "/home/richard/kintyre-dam/runtime/reports/contemporary-metadata-issues.csv",
+      "/home/richard/kintyre-dam/runtime/reports/classical-metadata-issues.csv"
+    ],
+    "metadata_reports_missing": []
+  },
+  "metadata_issue_rows": 29959,
+  "mode": "read-only",
+  "outputs": {
+    "folder_quality": "/home/richard/kintyre-dam/runtime/analysis/folder-quality.csv",
+    "single_artist": "/home/richard/kintyre-dam/runtime/analysis/single-artist-candidates.csv",
+    "summary": "/home/richard/kintyre-dam/runtime/analysis/analysis-summary.json",
+    "unknown_albums": "/home/richard/kintyre-dam/runtime/analysis/unknown-albums.csv",
+    "various_artist": "/home/richard/kintyre-dam/runtime/analysis/various-artist-candidates.csv"
+  },
+  "safety": {
+    "media_root": "/data/Music",
+    "media_writes": 0,
+    "moves": 0,
+    "renames": 0,
+    "tag_modifications": 0
+  },
+  "single_artist_candidates": 3723,
+  "tracks_indexed": 39832,
+  "unknown_album_candidates": 266,
+  "various_artist_candidates": 368
+}
