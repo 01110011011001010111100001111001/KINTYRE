@@ -20,6 +20,8 @@ SINGLE_ARTIST_FILE = ANALYSIS_DIR / "single-artist-candidates.csv"
 PREVIEW_DIR = PROJECT_ROOT / "runtime" / "preview"
 SUMMARY_FILE = PREVIEW_DIR / "preview-summary.json"
 PLAN_FILE = PREVIEW_DIR / "apply-plan.json"
+ALBUMARTIST_CSV = PREVIEW_DIR / "albumartist-fixes.csv"
+REVIEW_SUMMARY_FILE = PREVIEW_DIR / "review-summary.json"
 
 
 def read_album_count() -> int:
@@ -131,6 +133,111 @@ def build_actions() -> list[dict]:
     return actions
 
 
+
+def write_albumartist_csv() -> None:
+    with PLAN_FILE.open("r", encoding="utf-8") as handle:
+        plan = json.load(handle)
+
+    fieldnames = [
+        "id",
+        "album_id",
+        "library",
+        "folder",
+        "action",
+        "proposed_value",
+        "confidence",
+        "risk",
+        "reason",
+        "approval",
+    ]
+
+    actions = [
+        action
+        for action in plan["actions"]
+        if action["action"] == "ADD_ALBUMARTIST"
+    ]
+
+    with ALBUMARTIST_CSV.open(
+        "w",
+        encoding="utf-8",
+        newline="",
+    ) as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=fieldnames,
+            extrasaction="ignore",
+        )
+        writer.writeheader()
+        writer.writerows(actions)
+
+
+
+def write_review_summary() -> None:
+    from collections import Counter
+
+    with PLAN_FILE.open("r", encoding="utf-8") as handle:
+        plan = json.load(handle)
+
+    actions = plan["actions"]
+
+    summary = {
+        "schema_version": "1.0",
+        "generated_at": plan["generated_at"],
+        "mode": "READ_ONLY",
+        "total_actions": len(actions),
+        "resolved_proposed_values": sum(
+            1 for action in actions
+            if action.get("proposed_value")
+        ),
+        "unresolved_proposed_values": sum(
+            1 for action in actions
+            if not action.get("proposed_value")
+        ),
+        "actions_by_type": dict(
+            sorted(
+                Counter(
+                    action["action"]
+                    for action in actions
+                ).items()
+            )
+        ),
+        "actions_by_library": dict(
+            sorted(
+                Counter(
+                    action["library"]
+                    for action in actions
+                ).items()
+            )
+        ),
+        "actions_by_confidence": dict(
+            sorted(
+                Counter(
+                    action["confidence"]
+                    for action in actions
+                ).items()
+            )
+        ),
+        "actions_by_risk": dict(
+            sorted(
+                Counter(
+                    action["risk"]
+                    for action in actions
+                ).items()
+            )
+        ),
+        "actions_by_approval": dict(
+            sorted(
+                Counter(
+                    action["approval"]
+                    for action in actions
+                ).items()
+            )
+        ),
+    }
+
+    write_json(REVIEW_SUMMARY_FILE, summary)
+
+
 def main() -> int:
     PREVIEW_DIR.mkdir(
         parents=True,
@@ -183,6 +290,8 @@ def main() -> int:
 
     write_json(SUMMARY_FILE, summary)
     write_json(PLAN_FILE, apply_plan)
+    write_albumartist_csv()
+    write_review_summary()
 
     print("KINTYRE DAM Preview Engine")
     print(f"Albums analysed: {album_count}")
