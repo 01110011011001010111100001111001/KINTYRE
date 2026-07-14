@@ -1,8 +1,8 @@
 # KINTYRE DAM Architecture
 
-**Version:** 0.2
-**Status:** Baseline Architecture
-**Date:** 13 July 2026
+**Version:** 0.3 Preview Phase 1
+**Status:** Preview Engine Complete
+**Date:** 14 July 2026
 
 ---
 
@@ -107,39 +107,30 @@ Each engine has exactly one responsibility.
                       Scan
                          │
                          ▼
-                runtime/index
-                         │
-                         ▼
                       Audit
-                         │
-                         ▼
-               runtime/reports
                          │
                          ▼
                     Analysis
                          │
                          ▼
-              runtime/analysis
-                         │
-                         ▼
                     Preview
                          │
-                         ▼
-              runtime/preview
+          ┌──────────────┼──────────────┐
+          │              │              │
+          ▼              ▼              ▼
+ preview-summary   apply-plan.json  albumartist-fixes.csv
                          │
+                         ▼
+               review-summary.json
+                         │
+                         ▼
                   Human Approval
                          │
                          ▼
                       Apply
                          │
                          ▼
-                    /data/Music
-                         │
-                         ▼
                       Verify
-                         │
-                         ▼
-              runtime/verify
 
 Each phase is independent.
 
@@ -154,16 +145,38 @@ Each phase produces explicit artefacts.
 ## Completed
 
 - Scan Engine
-- Metadata Audit
+- Metadata Audit Engine
 - Album Index
 - Analysis Engine
-- Read-only validation
-
-## Planned
-
 - Preview Engine
-- Apply Engine
-- Verify Engine
+- Deterministic Album IDs
+- Read-only Preview Pipeline
+- Preview Review Summary
+- Human Review CSV Generation
+
+Current Preview outputs:
+
+- runtime/preview/preview-summary.json
+- runtime/preview/apply-plan.json
+- runtime/preview/albumartist-fixes.csv
+- runtime/preview/review-summary.json
+
+Current Preview capabilities:
+
+- Stable Album IDs
+- Stable Action IDs
+- High-confidence ADD_ALBUMARTIST recommendations
+- Automatic proposed AlbumArtist resolution
+- Confidence assessment
+- Risk assessment
+- Human review workflow
+
+## In Development
+
+- Approval Engine
+- Apply Engine (dry-run)
+- Apply Engine (live)
+- Verification Engine
 
 ---
 
@@ -187,7 +200,11 @@ Current metadata baseline:
 - Affected folders: 2,680
 - Genuine damaged media files: 1
 
-The damaged file is intentionally excluded from future automatic processing.
+Preview baseline:
+
+- Preview actions: 1,205
+- Proposed AlbumArtist values resolved: 1,205
+- Unresolved proposals: 0
 
 ---
 
@@ -208,10 +225,10 @@ Preview:
     Read Only
 
 Apply:
-    May modify metadata only after explicit approval.
+    Explicit approval required before modifying media.
 
 Verify:
     Read Only
 
-No phase except Apply may modify /data/Music.
+The protected music library remains unchanged until the Apply phase executes approved actions.
 
