@@ -6,6 +6,8 @@ import hashlib
 import json
 from pathlib import Path
 
+from mutagen import File
+
 from common import (
     ANALYSIS_DIR,
     INDEX_DIR,
@@ -57,6 +59,34 @@ def album_id(library: str, folder: str) -> str:
 
 
 
+
+def proposed_albumartist(folder: str) -> str | None:
+    artists: set[str] = set()
+
+    for media in sorted(Path(folder).iterdir()):
+        if not media.is_file() or media.name.startswith("._"):
+            continue
+
+        audio = File(media, easy=True)
+
+        if audio is None:
+            continue
+
+        artists.update(
+            value.strip()
+            for value in audio.get("artist", [])
+            if value.strip()
+        )
+
+        if len(artists) > 1:
+            return None
+
+    if len(artists) == 1:
+        return next(iter(artists))
+
+    return None
+
+
 def build_actions() -> list[dict]:
     actions = []
 
@@ -86,6 +116,12 @@ def build_actions() -> list[dict]:
                     "library": row["library"],
                     "folder": row["folder"],
                     "action": "ADD_ALBUMARTIST",
+                    "proposed_value": proposed_albumartist(
+                        row["folder"]
+                    ),
+                    "reason": "Single distinct track artist and missing AlbumArtist",
+                    "confidence": "HIGH",
+                    "risk": "LOW",
                     "approval": "PENDING",
                 }
             )
