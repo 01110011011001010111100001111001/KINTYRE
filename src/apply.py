@@ -79,22 +79,11 @@ def validate_action(
 
 
 
-def execute_transaction(
+def handle_add_albumartist(
     transaction: dict[str, Any],
     *,
     execute: bool,
 ) -> dict[str, Any]:
-    if transaction["validation"] != "PASS":
-        return transaction
-
-    if transaction["operation"] not in SUPPORTED_OPERATIONS:
-        return {
-            **transaction,
-            "status": "BLOCKED",
-            "validation": "FAIL",
-            "reason": "Unsupported operation.",
-        }
-
     if execute:
         return {
             **transaction,
@@ -104,6 +93,28 @@ def execute_transaction(
         }
 
     return transaction
+
+
+def execute_transaction(
+    transaction: dict[str, Any],
+    *,
+    execute: bool,
+) -> dict[str, Any]:
+    if transaction["validation"] != "PASS":
+        return transaction
+
+    if transaction["operation"] == "ADD_ALBUMARTIST":
+        return handle_add_albumartist(
+            transaction,
+            execute=execute,
+        )
+
+    return {
+        **transaction,
+        "status": "BLOCKED",
+        "validation": "FAIL",
+        "reason": "Unsupported operation.",
+    }
 
 
 def parse_args() -> argparse.Namespace:
