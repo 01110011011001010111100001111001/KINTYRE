@@ -78,6 +78,34 @@ def validate_action(
     }
 
 
+
+def execute_transaction(
+    transaction: dict[str, Any],
+    *,
+    execute: bool,
+) -> dict[str, Any]:
+    if transaction["validation"] != "PASS":
+        return transaction
+
+    if transaction["operation"] not in SUPPORTED_OPERATIONS:
+        return {
+            **transaction,
+            "status": "BLOCKED",
+            "validation": "FAIL",
+            "reason": "Unsupported operation.",
+        }
+
+    if execute:
+        return {
+            **transaction,
+            "status": "BLOCKED",
+            "validation": "FAIL",
+            "reason": "Live writer not implemented yet.",
+        }
+
+    return transaction
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Validate or execute approved metadata transactions."
@@ -118,9 +146,17 @@ def main() -> int:
     ) as handle:
         plan = json.load(handle)
 
-    transactions = [
+    validated = [
         validate_action(action)
         for action in plan["actions"]
+    ]
+
+    transactions = [
+        execute_transaction(
+            transaction,
+            execute=args.execute,
+        )
+        for transaction in validated
     ]
 
     successful = sum(
