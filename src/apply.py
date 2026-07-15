@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 from typing import Any
@@ -77,7 +78,40 @@ def validate_action(
     }
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Validate or execute approved metadata transactions."
+    )
+
+    parser.add_argument(
+        "--execute",
+        action="store_true",
+        help="Enable live metadata writes.",
+    )
+
+    parser.add_argument(
+        "--confirm",
+        default="",
+        help=(
+            "Required confirmation phrase for live execution: "
+            "I_APPROVE_KINTYRE_APPLY"
+        ),
+    )
+
+    return parser.parse_args()
+
+
 def main() -> int:
+    args = parse_args()
+
+    if args.execute and args.confirm != "I_APPROVE_KINTYRE_APPLY":
+        raise RuntimeError(
+            "Live execution refused. Supply both --execute and "
+            "--confirm I_APPROVE_KINTYRE_APPLY."
+        )
+
+    mode = "EXECUTE" if args.execute else "DRY_RUN"
+
     with INPUT.open(
         "r",
         encoding="utf-8",
@@ -100,7 +134,7 @@ def main() -> int:
     report = {
         "schema_version": "1.0",
         "generated_at": utc_timestamp(),
-        "mode": "DRY_RUN",
+        "mode": mode,
         "transaction_count": len(transactions),
         "successful": successful,
         "failed": failed,
@@ -116,7 +150,7 @@ def main() -> int:
     print(f"Transactions: {len(transactions)}")
     print(f"Validated: {successful}")
     print(f"Blocked: {failed}")
-    print("Mode: DRY_RUN")
+    print(f"Mode: {mode}")
     print(f"Created: {REPORT}")
 
     return 0
