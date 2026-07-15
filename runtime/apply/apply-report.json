@@ -1,0 +1,17 @@
+{
+  "failed": 0,
+  "generated_at": "2026-07-15T14:13:41Z",
+  "mode": "DRY_RUN",
+  "schema_version": "1.0",
+  "successful": 1,
+  "transaction_count": 1,
+  "transactions": [
+    {
+      "id": "ACT-000001",
+      "operation": "ADD_ALBUMARTIST",
+      "status": "SIMULATED",
+      "target": "/data/Music/CLASSICAL/Holst - The Planets - Egdon Heath",
+      "value": "Andrew Davis"
+    }
+  ]
+}
