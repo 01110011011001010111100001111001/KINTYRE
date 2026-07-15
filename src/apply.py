@@ -79,18 +79,24 @@ def validate_action(
 
 
 
+def write_albumartist_flac(
+    transaction: dict[str, Any],
+) -> dict[str, Any]:
+    return {
+        **transaction,
+        "status": "BLOCKED",
+        "validation": "FAIL",
+        "reason": "FLAC writer not implemented yet.",
+    }
+
+
 def handle_add_albumartist(
     transaction: dict[str, Any],
     *,
     execute: bool,
 ) -> dict[str, Any]:
     if execute:
-        return {
-            **transaction,
-            "status": "BLOCKED",
-            "validation": "FAIL",
-            "reason": "Live writer not implemented yet.",
-        }
+        return write_albumartist_flac(transaction)
 
     return transaction
 
