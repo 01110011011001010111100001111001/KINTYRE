@@ -1,7 +1,13 @@
 {
   "action_count": 1205,
-  "approval_state": "INITIAL",
-  "generated_at": "2026-07-15T11:44:04Z",
+  "approval_counts": {
+    "APPROVED": 1,
+    "DEFERRED": 0,
+    "PENDING": 1204,
+    "REJECTED": 0
+  },
+  "generated_at": "2026-07-15T12:00:32Z",
   "mode": "READ_ONLY",
-  "schema_version": "1.0"
+  "schema_version": "1.0",
+  "source_generated_at": "2026-07-14T18:19:43Z"
 }
