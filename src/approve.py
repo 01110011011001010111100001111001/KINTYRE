@@ -17,6 +17,7 @@ APPROVAL_DIR = PROJECT_ROOT / "runtime" / "approval"
 INPUT_PLAN = PREVIEW_DIR / "apply-plan.json"
 APPROVAL_PLAN = APPROVAL_DIR / "approval-plan.json"
 APPROVAL_SUMMARY = APPROVAL_DIR / "approval-summary.json"
+APPROVED_ACTIONS = APPROVAL_DIR / "approved-actions.json"
 
 DECISIONS = {
     "approve": "APPROVED",
@@ -110,6 +111,27 @@ def save_plan(plan: dict[str, Any]) -> None:
         build_summary(plan),
     )
 
+    approved = [
+        dict(action)
+        for action in plan.get("actions", [])
+        if action.get("approval") == "APPROVED"
+    ]
+
+    approved_plan = {
+        "schema_version": "1.0",
+        "generated_at": utc_timestamp(),
+        "source_plan": str(APPROVAL_PLAN),
+        "source_generated_at": plan.get("generated_at"),
+        "mode": "READ_ONLY",
+        "action_count": len(approved),
+        "actions": approved,
+    }
+
+    atomic_write_json(
+        APPROVED_ACTIONS,
+        approved_plan,
+    )
+
 
 def initialize(*, reset: bool) -> None:
     if APPROVAL_PLAN.exists() and not reset:
@@ -194,14 +216,9 @@ def set_decision(action_id: str, decision: str) -> None:
 
 
 def show_status() -> None:
-    summary = build_summary(
-        read_json(APPROVAL_PLAN)
-    )
-
-    atomic_write_json(
-        APPROVAL_SUMMARY,
-        summary,
-    )
+    plan = read_json(APPROVAL_PLAN)
+    save_plan(plan)
+    summary = build_summary(plan)
 
     print("KINTYRE Approval Status")
     print(f"Actions: {summary['action_count']}")
