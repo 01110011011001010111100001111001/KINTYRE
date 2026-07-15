@@ -1,7 +1,0 @@
-===== ALBUMARTIST FOLDER CLASSIFICATION =====
-Folders examined:             2,561
-Files in single-artist folders: 16,393
-Files in multi-artist folders:  2,465
-Files with no readable artist:  56
-
-===== LARGEST MULTI-ARTIST FOLDERS =====

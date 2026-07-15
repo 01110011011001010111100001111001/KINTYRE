@@ -37,3 +37,19 @@ runtime/tmp/
 *.bak
 *~
 
+
+# Generated runtime artifacts
+runtime/index/*
+runtime/reports/*
+runtime/analysis/*
+runtime/preview/*
+runtime/approval/*
+runtime/apply/*
+
+# Preserve runtime directory structure
+!runtime/index/.gitkeep
+!runtime/reports/.gitkeep
+!runtime/analysis/.gitkeep
+!runtime/preview/.gitkeep
+!runtime/approval/.gitkeep
+!runtime/apply/.gitkeep
