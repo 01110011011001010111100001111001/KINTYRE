@@ -53,3 +53,7 @@ runtime/apply/*
 !runtime/preview/.gitkeep
 !runtime/approval/.gitkeep
 !runtime/apply/.gitkeep
+
+# Local commissioning and Music Assistant snapshots
+runtime/fixtures/
+runtime/ma-db-*/
