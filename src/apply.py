@@ -569,7 +569,7 @@ def main() -> int:
     print(f"Mode: {mode}")
     print(f"Created: {REPORT}")
 
-    return 0
+    return 0 if failed == 0 else 1
 
 
 if __name__ == "__main__":
