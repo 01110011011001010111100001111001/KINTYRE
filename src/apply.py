@@ -246,13 +246,20 @@ def restore_backups(
     backup_pairs: list[
         tuple[Path, Path]
     ],
-) -> list[str]:
+) -> tuple[list[str], list[str]]:
     restored: list[str] = []
+    failures: list[str] = []
 
     for original, backup in reversed(
         backup_pairs
     ):
-        if backup.is_file():
+        try:
+            if not backup.is_file():
+                failures.append(
+                    f"Missing backup: {backup}"
+                )
+                continue
+
             shutil.copy2(
                 backup,
                 original,
@@ -261,7 +268,12 @@ def restore_backups(
                 str(original)
             )
 
-    return restored
+        except Exception as exc:
+            failures.append(
+                f"{original}: {exc}"
+            )
+
+    return restored, failures
 
 
 def write_albumartist_flac(
@@ -364,7 +376,7 @@ def write_albumartist_flac(
             updated.append(str(source))
 
     except Exception as exc:
-        restored = restore_backups(
+        restored, restore_failures = restore_backups(
             backup_pairs
         )
 
@@ -377,6 +389,8 @@ def write_albumartist_flac(
                 updated,
             "files_restored":
                 restored,
+            "restore_failures":
+                restore_failures,
             "backup_directory":
                 str(backup_dir),
         }
