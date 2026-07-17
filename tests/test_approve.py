@@ -437,6 +437,12 @@ class TestBulkApprovalOperations(unittest.TestCase):
             )
 
     def test_bulk_decision_updates_all_matches_once(self) -> None:
+        audit_patcher = unittest.mock.patch.object(
+            approve,
+            "append_audit_events",
+        )
+        audit_patcher.start()
+        self.addCleanup(audit_patcher.stop)
         plan = {
             "schema_version": "1.0",
             "actions": [
@@ -535,6 +541,12 @@ class TestBulkApprovalOperations(unittest.TestCase):
         )
 
     def test_bulk_reset_clears_decision_timestamp(self) -> None:
+        audit_patcher = unittest.mock.patch.object(
+            approve,
+            "append_audit_events",
+        )
+        audit_patcher.start()
+        self.addCleanup(audit_patcher.stop)
         plan = {
             "schema_version": "1.0",
             "actions": [
@@ -599,6 +611,267 @@ class TestBulkApprovalOperations(unittest.TestCase):
                     ],
                     "APPROVED",
                 )
+
+
+class TestApprovalAuditLogging(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temporary_directory = tempfile.TemporaryDirectory()
+        self.audit_path = (
+            Path(self.temporary_directory.name)
+            / "approval-audit.json"
+        )
+        self.audit_patcher = patch.object(
+            approve,
+            "APPROVAL_AUDIT",
+            self.audit_path,
+        )
+        self.audit_patcher.start()
+        self.addCleanup(self.audit_patcher.stop)
+        self.addCleanup(self.temporary_directory.cleanup)
+
+    def read_audit(self) -> dict:
+        return json.loads(
+            self.audit_path.read_text(encoding="utf-8")
+        )
+
+    def test_append_audit_events_creates_document(self) -> None:
+        with patch.object(
+            approve,
+            "utc_timestamp",
+            return_value="2026-07-17T15:00:00Z",
+        ):
+            approve.append_audit_events(
+                [
+                    {
+                        "recorded_at": "2026-07-17T15:00:00Z",
+                        "operation": "single",
+                        "action_id": "ACT-1",
+                        "previous_state": "PENDING",
+                        "new_state": "APPROVED",
+                    }
+                ]
+            )
+
+        audit = self.read_audit()
+
+        self.assertEqual(audit["schema_version"], "1.0")
+        self.assertEqual(audit["event_count"], 1)
+        self.assertEqual(
+            audit["events"][0]["action_id"],
+            "ACT-1",
+        )
+
+    def test_append_audit_events_preserves_history(self) -> None:
+        with patch.object(
+            approve,
+            "utc_timestamp",
+            return_value="2026-07-17T15:00:00Z",
+        ):
+            approve.append_audit_events(
+                [
+                    {
+                        "recorded_at": "2026-07-17T15:00:00Z",
+                        "operation": "single",
+                        "action_id": "ACT-1",
+                        "previous_state": "PENDING",
+                        "new_state": "APPROVED",
+                    }
+                ]
+            )
+            approve.append_audit_events(
+                [
+                    {
+                        "recorded_at": "2026-07-17T15:05:00Z",
+                        "operation": "single",
+                        "action_id": "ACT-2",
+                        "previous_state": "PENDING",
+                        "new_state": "REJECTED",
+                    }
+                ]
+            )
+
+        audit = self.read_audit()
+
+        self.assertEqual(audit["event_count"], 2)
+        self.assertEqual(
+            [
+                event["action_id"]
+                for event in audit["events"]
+            ],
+            ["ACT-1", "ACT-2"],
+        )
+
+    def test_single_decision_writes_audit_event(self) -> None:
+        plan = {
+            "schema_version": "1.0",
+            "actions": [
+                {
+                    "id": "ACT-1",
+                    "approval": "PENDING",
+                    "decision_at": None,
+                }
+            ],
+        }
+
+        with patch.object(
+            approve,
+            "read_json",
+            return_value=plan,
+        ), patch.object(
+            approve,
+            "save_plan",
+        ), patch.object(
+            approve,
+            "utc_timestamp",
+            return_value="2026-07-17T15:10:00Z",
+        ):
+            approve.set_decision(
+                "ACT-1",
+                "APPROVED",
+            )
+
+        audit = self.read_audit()
+        event = audit["events"][0]
+
+        self.assertEqual(event["operation"], "single")
+        self.assertEqual(event["action_id"], "ACT-1")
+        self.assertEqual(
+            event["previous_state"],
+            "PENDING",
+        )
+        self.assertEqual(
+            event["new_state"],
+            "APPROVED",
+        )
+
+    def test_idempotent_single_decision_is_not_logged(self) -> None:
+        plan = {
+            "schema_version": "1.0",
+            "actions": [
+                {
+                    "id": "ACT-1",
+                    "approval": "APPROVED",
+                    "decision_at": "2026-07-17T15:10:00Z",
+                }
+            ],
+        }
+
+        with patch.object(
+            approve,
+            "read_json",
+            return_value=plan,
+        ), patch.object(
+            approve,
+            "save_plan",
+        ):
+            approve.set_decision(
+                "ACT-1",
+                "APPROVED",
+            )
+
+        self.assertFalse(self.audit_path.exists())
+
+    def test_bulk_decision_logs_only_changed_actions(self) -> None:
+        plan = {
+            "schema_version": "1.0",
+            "actions": [
+                {
+                    "id": "ACT-1",
+                    "library": "CLASSICAL",
+                    "approval": "PENDING",
+                    "decision_at": None,
+                },
+                {
+                    "id": "ACT-2",
+                    "library": "CLASSICAL",
+                    "approval": "APPROVED",
+                    "decision_at": "2026-07-17T14:00:00Z",
+                },
+            ],
+        }
+
+        filters = [
+            ("library", "eq", "CLASSICAL")
+        ]
+
+        with patch.object(
+            approve,
+            "read_json",
+            return_value=plan,
+        ), patch.object(
+            approve,
+            "save_plan",
+        ), patch.object(
+            approve,
+            "utc_timestamp",
+            return_value="2026-07-17T15:20:00Z",
+        ):
+            approve.set_bulk_decision(
+                filters,
+                "APPROVED",
+            )
+
+        audit = self.read_audit()
+
+        self.assertEqual(audit["event_count"], 1)
+        event = audit["events"][0]
+        self.assertEqual(event["operation"], "bulk")
+        self.assertEqual(event["action_id"], "ACT-1")
+        self.assertEqual(
+            event["filters"],
+            [
+                {
+                    "field": "library",
+                    "operator": "eq",
+                    "value": "CLASSICAL",
+                }
+            ],
+        )
+
+    def test_bulk_reset_is_audited(self) -> None:
+        plan = {
+            "schema_version": "1.0",
+            "actions": [
+                {
+                    "id": "ACT-1",
+                    "library": "CLASSICAL",
+                    "approval": "DEFERRED",
+                    "decision_at": "2026-07-17T14:00:00Z",
+                }
+            ],
+        }
+
+        with patch.object(
+            approve,
+            "read_json",
+            return_value=plan,
+        ), patch.object(
+            approve,
+            "save_plan",
+        ), patch.object(
+            approve,
+            "utc_timestamp",
+            return_value="2026-07-17T15:30:00Z",
+        ):
+            approve.set_bulk_decision(
+                [("library", "eq", "CLASSICAL")],
+                "PENDING",
+            )
+
+        audit = self.read_audit()
+        event = audit["events"][0]
+
+        self.assertEqual(
+            event["previous_state"],
+            "DEFERRED",
+        )
+        self.assertEqual(
+            event["new_state"],
+            "PENDING",
+        )
+        self.assertIsNone(
+            plan["actions"][0]["decision_at"]
+        )
 
 
 if __name__ == "__main__":

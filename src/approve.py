@@ -18,6 +18,7 @@ INPUT_PLAN = PREVIEW_DIR / "apply-plan.json"
 APPROVAL_PLAN = APPROVAL_DIR / "approval-plan.json"
 APPROVAL_SUMMARY = APPROVAL_DIR / "approval-summary.json"
 APPROVED_ACTIONS = APPROVAL_DIR / "approved-actions.json"
+APPROVAL_AUDIT = APPROVAL_DIR / "approval-audit.json"
 
 APPROVAL_STATES = (
     "PENDING",
@@ -207,6 +208,60 @@ def read_json(path: Path) -> dict[str, Any]:
     return payload
 
 
+def read_audit() -> dict[str, Any]:
+    """Read or initialize the approval audit document."""
+    if not APPROVAL_AUDIT.exists():
+        generated_at = utc_timestamp()
+        return {
+            "schema_version": "1.0",
+            "generated_at": generated_at,
+            "updated_at": generated_at,
+            "event_count": 0,
+            "events": [],
+        }
+
+    audit = read_json(APPROVAL_AUDIT)
+    events = audit.get("events")
+
+    if not isinstance(events, list):
+        raise ValueError(
+            f"Invalid events list in {APPROVAL_AUDIT}"
+        )
+
+    audit.setdefault("schema_version", "1.0")
+    audit.setdefault("generated_at", utc_timestamp())
+    audit["event_count"] = len(events)
+    return audit
+
+
+def append_audit_events(
+    events: list[dict[str, Any]],
+) -> None:
+    """Append decision events using one atomic audit write."""
+    if not events:
+        return
+
+    for event in events:
+        if not isinstance(event, dict):
+            raise ValueError(
+                "Every approval audit event must be an object."
+            )
+
+    audit = read_audit()
+    stored_events = audit["events"]
+    stored_events.extend(
+        dict(event)
+        for event in events
+    )
+    audit["updated_at"] = utc_timestamp()
+    audit["event_count"] = len(stored_events)
+
+    atomic_write_json(
+        APPROVAL_AUDIT,
+        audit,
+    )
+
+
 def build_summary(plan: dict[str, Any]) -> dict[str, Any]:
     actions = plan.get("actions", [])
 
@@ -349,14 +404,26 @@ def set_decision(action_id: str, decision: str) -> None:
         )
         return
 
+    recorded_at = utc_timestamp()
     action["approval"] = decision
     action["decision_at"] = (
         None
         if decision == "PENDING"
-        else utc_timestamp()
+        else recorded_at
     )
 
     save_plan(plan)
+    append_audit_events(
+        [
+            {
+                "recorded_at": recorded_at,
+                "operation": "single",
+                "action_id": action_id,
+                "previous_state": previous,
+                "new_state": decision,
+            }
+        ]
+    )
 
     print(f"{action_id}: {previous} -> {decision}")
 
@@ -395,11 +462,13 @@ def set_bulk_decision(
 
     changed = 0
     unchanged = 0
+    recorded_at = utc_timestamp()
     decision_at = (
         None
         if decision == "PENDING"
-        else utc_timestamp()
+        else recorded_at
     )
+    audit_events: list[dict[str, Any]] = []
 
     for action in matches:
         previous = approval_state(action)
@@ -412,8 +481,27 @@ def set_bulk_decision(
         action["decision_at"] = decision_at
         changed += 1
 
+        audit_events.append(
+            {
+                "recorded_at": recorded_at,
+                "operation": "bulk",
+                "action_id": action.get("id"),
+                "previous_state": previous,
+                "new_state": decision,
+                "filters": [
+                    {
+                        "field": field,
+                        "operator": operator,
+                        "value": value,
+                    }
+                    for field, operator, value in filters
+                ],
+            }
+        )
+
     if changed:
         save_plan(plan)
+        append_audit_events(audit_events)
 
     print(f"Matched: {len(matches)}")
     print(f"Changed: {changed}")
