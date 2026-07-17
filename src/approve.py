@@ -33,6 +33,95 @@ DECISIONS = {
     "reset": "PENDING",
 }
 
+FILTERABLE_FIELDS = (
+    "id",
+    "action",
+    "album_id",
+    "approval",
+    "confidence",
+    "folder",
+    "library",
+    "proposed_value",
+    "reason",
+    "risk",
+)
+
+FILTER_OPERATORS = (
+    "eq",
+    "contains",
+)
+
+
+def validate_filter(field: str, operator: str) -> None:
+    """Validate a transaction filter definition."""
+    if field not in FILTERABLE_FIELDS:
+        raise ValueError(
+            f"Unsupported filter field {field!r}. "
+            f"Allowed fields: {', '.join(FILTERABLE_FIELDS)}"
+        )
+
+    if operator not in FILTER_OPERATORS:
+        raise ValueError(
+            f"Unsupported filter operator {operator!r}. "
+            f"Allowed operators: {', '.join(FILTER_OPERATORS)}"
+        )
+
+
+def action_matches_filter(
+    action: dict[str, Any],
+    *,
+    field: str,
+    operator: str,
+    value: str,
+) -> bool:
+    """Return whether one action matches one filter predicate."""
+    validate_filter(field, operator)
+
+    actual = (
+        approval_state(action)
+        if field == "approval"
+        else action.get(field)
+    )
+
+    if actual is None:
+        return False
+
+    actual_text = str(actual).casefold()
+    expected_text = str(value).casefold()
+
+    if operator == "eq":
+        return actual_text == expected_text
+
+    if operator == "contains":
+        return expected_text in actual_text
+
+    raise AssertionError(
+        f"Unhandled filter operator: {operator}"
+    )
+
+
+def filter_actions(
+    actions: list[dict[str, Any]],
+    filters: list[tuple[str, str, str]],
+) -> list[dict[str, Any]]:
+    """Return actions matching all supplied predicates."""
+    for field, operator, _value in filters:
+        validate_filter(field, operator)
+
+    return [
+        action
+        for action in actions
+        if all(
+            action_matches_filter(
+                action,
+                field=field,
+                operator=operator,
+                value=value,
+            )
+            for field, operator, value in filters
+        )
+    ]
+
 
 def approval_state(action: dict[str, Any]) -> str:
     """Return and validate an action's approval state.

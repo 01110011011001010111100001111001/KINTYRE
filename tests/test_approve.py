@@ -255,5 +255,130 @@ class TestApprovalPersistence(unittest.TestCase):
         )
 
 
+class TestApprovalFilters(unittest.TestCase):
+    def setUp(self) -> None:
+        self.actions = [
+            {
+                "id": "ACT-000001",
+                "action": "ADD_ALBUMARTIST",
+                "album_id": "ALB-F73342DA",
+                "approval": "APPROVED",
+                "confidence": "HIGH",
+                "folder": "/data/Music/CLASSICAL/Holst",
+                "library": "CLASSICAL",
+                "proposed_value": "Andrew Davis",
+                "reason": "Missing AlbumArtist",
+                "risk": "LOW",
+            },
+            {
+                "id": "ACT-000002",
+                "action": "ADD_ALBUMARTIST",
+                "album_id": "ALB-3967DE3F",
+                "approval": "PENDING",
+                "confidence": "HIGH",
+                "folder": "/data/Music/CONTEMPORARY/A-Ha/1985",
+                "library": "CONTEMPORARY",
+                "proposed_value": "A-Ha",
+                "reason": "Missing AlbumArtist",
+                "risk": "LOW",
+            },
+            {
+                "id": "ACT-000003",
+                "action": "ADD_ALBUMARTIST",
+                "album_id": "ALB-00000003",
+                "approval": "DEFERRED",
+                "confidence": "HIGH",
+                "folder": "/data/Music/CONTEMPORARY/The Beatles",
+                "library": "CONTEMPORARY",
+                "proposed_value": "The Beatles",
+                "reason": "Missing AlbumArtist",
+                "risk": "LOW",
+            },
+        ]
+
+    def test_exact_filter_is_case_insensitive(self) -> None:
+        matches = approve.filter_actions(
+            self.actions,
+            [("library", "eq", "classical")],
+        )
+        self.assertEqual(
+            [action["id"] for action in matches],
+            ["ACT-000001"],
+        )
+
+    def test_contains_filter_is_case_insensitive(self) -> None:
+        matches = approve.filter_actions(
+            self.actions,
+            [("folder", "contains", "beatles")],
+        )
+        self.assertEqual(
+            [action["id"] for action in matches],
+            ["ACT-000003"],
+        )
+
+    def test_multiple_filters_use_logical_and(self) -> None:
+        matches = approve.filter_actions(
+            self.actions,
+            [
+                ("library", "eq", "CONTEMPORARY"),
+                ("approval", "eq", "PENDING"),
+            ],
+        )
+        self.assertEqual(
+            [action["id"] for action in matches],
+            ["ACT-000002"],
+        )
+
+    def test_empty_filters_preserve_order(self) -> None:
+        matches = approve.filter_actions(self.actions, [])
+        self.assertEqual(
+            [action["id"] for action in matches],
+            ["ACT-000001", "ACT-000002", "ACT-000003"],
+        )
+
+    def test_no_match_returns_empty_list(self) -> None:
+        matches = approve.filter_actions(
+            self.actions,
+            [("library", "eq", "UNKNOWN")],
+        )
+        self.assertEqual(matches, [])
+
+    def test_invalid_field_is_rejected(self) -> None:
+        with self.assertRaisesRegex(
+            ValueError,
+            "Unsupported filter field",
+        ):
+            approve.filter_actions(
+                self.actions,
+                [("artist", "eq", "A-Ha")],
+            )
+
+    def test_invalid_operator_is_rejected(self) -> None:
+        with self.assertRaisesRegex(
+            ValueError,
+            "Unsupported filter operator",
+        ):
+            approve.filter_actions(
+                self.actions,
+                [("library", "regex", "CLASSICAL")],
+            )
+
+    def test_legacy_action_matches_pending(self) -> None:
+        actions = [
+            {
+                "id": "ACT-LEGACY",
+                "library": "CONTEMPORARY",
+            }
+        ]
+        matches = approve.filter_actions(
+            actions,
+            [("approval", "eq", "PENDING")],
+        )
+        self.assertEqual(
+            [action["id"] for action in matches],
+            ["ACT-LEGACY"],
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
