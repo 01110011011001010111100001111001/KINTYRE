@@ -1,7 +1,7 @@
 # KINTYRE DAM Architecture
 
-**Version:** 0.3 Preview Phase 1
-**Status:** Preview Engine Complete
+**Version:** 1.0 RC1
+**Status:** Release Candidate
 **Date:** 14 July 2026
 
 ---

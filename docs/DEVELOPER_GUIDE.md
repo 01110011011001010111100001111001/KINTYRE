@@ -1,6 +1,6 @@
 # KINTYRE DAM Developer Guide
 
-**Version:** 0.2
+**Version:** 1.0 RC1
 **Audience:** Developers and Maintainers
 
 ---

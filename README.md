@@ -23,6 +23,8 @@ No media is modified until an approved execution plan is applied.
 
 Current Version
 
+    v1.0 RC1
+
     v0.2
 
 Status

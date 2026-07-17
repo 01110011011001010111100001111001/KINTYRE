@@ -1,6 +1,6 @@
 # KINTYRE DAM User Guide
 
-**Version:** 0.2
+**Version:** 1.0 RC1
 **Audience:** Operators and Administrators
 
 ---
