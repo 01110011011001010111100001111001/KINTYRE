@@ -19,11 +19,54 @@ APPROVAL_PLAN = APPROVAL_DIR / "approval-plan.json"
 APPROVAL_SUMMARY = APPROVAL_DIR / "approval-summary.json"
 APPROVED_ACTIONS = APPROVAL_DIR / "approved-actions.json"
 
+APPROVAL_STATES = (
+    "PENDING",
+    "APPROVED",
+    "REJECTED",
+    "DEFERRED",
+)
+
 DECISIONS = {
     "approve": "APPROVED",
     "reject": "REJECTED",
     "defer": "DEFERRED",
+    "reset": "PENDING",
 }
+
+
+def approval_state(action: dict[str, Any]) -> str:
+    """Return and validate an action's approval state.
+
+    Legacy actions without an approval field are treated as PENDING.
+    """
+    state = str(action.get("approval", "PENDING")).upper()
+
+    if state not in APPROVAL_STATES:
+        raise ValueError(
+            f"Invalid approval state {state!r} "
+            f"for action {action.get('id', '<unknown>')}."
+        )
+
+    return state
+
+
+def normalize_plan(plan: dict[str, Any]) -> dict[str, Any]:
+    """Normalize legacy approval plans without losing decisions."""
+    actions = plan.get("actions")
+
+    if not isinstance(actions, list):
+        raise ValueError("Approval plan has no valid actions list.")
+
+    for action in actions:
+        if not isinstance(action, dict):
+            raise ValueError(
+                "Every approval action must be an object."
+            )
+
+        action["approval"] = approval_state(action)
+        action.setdefault("decision_at", None)
+
+    return plan
 
 
 def atomic_write_json(path: Path, payload: dict[str, Any]) -> None:
@@ -79,7 +122,7 @@ def build_summary(plan: dict[str, Any]) -> dict[str, Any]:
     actions = plan.get("actions", [])
 
     counts = Counter(
-        str(action.get("approval", "PENDING"))
+        approval_state(action)
         for action in actions
     )
 
@@ -91,17 +134,13 @@ def build_summary(plan: dict[str, Any]) -> dict[str, Any]:
         "action_count": len(actions),
         "approval_counts": {
             state: counts.get(state, 0)
-            for state in (
-                "PENDING",
-                "APPROVED",
-                "REJECTED",
-                "DEFERRED",
-            )
+            for state in APPROVAL_STATES
         },
     }
 
 
 def save_plan(plan: dict[str, Any]) -> None:
+    normalize_plan(plan)
     plan["updated_at"] = utc_timestamp()
     plan["action_count"] = len(plan.get("actions", []))
 
@@ -114,7 +153,7 @@ def save_plan(plan: dict[str, Any]) -> None:
     approved = [
         dict(action)
         for action in plan.get("actions", [])
-        if action.get("approval") == "APPROVED"
+        if approval_state(action) == "APPROVED"
     ]
 
     approved_plan = {
@@ -184,7 +223,9 @@ def initialize(*, reset: bool) -> None:
 
 
 def set_decision(action_id: str, decision: str) -> None:
-    plan = read_json(APPROVAL_PLAN)
+    plan = normalize_plan(
+        read_json(APPROVAL_PLAN)
+    )
     actions = plan.get("actions")
 
     if not isinstance(actions, list):
@@ -205,10 +246,26 @@ def set_decision(action_id: str, decision: str) -> None:
         )
 
     action = matches[0]
-    previous = str(action.get("approval", "PENDING"))
+    if decision not in APPROVAL_STATES:
+        raise ValueError(
+            f"Unsupported approval decision: {decision}"
+        )
+
+    previous = approval_state(action)
+
+    if previous == decision:
+        print(
+            f"{action_id}: already {decision}; "
+            "no state change."
+        )
+        return
 
     action["approval"] = decision
-    action["decision_at"] = utc_timestamp()
+    action["decision_at"] = (
+        None
+        if decision == "PENDING"
+        else utc_timestamp()
+    )
 
     save_plan(plan)
 
@@ -216,7 +273,9 @@ def set_decision(action_id: str, decision: str) -> None:
 
 
 def show_status() -> None:
-    plan = read_json(APPROVAL_PLAN)
+    plan = normalize_plan(
+        read_json(APPROVAL_PLAN)
+    )
     save_plan(plan)
     summary = build_summary(plan)
 
