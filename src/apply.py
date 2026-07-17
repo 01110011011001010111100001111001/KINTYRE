@@ -15,6 +15,7 @@ from common import (
     timestamp_slug,
     utc_timestamp,
 )
+from approve import append_audit_events
 
 APPROVAL_DIR = PROJECT_ROOT / "runtime" / "approval"
 APPLY_DIR = PROJECT_ROOT / "runtime" / "apply"
@@ -553,6 +554,20 @@ def main() -> int:
     write_json(
         REPORT,
         report,
+    )
+
+    append_audit_events(
+        [
+            {
+                "recorded_at": report["generated_at"],
+                "operation": "apply",
+                "action_id": transaction.get("id"),
+                "apply_mode": mode,
+                "apply_status": transaction.get("status"),
+                "validation": transaction.get("validation"),
+            }
+            for transaction in transactions
+        ]
     )
 
     print("KINTYRE Apply Engine")
