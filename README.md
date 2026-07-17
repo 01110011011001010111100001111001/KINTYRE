@@ -1,147 +1,51 @@
-# KINTYRE DAM
+# KINTYRE
 
-Digital Asset Management for Music Assistant
+Deterministic, audit-first commissioning and metadata management for Music Assistant libraries.
 
----
+## Release
 
-## Overview
-
-KINTYRE DAM is a deterministic, audit-first Digital Asset Management system
-designed to prepare large music libraries for Music Assistant.
-
-The project separates discovery, inspection, analysis, planning and execution
-into independent phases to ensure that every metadata change is explicit,
-reviewable and reproducible.
-
-The master music archive is treated as protected storage.
-
-No media is modified until an approved execution plan is applied.
-
----
-
-## Project Status
-
-Current Version
-
-    v1.0
-
-Status
-
-    Production Release
-
-Release State
-
-    Stable v1.0 baseline
-
----
+Current stable release: **v1.0**
 
 ## Workflow
 
-                 Scan
-                   │
-                   ▼
-                 Audit
-                   │
-                   ▼
-               Analysis
-                   │
-                   ▼
-                Preview
-                   │
-           Human Approval
-                   │
-                   ▼
-                 Apply
-                   │
-                   ▼
-                 Verify
+```text
+Scan → Metadata Audit → Analysis → Preview → Approval → Apply → Verification
+```
 
----
+## Implemented in v1.0
 
-## Repository
+- Scan Engine
+- Metadata Audit Engine
+- Analysis Engine
+- Preview Engine
+- Four-state approval model
+- Generic exact and contains filtering
+- Bulk approval operations
+- Atomic approval persistence
+- Approval audit logging
+- Approved-action export
+- Apply dry-run
+- Controlled live execution foundations
+- Backup, rollback and post-write verification
+- Apply outcome audit integration
+- Automated regression tests
 
-src/
+## Safety model
 
-    scan.py
-    audit_metadata.py
-    common.py
-    analyze_library.py
+The media library is authoritative and protected. Scan, Audit, Analysis, Preview and Approval are read-only with respect to media. Only Apply may modify metadata, and only for explicitly approved actions.
 
-docs/
-
-    ARCHITECTURE.md
-    USER_GUIDE.md
-    DEVELOPER_GUIDE.md
-    REPORT_FORMATS.md
-    CHANGELOG.md
-    ROADMAP.md
-
-runtime/
-
-    index/
-    reports/
-    analysis/
-    preview/
-    apply/
-    verify/
-
-
----
-
-## Safety
-
-The following phases are completely read-only
-
-    Scan
-
-    Audit
-
-    Analysis
-
-    Preview
-
-    Verify
-
-Only Apply may modify metadata.
-
-No phase except Apply may write to
-
-    /data/Music
-
----
+Applications, reports, logs, databases, caches, staging, backups and generated runtime files belong on the system drive. The media drive contains media only.
 
 ## Documentation
 
-Architecture
+- [Installation](INSTALL.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [User Guide](docs/USER_GUIDE.md)
+- [Developer Guide](docs/DEVELOPER_GUIDE.md)
+- [Report Formats](docs/REPORT_FORMATS.md)
+- [Roadmap](docs/ROADMAP.md)
+- [Changelog](docs/CHANGELOG.md)
 
-    docs/ARCHITECTURE.md
+## Repository privacy
 
-Operations
-
-    docs/USER_GUIDE.md
-
-Development
-
-    docs/DEVELOPER_GUIDE.md
-
-Report Schemas
-
-    docs/REPORT_FORMATS.md
-
-Roadmap
-
-    docs/ROADMAP.md
-
-Change History
-
-    docs/CHANGELOG.md
-
----
-
-## Repository Privacy
-
-Generated runtime reports and production-library inventories are local operational data and are not part of the public repository.
-
-## License
-
-See the repository licensing information.
+The public repository contains source code, tests and generic documentation. Production-library inventories, collection statistics, filenames, generated reports, commissioning results, databases, caches and backups must not be committed.

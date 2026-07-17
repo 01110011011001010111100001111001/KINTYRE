@@ -1,141 +1,50 @@
-# KINTYRE DAM Installation Guide
+# KINTYRE Installation Guide
 
-Version 1.0 RC1
+**Version:** 1.0
 
----
+## Requirements
 
-# System Requirements
+- Linux
+- Python 3.12 or later
+- Git
+- A mounted music library
 
-Operating System
+## Install
 
-    Ubuntu Desktop 24.04 LTS
-
-Python
-
-    3.12 or later
-
-Git
-
-Docker
-
-Music Assistant (optional during Audit and Analysis)
-
----
-
-# Clone Repository
-
-git clone <repository-url>
-
-cd kintyre-dam
-
----
-
-# Create Virtual Environment
-
+```bash
+git clone https://github.com/01110011011001010111100001111001/KINTYRE.git
+cd KINTYRE
 python3 -m venv .venv
-
 source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
 
----
+## Configure
 
-# Install Dependencies
+Review `config/config.yaml`. Keep application data, reports, logs, caches, staging, approvals and backups on the system drive. Keep media on the media drive.
 
-pip install --upgrade pip
+## Validate
 
-pip install -r requirements.txt
+```bash
+python -m py_compile src/*.py tests/*.py
+python -m unittest discover -s tests -v
+```
 
----
+## Read-only workflow
 
-# Project Layout
+```bash
+python src/scan.py
+python src/audit_metadata.py
+python src/analyze_library.py
+python src/preview.py
+```
 
-config/
+## Approval and Apply
 
-docs/
+```bash
+python src/approve.py --help
+python src/apply.py --help
+```
 
-runtime/
-
-src/
-
-templates/
-
-tests/
-
-static/
-
----
-
-# Music Library
-
-The master music archive is expected at
-
-    /data/Music
-
-The archive contains only media.
-
-Applications, reports, logs and caches remain on the system drive.
-
----
-
-# First Run
-
-Generate the library index
-
-    python src/scan.py
-
-Audit metadata
-
-    python src/audit_metadata.py
-
-Analyse the library
-
-    python src/analyze_library.py
-
-All three stages are read-only.
-
----
-
-# Outputs
-
-runtime/index/
-
-runtime/reports/
-
-runtime/analysis/
-
----
-
-# Documentation
-
-README.md
-
-docs/ARCHITECTURE.md
-
-docs/USER_GUIDE.md
-
-docs/DEVELOPER_GUIDE.md
-
-docs/REPORT_FORMATS.md
-
-docs/CHANGELOG.md
-
-docs/ROADMAP.md
-
----
-
-# Upgrade
-
-git pull
-
-source .venv/bin/activate
-
-pip install -r requirements.txt
-
----
-
-# Safety
-
-Only the Apply Engine may modify metadata.
-
-No other phase writes to
-
-    /data/Music
+Always run Apply in dry-run mode before live execution.

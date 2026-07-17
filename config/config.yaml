@@ -9,7 +9,7 @@ storage:
   reports_dir: /home/richard/kintyre-dam/runtime/reports
   logs_dir: /home/richard/kintyre-dam/runtime/logs
   cache_dir: /home/richard/kintyre-dam/runtime/cache
-  previews_dir: /home/richard/kintyre-dam/runtime/previews
+  previews_dir: /home/richard/kintyre-dam/runtime/preview
   staging_dir: /home/richard/kintyre-dam/runtime/staging
 
 libraries:

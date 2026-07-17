@@ -1,288 +1,62 @@
-# KINTYRE DAM Developer Guide
+# KINTYRE Developer Guide
 
-**Version:** 1.0 RC1
-**Audience:** Developers and Maintainers
+**Version:** 1.0
 
----
+## Requirements
 
-# 1. Purpose
+Components must be deterministic, testable, explicit, conservative, traceable and safe by default.
 
-This document defines the engineering standards used throughout the KINTYRE
-DAM project.
+## Layout
 
-The objective is to ensure every component is deterministic, testable,
-maintainable and safe.
+```text
+config/     generic configuration
+docs/       public documentation
+runtime/    generated local artifacts
+src/        application source
+tests/      automated tests
+```
 
----
+Generated operational data under `runtime/` must not be committed.
 
-# 2. Development Principles
+## Canonical runtime directories
 
-The following principles are mandatory.
+```text
+runtime/index/
+runtime/reports/
+runtime/analysis/
+runtime/preview/
+runtime/approval/
+runtime/apply/
+runtime/logs/
+runtime/cache/
+runtime/staging/
+```
 
-- Deterministic behaviour.
-- Reproducible outputs.
-- Explicit approval before modification.
-- Single responsibility per engine.
-- Complete traceability.
-- Conservative change management.
+The canonical Preview directory is `runtime/preview/`.
 
----
+## Modules
 
-# 3. Repository Layout
+- `scan.py`
+- `audit_metadata.py`
+- `analyze_library.py`
+- `preview.py`
+- `approve.py`
+- `apply.py`
+- `common.py`
 
-Project root
+## Approval rules
 
-    config/
-    docs/
-    runtime/
-    src/
-    templates/
-    tests/
-    static/
+Bulk updates must require at least one filter, combine filters with logical AND, reject zero matches, update each action once, preserve idempotency, persist atomically and log only meaningful transitions.
 
-Generated files belong only under
+## Apply rules
 
-    runtime/
+Apply must consume approved actions only, validate before writing, support dry-run, block invalid work, back up before writes, verify after writes, report rollback failures, return failure status for blocked or failed execution and record outcomes in the audit trail.
 
-No generated data belongs inside src/.
+## Testing
 
----
+```bash
+python -m py_compile src/*.py tests/*.py
+python -m unittest discover -s tests -v
+```
 
-# 4. Engine Responsibilities
-
-Scan
-
-    Discover media.
-
-Produces
-
-    runtime/index/
-
-Audit
-
-    Inspect metadata.
-
-Produces
-
-    runtime/reports/
-
-Analysis
-
-    Aggregate metadata.
-
-Produces
-
-    runtime/analysis/
-
-Preview
-
-    Generate proposed actions.
-
-Produces
-
-    runtime/preview/
-
-Apply
-
-    Execute approved metadata updates.
-
-Produces
-
-    runtime/apply/
-
-Verify
-
-    Confirm post-Apply results.
-
-Produces
-
-    runtime/verify/
-
-Each engine has exactly one responsibility.
-
----
-
-# 5. Coding Standards
-
-Target Python 3.12+
-
-Use
-
-- type hints
-- pathlib
-- standard library where practical
-
-Prefer
-
-- small functions
-- explicit names
-- deterministic ordering
-
-Avoid
-
-- hidden side effects
-- global mutable state
-- duplicated logic
-
----
-
-# 6. Protected Media
-
-The following directory is protected
-
-    /data/Music
-
-Scan
-
-    Read only
-
-Audit
-
-    Read only
-
-Analysis
-
-    Read only
-
-Preview
-
-    Read only
-
-Verify
-
-    Read only
-
-Only Apply may modify media.
-
----
-
-# 7. Runtime Rules
-
-Every report is generated under
-
-    runtime/
-
-Reports must be recreated from source data.
-
-Never edit generated reports manually.
-
----
-
-# 8. Error Handling
-
-Fail early.
-
-Provide clear error messages.
-
-Never continue after corrupted input.
-
-Never silently ignore failures.
-
----
-
-# 9. Testing
-
-Tests belong under
-
-    tests/
-
-Regression tests should cover
-
-- scanner
-- metadata audit
-- analysis
-- preview
-- apply
-- verify
-
-Every fixed defect should receive a regression test.
-
----
-
-# 10. Versioning
-
-Current roadmap
-
-v0.1
-
-Foundation
-
-v0.2
-
-Audit and Analysis
-
-v0.3
-
-Preview
-
-v0.4
-
-Apply
-
-v0.5
-
-Verify
-
-v1.0
-
-Production
-
----
-
-# 11. Git Workflow
-
-Recommended workflow
-
-feature branch
-
-↓
-
-development
-
-↓
-
-testing
-
-↓
-
-commit
-
-↓
-
-tag
-
-↓
-
-merge
-
-Tag validated milestones.
-
-Keep commits focused on one logical change.
-
----
-
-# 12. Future Development
-
-Future work should extend the existing architecture rather than redesign it.
-
-The protected media principle and the
-
-Audit
-
-↓
-
-Analysis
-
-↓
-
-Preview
-
-↓
-
-Apply
-
-↓
-
-Verify
-
-pipeline are considered stable.
+The v1 release baseline contains 42 passing tests.

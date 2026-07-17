@@ -1,226 +1,78 @@
-# KINTYRE DAM Architecture
+# KINTYRE Architecture
 
-**Version:** 1.0 RC1
-**Status:** Release Candidate
-**Date:** 14 July 2026
+**Version:** 1.0
+**Status:** Released
 
----
+## Purpose
 
-# 1. Purpose
+KINTYRE is a deterministic, audit-first platform for commissioning and maintaining music libraries consumed by Music Assistant. The media library is authoritative. Music Assistant is a rebuildable consumer.
 
-KINTYRE DAM (Digital Asset Management) is a deterministic, audit-driven music
-library management system designed to prepare large music collections for
-Music Assistant.
+## Principles
 
-The project manages a protected master music archive while ensuring that every
-metadata change is planned, reviewable, traceable and reproducible.
-
-Unlike conventional tag editors, KINTYRE DAM deliberately separates
-inspection, analysis, planning and execution into independent phases.
-
-No metadata is modified until an explicit execution plan has been reviewed and
-approved.
-
----
-
-# 2. Design Objectives
-
-The primary objectives are:
-
-- Produce a clean, reliable Music Assistant library.
-- Preserve the integrity of the master music archive.
-- Keep all processing deterministic and repeatable.
+- Protect source media.
 - Separate observation from modification.
-- Produce a complete audit trail.
-- Allow the entire system to be rebuilt from source media.
+- Require explicit approval before Apply.
+- Keep generated data off the media drive.
+- Preserve decision and execution history.
+- Prefer conservative, reversible operations.
+- Certify identity-changing operations before production use.
 
-Safety and reproducibility take priority over automation.
+## Storage separation
 
----
+The media drive contains media only. The system drive contains source code, configuration, virtual environments, reports, indexes, approvals, audit records, logs, caches, staging, backups and application databases.
 
-# 3. Core Principles
+## Pipeline
 
-## Protected Media
+```text
+Media Library → Scan → Metadata Audit → Analysis → Preview → Approval → Apply → Verification
+```
 
-The music archive resides under:
+## Engine responsibilities
 
-    /data/Music
+| Engine | Responsibility | Writes media |
+|---|---|---:|
+| Scan | Discover media and build indexes | No |
+| Metadata Audit | Read tags and report findings | No |
+| Analysis | Aggregate findings | No |
+| Preview | Produce deterministic proposed actions | No |
+| Approval | Record decisions and export approved actions | No |
+| Apply | Validate and execute approved actions | Yes |
+| Verification | Rescan, re-audit and inspect results | No |
 
-This directory is protected.
+## Preview Engine
 
-During Scan, Audit, Analysis and Preview there are:
+Canonical directory: `runtime/preview/`.
 
-- no metadata writes
-- no file moves
-- no folder renames
-- no deletions
+Primary outputs:
 
-Only the Apply phase may modify media, and only after explicit approval.
+- `preview-summary.json`
+- `apply-plan.json`
+- `albumartist-fixes.csv`
+- `review-summary.json`
 
----
+## Approval Engine
 
-## System Drive
+States:
 
-The system drive contains:
+- `PENDING`
+- `APPROVED`
+- `REJECTED`
+- `DEFERRED`
 
-- source code
-- runtime reports
-- documentation
-- logs
-- Docker
-- configuration
-- caches
-- databases
+Supports single and bulk decisions, exact and contains filters, logical AND across filters, idempotent updates, reset to `PENDING`, atomic persistence, approved-action export and append-only audit events.
 
-The data drive contains media only.
+Outputs are stored under `runtime/approval/`.
 
----
+## Apply Engine
 
-## Deterministic Processing
+Apply consumes approved actions. Controls include dry-run, validation, blocked-transaction handling, explicit live confirmation, backups, rollback handling, post-write verification, non-zero failure behaviour and Apply outcome events.
 
-Identical inputs must always produce identical outputs.
+Outputs are stored under `runtime/apply/`.
 
-Report generation must never depend upon filesystem ordering or hidden state.
+## Identity-changing operations
 
----
+Changes to AlbumArtist, album title, artist identity, compilation status, MusicBrainz identifiers or folder identity can change consumer grouping. They must first be tested in a disposable certification environment with a separate Music Assistant instance and database.
 
-## Separation of Responsibility
+## Repository privacy
 
-Each engine has exactly one responsibility.
-
-| Engine | Responsibility |
-|----------|----------------|
-| Scan | Discover media |
-| Audit | Inspect metadata |
-| Analysis | Aggregate findings |
-| Preview | Produce proposed changes |
-| Apply | Execute approved changes |
-| Verify | Confirm results |
-
----
-
-# 4. Processing Pipeline
-
-                    /data/Music
-                         │
-                         ▼
-                      Scan
-                         │
-                         ▼
-                      Audit
-                         │
-                         ▼
-                    Analysis
-                         │
-                         ▼
-                    Preview
-                         │
-          ┌──────────────┼──────────────┐
-          │              │              │
-          ▼              ▼              ▼
- preview-summary   apply-plan.json  albumartist-fixes.csv
-                         │
-                         ▼
-               review-summary.json
-                         │
-                         ▼
-                  Human Approval
-                         │
-                         ▼
-                      Apply
-                         │
-                         ▼
-                      Verify
-
-Each phase is independent.
-
-Each phase is repeatable.
-
-Each phase produces explicit artefacts.
-
----
-
-# 5. Current Status
-
-## Completed
-
-- Scan Engine
-- Metadata Audit Engine
-- Album Index
-- Analysis Engine
-- Preview Engine
-- Deterministic Album IDs
-- Read-only Preview Pipeline
-- Preview Review Summary
-- Human Review CSV Generation
-
-Current Preview outputs:
-
-- runtime/preview/preview-summary.json
-- runtime/preview/apply-plan.json
-- runtime/preview/albumartist-fixes.csv
-- runtime/preview/review-summary.json
-
-Current Preview capabilities:
-
-- Stable Album IDs
-- Stable Action IDs
-- High-confidence ADD_ALBUMARTIST recommendations
-- Automatic proposed AlbumArtist resolution
-- Confidence assessment
-- Risk assessment
-- Human review workflow
-
-## Implemented in v1.0
-
-- Approval state model
-- Generic action filtering
-- Bulk approval operations
-- Approval audit logging
-- Apply Engine dry-run support
-- Apply outcome audit integration
-- Certified live-write foundation
-- Automated regression tests
-
----
-
-
----
-
-
-## Public Repository Privacy
-
-The public repository contains application code, generic documentation,
-tests and report schemas.
-
-Production-library inventories, file counts, storage totals, collection names,
-paths containing personal information, generated reports and commissioning
-results must remain outside Git.
-
-Runtime data is local and rebuildable and must not be committed.
-
----
-
-# 7. Safety Contract
-
-The following rules are mandatory.
-
-Scan:
-    Read Only
-
-Audit:
-    Read Only
-
-Analysis:
-    Read Only
-
-Preview:
-    Read Only
-
-Apply:
-    Explicit approval required before modifying media.
-
-Verify:
-    Read Only
-
-The protected music library remains unchanged until the Apply phase executes approved actions.
+Do not commit production inventories, media file lists, collection statistics, generated reports, commissioning evidence, backups, caches, databases, secrets or machine-specific private data.

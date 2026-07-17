@@ -1,243 +1,64 @@
-# KINTYRE DAM User Guide
+# KINTYRE User Guide
 
-**Version:** 1.0 RC1
-**Audience:** Operators and Administrators
+**Version:** 1.0
 
----
+## Operating model
 
-# 1. Introduction
+```text
+Scan → Audit → Analysis → Preview → Approval → Apply → Verify
+```
 
-KINTYRE DAM is a read-first Digital Asset Management system for preparing large
-music collections for Music Assistant.
+The media library remains unchanged until Apply executes explicitly approved actions.
 
-The system separates inspection from modification.
+## Activate
 
-No metadata is written until an execution plan has been reviewed and approved.
+```bash
+cd /home/richard/kintyre-dam
+source .venv/bin/activate
+```
 
-Normal workflow:
+## Read-only pipeline
 
-    Scan
-      ↓
-    Audit
-      ↓
-   Analysis
-      ↓
-    Preview
-      ↓
- Human Approval
-      ↓
-     Apply
-      ↓
-    Verify
+```bash
+python src/scan.py
+python src/audit_metadata.py
+python src/analyze_library.py
+python src/preview.py
+```
 
----
+Review outputs under `runtime/index/`, `runtime/reports/`, `runtime/analysis/` and `runtime/preview/`.
 
-# 2. System Requirements
+## Approval
 
-Operating System
-    Ubuntu Desktop LTS
+```bash
+python src/approve.py --help
+```
 
-Python
-    3.12+
+States are `PENDING`, `APPROVED`, `REJECTED` and `DEFERRED`. Decisions are persisted separately from Preview output. Bulk operations require filters and reject zero matches. Repeating the same decision is idempotent.
 
-Music Library
+Approval records and approved-action exports are stored under `runtime/approval/`.
 
-    /data/Music
+## Apply
 
-Project
+```bash
+python src/apply.py --help
+```
 
-    /home/richard/kintyre-dam
+Before live execution confirm successful dry-run, expected paths and values, explicit approvals, backups, certification of identity-changing operations and the intended target library.
 
----
+## Post-apply verification
 
-# 3. Directory Layout
+After Apply:
 
-Project
+1. rerun Scan;
+2. rerun Metadata Audit;
+3. compare findings;
+4. inspect Apply and audit records;
+5. refresh or rebuild the disposable Music Assistant consumer where required;
+6. verify album, artist and artwork behaviour.
 
-    config/
-    docs/
-    runtime/
-    src/
-    templates/
-    tests/
-    static/
+A metadata write can succeed while Music Assistant retains stale database identities.
 
-Runtime
+## Recovery
 
-    runtime/index/
-    runtime/reports/
-    runtime/analysis/
-    runtime/preview/
-    runtime/apply/
-    runtime/verify/
-    runtime/logs/
-
----
-
-# 4. First Time Setup
-
-Activate the virtual environment.
-
-    cd /home/richard/kintyre-dam
-
-    source .venv/bin/activate
-
----
-
-# 5. Running the Scan
-
-Generate the album index.
-
-    python src/scan.py
-
-Output
-
-    runtime/index/album-index.csv
-
----
-
-# 6. Running the Metadata Audit
-
-Inspect every supported audio file.
-
-    python src/audit_metadata.py
-
-Outputs
-
-    runtime/reports/
-
-The audit is completely read-only.
-
----
-
-# 7. Running the Analysis
-
-Generate album-level analysis.
-
-    python src/analyze_library.py
-
-Outputs
-
-    runtime/analysis/
-
-No music files are modified.
-
----
-
-# 8. Understanding the Reports
-
-Album Index
-
-    One record per album folder.
-
-Metadata Reports
-
-    One record per metadata finding.
-
-Analysis Reports
-
-    Aggregated information by album.
-
-Quality Report
-
-    Overall quality score for each album folder.
-
-Unknown Albums
-
-    Albums requiring manual review.
-
-Single Artist Candidates
-
-    Albums suitable for AlbumArtist assignment.
-
-Various Artist Candidates
-
-    Compilation albums.
-
----
-
-# 9. Importing New Music
-
-Copy music into
-
-    /data/Music
-
-Then execute
-
-    Scan
-
-    Audit
-
-    Analysis
-
-Do not modify metadata before reviewing the Preview reports.
-
----
-
-# 10. Safety
-
-During Scan, Audit, Analysis and Preview
-
-    NO metadata writes
-
-    NO file moves
-
-    NO folder renames
-
-    NO deletions
-
-The master music library remains protected.
-
----
-
-# 11. Backup
-
-Before Apply
-
-Back up
-
-    /data/Music
-
-and
-
-    /home/richard/kintyre-dam
-
-Retain the runtime reports for audit purposes.
-
----
-
-# 12. Troubleshooting
-
-If Scan fails
-
-    Verify the music library is mounted.
-
-If Audit fails
-
-    Check file permissions.
-
-If Analysis fails
-
-    Confirm album-index.csv exists.
-
-If Preview fails
-
-    Confirm Analysis completed successfully.
-
----
-
-# 13. Recovery
-
-The project can always be rebuilt from
-
-    /data/Music
-
-using
-
-    Scan
-
-    Audit
-
-    Analysis
-
-No runtime artefacts are required for recovery.
+For failed live execution, stop further work, preserve reports and logs, inspect rollback results, restore from transaction backups where required, then rerun Scan and Audit.
