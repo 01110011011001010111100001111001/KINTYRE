@@ -1,31 +1,38 @@
 # ============================================================
-# KINTYRE DAM
-# Build and Operations
+# KINTYRE
+# Build, Validation and Operations
 # ============================================================
 
 PYTHON := python
 SRC := src
+TESTS := tests
 
-.PHONY: help check scan audit analysis preview clean docs status
+.PHONY: help check test scan audit analysis preview approve apply docs status clean
 
 help:
 	@echo
-	@echo "KINTYRE DAM"
+	@echo "KINTYRE"
 	@echo
 	@echo "Available targets:"
 	@echo
-	@echo "  make check      - Syntax check Python source"
-	@echo "  make scan       - Build album index"
-	@echo "  make audit      - Run metadata audit"
+	@echo "  make check      - Compile source and tests"
+	@echo "  make test       - Run the complete automated test suite"
+	@echo "  make scan       - Build the media index"
+	@echo "  make audit      - Run the metadata audit"
 	@echo "  make analysis   - Generate analysis reports"
-	@echo "  make preview    - Generate preview reports"
+	@echo "  make preview    - Generate proposed actions"
+	@echo "  make approve    - Show Approval Engine command help"
+	@echo "  make apply      - Show Apply Engine command help"
 	@echo "  make docs       - List documentation"
-	@echo "  make status     - Show runtime directories"
-	@echo "  make clean      - Remove temporary files"
+	@echo "  make status     - Show runtime directories and files"
+	@echo "  make clean      - Remove Python cache files"
 	@echo
 
 check:
-	$(PYTHON) -m py_compile $(SRC)/*.py
+	$(PYTHON) -m py_compile $(SRC)/*.py $(TESTS)/*.py
+
+test:
+	$(PYTHON) -m unittest discover -s $(TESTS) -v
 
 scan:
 	$(PYTHON) $(SRC)/scan.py
@@ -39,8 +46,14 @@ analysis:
 preview:
 	$(PYTHON) $(SRC)/preview.py
 
+approve:
+	$(PYTHON) $(SRC)/approve.py --help
+
+apply:
+	$(PYTHON) $(SRC)/apply.py --help
+
 docs:
-	@ls -1 docs
+	@ls -1 README.md INSTALL.md docs/*.md
 
 status:
 	@echo
@@ -53,7 +66,3 @@ status:
 clean:
 	find . -name "__pycache__" -type d -exec rm -rf {} +
 	find . -name "*.pyc" -delete
-
-
-test:
-	python -m unittest discover -s tests -v

@@ -1,4 +1,4 @@
-# KINTYRE DAM
+# KINTYRE
 #
 # Python dependencies
 #
