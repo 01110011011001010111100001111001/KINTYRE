@@ -380,5 +380,226 @@ class TestApprovalFilters(unittest.TestCase):
         )
 
 
+class TestBulkApprovalOperations(unittest.TestCase):
+    def test_parse_exact_filter(self) -> None:
+        self.assertEqual(
+            approve.parse_filter_expression(
+                "library=CONTEMPORARY"
+            ),
+            ("library", "eq", "CONTEMPORARY"),
+        )
+
+    def test_parse_contains_filter(self) -> None:
+        self.assertEqual(
+            approve.parse_filter_expression(
+                "folder~Beatles"
+            ),
+            ("folder", "contains", "Beatles"),
+        )
+
+    def test_parse_filter_preserves_equals_in_value(self) -> None:
+        self.assertEqual(
+            approve.parse_filter_expression(
+                "reason=value=example"
+            ),
+            ("reason", "eq", "value=example"),
+        )
+
+    def test_parse_filter_rejects_missing_operator(self) -> None:
+        with self.assertRaisesRegex(
+            ValueError,
+            "Invalid filter expression",
+        ):
+            approve.parse_filter_expression("library")
+
+    def test_parse_filter_rejects_empty_value(self) -> None:
+        with self.assertRaisesRegex(
+            ValueError,
+            "must not be empty",
+        ):
+            approve.parse_filter_expression("library=")
+
+    def test_bulk_decision_requires_filter(self) -> None:
+        with self.assertRaisesRegex(
+            ValueError,
+            "at least one filter",
+        ):
+            approve.set_bulk_decision([], "APPROVED")
+
+    def test_bulk_decision_rejects_invalid_decision(self) -> None:
+        with self.assertRaisesRegex(
+            ValueError,
+            "Unsupported approval decision",
+        ):
+            approve.set_bulk_decision(
+                [("library", "eq", "CLASSICAL")],
+                "INVALID",
+            )
+
+    def test_bulk_decision_updates_all_matches_once(self) -> None:
+        plan = {
+            "schema_version": "1.0",
+            "actions": [
+                {
+                    "id": "ACT-1",
+                    "library": "CONTEMPORARY",
+                    "approval": "PENDING",
+                    "decision_at": None,
+                },
+                {
+                    "id": "ACT-2",
+                    "library": "CONTEMPORARY",
+                    "approval": "PENDING",
+                    "decision_at": None,
+                },
+                {
+                    "id": "ACT-3",
+                    "library": "CLASSICAL",
+                    "approval": "PENDING",
+                    "decision_at": None,
+                },
+            ],
+        }
+
+        with unittest.mock.patch.object(
+            approve,
+            "read_json",
+            return_value=plan,
+        ), unittest.mock.patch.object(
+            approve,
+            "save_plan",
+        ) as save_plan, unittest.mock.patch.object(
+            approve,
+            "utc_timestamp",
+            return_value="2026-07-17T12:00:00Z",
+        ):
+            approve.set_bulk_decision(
+                [
+                    (
+                        "library",
+                        "eq",
+                        "CONTEMPORARY",
+                    )
+                ],
+                "APPROVED",
+            )
+
+        self.assertEqual(
+            plan["actions"][0]["approval"],
+            "APPROVED",
+        )
+        self.assertEqual(
+            plan["actions"][1]["approval"],
+            "APPROVED",
+        )
+        self.assertEqual(
+            plan["actions"][2]["approval"],
+            "PENDING",
+        )
+        self.assertEqual(
+            plan["actions"][0]["decision_at"],
+            "2026-07-17T12:00:00Z",
+        )
+        self.assertEqual(save_plan.call_count, 1)
+
+    def test_bulk_decision_is_idempotent(self) -> None:
+        plan = {
+            "schema_version": "1.0",
+            "actions": [
+                {
+                    "id": "ACT-1",
+                    "library": "CLASSICAL",
+                    "approval": "APPROVED",
+                    "decision_at": "2026-07-15T12:00:32Z",
+                }
+            ],
+        }
+
+        with unittest.mock.patch.object(
+            approve,
+            "read_json",
+            return_value=plan,
+        ), unittest.mock.patch.object(
+            approve,
+            "save_plan",
+        ) as save_plan:
+            approve.set_bulk_decision(
+                [("library", "eq", "CLASSICAL")],
+                "APPROVED",
+            )
+
+        save_plan.assert_not_called()
+        self.assertEqual(
+            plan["actions"][0]["decision_at"],
+            "2026-07-15T12:00:32Z",
+        )
+
+    def test_bulk_reset_clears_decision_timestamp(self) -> None:
+        plan = {
+            "schema_version": "1.0",
+            "actions": [
+                {
+                    "id": "ACT-1",
+                    "library": "CLASSICAL",
+                    "approval": "APPROVED",
+                    "decision_at": "2026-07-15T12:00:32Z",
+                }
+            ],
+        }
+
+        with unittest.mock.patch.object(
+            approve,
+            "read_json",
+            return_value=plan,
+        ), unittest.mock.patch.object(
+            approve,
+            "save_plan",
+        ):
+            approve.set_bulk_decision(
+                [("library", "eq", "CLASSICAL")],
+                "PENDING",
+            )
+
+        self.assertEqual(
+            plan["actions"][0]["approval"],
+            "PENDING",
+        )
+        self.assertIsNone(
+            plan["actions"][0]["decision_at"]
+        )
+
+    def test_bulk_decision_rejects_zero_matches(self) -> None:
+        plan = {
+            "schema_version": "1.0",
+            "actions": [
+                {
+                    "id": "ACT-1",
+                    "library": "CLASSICAL",
+                    "approval": "PENDING",
+                }
+            ],
+        }
+
+        with unittest.mock.patch.object(
+            approve,
+            "read_json",
+            return_value=plan,
+        ):
+            with self.assertRaisesRegex(
+                ValueError,
+                "No actions matched",
+            ):
+                approve.set_bulk_decision(
+                    [
+                        (
+                            "library",
+                            "eq",
+                            "CONTEMPORARY",
+                        )
+                    ],
+                    "APPROVED",
+                )
+
+
 if __name__ == "__main__":
     unittest.main()

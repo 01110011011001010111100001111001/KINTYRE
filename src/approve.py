@@ -361,6 +361,94 @@ def set_decision(action_id: str, decision: str) -> None:
     print(f"{action_id}: {previous} -> {decision}")
 
 
+def set_bulk_decision(
+    filters: list[tuple[str, str, str]],
+    decision: str,
+) -> None:
+    """Apply one approval decision to all matching actions."""
+    if not filters:
+        raise ValueError(
+            "Bulk decisions require at least one filter."
+        )
+
+    if decision not in APPROVAL_STATES:
+        raise ValueError(
+            f"Unsupported approval decision: {decision}"
+        )
+
+    plan = normalize_plan(
+        read_json(APPROVAL_PLAN)
+    )
+    actions = plan.get("actions")
+
+    if not isinstance(actions, list):
+        raise ValueError(
+            f"Invalid actions list in {APPROVAL_PLAN}"
+        )
+
+    matches = filter_actions(actions, filters)
+
+    if not matches:
+        raise ValueError(
+            "No actions matched the supplied filters."
+        )
+
+    changed = 0
+    unchanged = 0
+    decision_at = (
+        None
+        if decision == "PENDING"
+        else utc_timestamp()
+    )
+
+    for action in matches:
+        previous = approval_state(action)
+
+        if previous == decision:
+            unchanged += 1
+            continue
+
+        action["approval"] = decision
+        action["decision_at"] = decision_at
+        changed += 1
+
+    if changed:
+        save_plan(plan)
+
+    print(f"Matched: {len(matches)}")
+    print(f"Changed: {changed}")
+    print(f"Unchanged: {unchanged}")
+    print(f"Decision: {decision}")
+
+
+def parse_filter_expression(
+    expression: str,
+) -> tuple[str, str, str]:
+    """Parse FIELD=VALUE or FIELD~VALUE filter syntax."""
+    if "~" in expression:
+        field, value = expression.split("~", 1)
+        operator = "contains"
+    elif "=" in expression:
+        field, value = expression.split("=", 1)
+        operator = "eq"
+    else:
+        raise ValueError(
+            "Invalid filter expression. "
+            "Use FIELD=VALUE or FIELD~VALUE."
+        )
+
+    field = field.strip()
+    value = value.strip()
+
+    if not field or not value:
+        raise ValueError(
+            "Filter field and value must not be empty."
+        )
+
+    validate_filter(field, operator)
+    return field, operator, value
+
+
 def show_status() -> None:
     plan = normalize_plan(
         read_json(APPROVAL_PLAN)
@@ -406,9 +494,26 @@ def parse_args() -> argparse.Namespace:
     for command in DECISIONS:
         decision_parser = subparsers.add_parser(
             command,
-            help=f"Mark one action {DECISIONS[command]}.",
+            help=(
+                f"Mark one or more actions "
+                f"{DECISIONS[command]}."
+            ),
         )
-        decision_parser.add_argument("action_id")
+        decision_parser.add_argument(
+            "action_id",
+            nargs="?",
+            help="Action ID for a single-action decision.",
+        )
+        decision_parser.add_argument(
+            "--filter",
+            action="append",
+            default=[],
+            metavar="FIELD=VALUE",
+            help=(
+                "Select actions using FIELD=VALUE "
+                "or FIELD~VALUE. May be repeated."
+            ),
+        )
 
     return parser.parse_args()
 
@@ -421,10 +526,29 @@ def main() -> int:
     elif args.command == "status":
         show_status()
     else:
-        set_decision(
-            args.action_id,
-            DECISIONS[args.command],
-        )
+        if args.action_id and args.filter:
+            raise ValueError(
+                "Use either action_id or --filter, not both."
+            )
+
+        if args.action_id:
+            set_decision(
+                args.action_id,
+                DECISIONS[args.command],
+            )
+        elif args.filter:
+            filters = [
+                parse_filter_expression(expression)
+                for expression in args.filter
+            ]
+            set_bulk_decision(
+                filters,
+                DECISIONS[args.command],
+            )
+        else:
+            raise ValueError(
+                "Provide an action_id or at least one --filter."
+            )
 
     return 0
 
