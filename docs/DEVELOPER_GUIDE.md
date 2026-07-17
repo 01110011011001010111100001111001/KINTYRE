@@ -286,4 +286,3 @@ Apply
 Verify
 
 pipeline are considered stable.
-

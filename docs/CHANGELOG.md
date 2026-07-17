@@ -29,15 +29,6 @@ packages.
 - Metadata read errors separated from ordinary metadata deficiencies
 - Read-only safety validation
 
-### Validated
-
-- 39,832 audio files
-- 4,099 album folders
-- 365.15 GiB library
-- 29,959 metadata findings
-- 19,950 affected files
-- 2,680 affected folders
-- One damaged media container
 
 ### Safety
 
@@ -66,4 +57,3 @@ Verify Engine
 ### v1.0
 
 Production Release
-

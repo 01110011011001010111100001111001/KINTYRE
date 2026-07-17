@@ -23,17 +23,15 @@ No media is modified until an approved execution plan is applied.
 
 Current Version
 
-    v1.0 RC1
-
-    v0.2
+    v1.0
 
 Status
 
-    Audit and Analysis Complete
+    Production Release
 
-Next Milestone
+Release State
 
-    Preview Engine
+    Stable v1.0 baseline
 
 ---
 
@@ -87,23 +85,6 @@ runtime/
     apply/
     verify/
 
----
-
-## Current Library
-
-Validated against
-
-    39,832 audio files
-
-    4,099 album folders
-
-    365.15 GiB
-
-Libraries
-
-    CONTEMPORARY
-
-    CLASSICAL
 
 ---
 
@@ -157,7 +138,10 @@ Change History
 
 ---
 
+## Repository Privacy
+
+Generated runtime reports and production-library inventories are local operational data and are not part of the public repository.
+
 ## License
 
-Private project.
-
+See the repository licensing information.

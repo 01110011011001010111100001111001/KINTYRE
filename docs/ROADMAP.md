@@ -12,7 +12,7 @@ planned, reviewed and approved before execution.
 
 ## Current Status
 
-### v0.2
+### v1.0
 
 Completed
 
@@ -25,11 +25,11 @@ Completed
 
 ---
 
-## v0.3
+## v0.3 — Completed
 
 Preview Engine
 
-Objectives
+Delivered
 
 - Implement preview.py
 - Generate apply-plan.json
@@ -39,11 +39,11 @@ Objectives
 
 ---
 
-## v0.4
+## v0.4 — Completed
 
 Apply Engine
 
-Objectives
+Delivered
 
 - Execute approved actions
 - Transaction logging
@@ -65,11 +65,11 @@ Objectives
 
 ---
 
-## v1.0
+## v1.0 — Released
 
 Production Release
 
-Objectives
+Delivered
 
 - Stable interfaces
 - Complete documentation
@@ -87,4 +87,3 @@ Objectives
 - Maintain complete traceability.
 - Prefer simple, maintainable architecture.
 - Require explicit approval before metadata modification.
-

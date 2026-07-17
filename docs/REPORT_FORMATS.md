@@ -225,7 +225,7 @@ flags
 
 ---
 
-# Preview Reports (Planned)
+# Preview Reports
 
 Location
 
@@ -249,7 +249,7 @@ manual-review.csv
 
 ---
 
-# Apply Reports (Planned)
+# Apply Reports
 
 Location
 
@@ -285,4 +285,3 @@ Columns should never be renamed once released.
 
 Applications consuming these reports should ignore unknown columns to remain
 compatible with future releases.
-

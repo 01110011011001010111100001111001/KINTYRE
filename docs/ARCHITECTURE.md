@@ -171,40 +171,33 @@ Current Preview capabilities:
 - Risk assessment
 - Human review workflow
 
-## In Development
+## Implemented in v1.0
 
-- Approval Engine
-- Apply Engine (dry-run)
-- Apply Engine (live)
-- Verification Engine
+- Approval state model
+- Generic action filtering
+- Bulk approval operations
+- Approval audit logging
+- Apply Engine dry-run support
+- Apply outcome audit integration
+- Certified live-write foundation
+- Automated regression tests
 
 ---
 
-# 6. Current Library Baseline
 
-Current validated library:
+---
 
-- Audio files: 39,832
-- Album folders: 4,099
-- Library size: 365.15 GiB
 
-Libraries:
+## Public Repository Privacy
 
-- CONTEMPORARY
-- CLASSICAL
+The public repository contains application code, generic documentation,
+tests and report schemas.
 
-Current metadata baseline:
+Production-library inventories, file counts, storage totals, collection names,
+paths containing personal information, generated reports and commissioning
+results must remain outside Git.
 
-- Metadata findings: 29,959
-- Affected files: 19,950
-- Affected folders: 2,680
-- Genuine damaged media files: 1
-
-Preview baseline:
-
-- Preview actions: 1,205
-- Proposed AlbumArtist values resolved: 1,205
-- Unresolved proposals: 0
+Runtime data is local and rebuildable and must not be committed.
 
 ---
 
@@ -231,4 +224,3 @@ Verify:
     Read Only
 
 The protected music library remains unchanged until the Apply phase executes approved actions.
-
