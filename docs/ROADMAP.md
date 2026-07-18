@@ -206,6 +206,41 @@ Status: Planned
 
 Detect structural and audio-quality problems beyond ordinary metadata fields.
 
+
+### Duplicate Detection Engine
+
+Objective:
+
+Provide safe, repeatable identification of duplicate content without modifying
+the authoritative music library.
+
+Planned capabilities:
+
+- exact duplicate file detection using audio hashes;
+- duplicate track detection across folders;
+- duplicate album detection;
+- duplicate artist identity detection;
+- duplicate Music Assistant album detection;
+- duplicate Music Assistant artist detection;
+- duplicate embedded artwork detection;
+- duplicate folder artwork detection;
+- confidence scoring (Exact, Very High, High, Possible);
+- duplicate reports grouped by duplicate class;
+- preview of proposed duplicate resolution;
+- approval before any duplicate-related operation;
+- no automatic deletion or merge;
+- optional merge workflows in future releases;
+- verification after approved duplicate resolution.
+
+Acceptance criteria:
+
+- duplicate classes are reported separately;
+- confidence scores are documented in reports;
+- duplicate detection is deterministic between runs;
+- no duplicate operation modifies the production library without approval;
+- automated regression tests cover duplicate detection algorithms.
+
+
 Planned capabilities:
 
 - duplicate-track detection;
