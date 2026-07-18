@@ -84,7 +84,7 @@ v1.0.1 is complete only when:
 
 ## v1.1 — Guided operations dashboard and pipeline manager
 
-Status: Planned  
+Status: Planned
 Priority: Highest feature release
 
 ### Release objective
@@ -99,14 +99,26 @@ Use a mature, maintained Python web-interface framework to minimize custom front
 
 Preferred implementation direction:
 
-- NiceGUI for the browser interface and reusable professional components;
+- NiceGUI for the guided operational interface, forms, tables, dialogs and workflow controls;
 - FastAPI-backed application services;
+- Grafana OSS for professional metrics dashboards, trends, logs, alerts and operational observability;
+- a lightweight metrics and logging layer, selected through an architecture decision, to provide Grafana-compatible structured data;
 - existing KINTYRE Python engines as the authoritative processing layer;
-- one shared state model for command-line and web operation;
-- no duplicated pipeline logic in page handlers;
+- one shared state model for command-line, web and observability views;
+- no duplicated pipeline logic in page handlers or Grafana dashboards;
 - no direct shell-command construction from unvalidated browser input.
 
-A short architecture decision record must confirm the framework choice before implementation. The decision should compare at least NiceGUI and Streamlit against KINTYRE requirements for long-running jobs, persistent workflow state, approvals, live progress, tables, reports, error recovery and maintainability.
+Grafana is an observability component, not the authoritative workflow engine. It may display KINTYRE status and link to the guided interface, but it must not directly execute Apply, change approval state or bypass application safety controls.
+
+A short architecture decision record must confirm the interface and observability stack before implementation. The decision must compare at least:
+
+- NiceGUI and Streamlit for guided workflow, approvals, reports and long-running operations;
+- Grafana OSS for metrics, logs, historical trends, alerts and operational health;
+- Prometheus-compatible metrics, SQLite or PostgreSQL reporting data, and Loki-compatible logs where justified;
+- embedded, linked and reverse-proxied deployment options;
+- resource consumption and maintenance burden on KINTYRE.
+
+The selected design must minimize custom front-end work while keeping installation, backup, upgrade and recovery procedures understandable.
 
 ### Guided end-to-end workflow
 
@@ -178,6 +190,26 @@ Key metrics include:
 
 Metrics must come from structured engine outputs or application services, not by scraping formatted terminal text.
 
+### Grafana observability
+
+Grafana OSS should provide read-only operational dashboards for:
+
+- current and historical pipeline duration;
+- files and albums processed over time;
+- issue totals and severity trends;
+- proposed, approved, rejected, blocked, successful and failed action totals;
+- Apply and verification outcomes;
+- backup creation and transaction history;
+- worker and application health;
+- runtime resource use relevant to KINTYRE;
+- Music Assistant reconciliation health when that integration is introduced;
+- Bluetooth transport health and diagnostic results when that integration is introduced;
+- logs and alerts for failed, blocked or unexpectedly long operations.
+
+Grafana dashboards and data-source configuration must be provisioned as version-controlled files where practical. Dashboard definitions must contain no secrets and must be reproducible after a clean installation.
+
+The guided KINTYRE interface may embed or link to Grafana panels, but the system must remain operable if Grafana is unavailable. Grafana failure must never invalidate pipeline state or prevent safe command-line recovery.
+
 ### Runtime management
 
 Runtime management is limited to the KINTYRE application:
@@ -207,6 +239,38 @@ The dashboard must not become a general root-level system administration console
 - avoid exposing secrets in pages, logs or reports;
 - define authentication requirements before any access beyond a trusted local network.
 
+### Safe AI development handover
+
+The interface and command line must provide a safe handover generator for continuing KINTYRE development or troubleshooting in a new AI chat when the current conversation becomes slow, too long or unreliable.
+
+Planned capabilities:
+
+- dashboard action and CLI command to generate a handover package;
+- concise Markdown output suitable for direct pasting into a new AI chat;
+- optional structured JSON output for machine processing;
+- repository URL, local project path, branch, commit, tags and working-tree state;
+- recent relevant commits;
+- active roadmap release and current implementation task;
+- completed work and verified results;
+- full test totals, failures and blocked tests;
+- current pipeline state and latest report locations;
+- relevant application, dependency and configuration versions;
+- important runtime paths without embedding machine-specific assumptions as product defaults;
+- permanent architecture and safety principles;
+- approved decisions and rejected approaches that must not be reconsidered without cause;
+- known defects, unresolved questions and operational risks;
+- the exact recommended next action;
+- clear separation between verified facts, user decisions, assumptions and suggested work;
+- source commit and generation timestamp;
+- warning when the repository has changed since the handover was generated;
+- automatic redaction of passwords, tokens, cookies, API keys, private keys and other secrets;
+- configurable exclusion of private paths or environment details;
+- deterministic output ordering so handovers can be compared;
+- size controls that preserve essential context while avoiding unnecessary transcript duplication;
+- validation that the generated package contains the minimum information required for safe continuation.
+
+The handover must describe the repository state rather than attempting to reproduce private AI reasoning. A receiving AI must be instructed to inspect the repository and verify the recorded state before proposing or applying changes.
+
 ### v1.1 acceptance criteria
 
 v1.1 is complete only when:
@@ -215,10 +279,14 @@ v1.1 is complete only when:
 - every protected pipeline stage can be run and monitored through the interface;
 - the command-line and web interfaces use the same orchestration and safety logic;
 - stage status, warnings, failures, reports and key metrics are visible;
+- Grafana dashboards display provisioned KINTYRE metrics, trends and operational health without controlling protected workflow actions;
+- loss of Grafana does not prevent safe operation or recovery through the guided interface or command line;
 - issue and action tables are searchable and filterable;
 - approval controls cannot be bypassed;
 - production Apply requires explicit approval and a second confirmation;
 - interrupted or failed runs have a documented safe recovery path;
+- the dashboard and CLI generate a secret-redacted, paste-ready handover tied to the current source commit;
+- generated handovers distinguish verified state from assumptions and identify the exact next action;
 - automated tests cover routing, state transitions, authorization boundaries and approval enforcement;
 - documentation includes installation, operation, recovery and upgrade procedures;
 - a clean clone installs and runs the complete v1.1 test suite.
