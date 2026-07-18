@@ -129,6 +129,40 @@ Planned capabilities:
 - prevent direct manipulation of the production Music Assistant database
   unless a separately certified maintenance operation is introduced.
 
+### Unified Pipeline Runner
+
+Objective:
+
+Provide one command that operates the complete KINTYRE workflow while preserving
+mandatory approval controls before any production changes.
+
+Planned capabilities:
+
+- one-command execution of the complete pipeline;
+- automatic environment and dependency validation;
+- Scan -> Audit -> Analysis -> Preview orchestration;
+- automatic approval-plan generation;
+- consolidated reporting across all pipeline stages;
+- explicit pause for review and approval before Apply;
+- continuation through approved Apply operations;
+- automatic post-Apply verification;
+- mandatory confirmation before production modification;
+- consistent exit codes for unattended validation;
+- comprehensive logging and audit records;
+- immediate stop on a failed or blocked stage;
+- safe restart after a corrected failure.
+
+Target interface:
+
+    kintyre run
+
+The command must guide or execute the complete workflow:
+
+    Validate -> Scan -> Audit -> Analysis -> Preview -> Approve -> Apply -> Verify
+
+Apply remains impossible unless the relevant actions have been explicitly
+approved.
+
 ### v1.1 acceptance criteria
 
 v1.1 is complete only when:
