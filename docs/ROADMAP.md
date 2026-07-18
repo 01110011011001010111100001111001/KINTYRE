@@ -47,7 +47,6 @@ Completed capabilities:
 - automated regression testing
 - clean-clone installation validation
 - operational and architecture documentation
-
 ## v1.0.1 — Safe KINTYRE naming normalization
 
 Status: Next maintenance release
@@ -81,8 +80,58 @@ v1.0.1 is complete only when:
 - existing installations continue to work without an unsafe forced path rename;
 - the full automated test suite passes;
 - a clean clone installs and runs successfully.
+## v1.1 — Library quality and duplicate detection
 
-## v1.1 — Guided operations dashboard and pipeline manager
+Status: Planned
+
+### Release objective
+
+Detect structural, duplication and audio-quality problems beyond ordinary metadata fields.
+
+### Duplicate Detection Engine
+
+Objective: Provide safe, repeatable identification of duplicate content without modifying the authoritative music library.
+
+Planned capabilities:
+
+- exact duplicate file detection using audio hashes;
+- duplicate track detection across folders;
+- duplicate album detection;
+- duplicate artist identity detection;
+- duplicate embedded artwork detection;
+- duplicate folder artwork detection;
+- probable duplicate detection using audio and metadata evidence;
+- confidence scoring: Exact, Very High, High and Possible;
+- duplicate reports grouped by duplicate class;
+- preview of proposed duplicate resolution;
+- approval before any duplicate-related operation;
+- no automatic deletion or merge;
+- optional merge workflows only in a future certified release;
+- verification after approved duplicate resolution.
+
+Additional quality capabilities:
+
+- missing-track detection;
+- unexpected track-number gaps;
+- empty-folder detection;
+- unsupported-file detection;
+- invalid-filename detection;
+- unreadable-file detection;
+- corrupt-audio detection;
+- folder and tag consistency checks;
+- ReplayGain audit;
+- embedded-image consistency checks;
+- configurable quality thresholds;
+- quality trend reporting.
+
+### v1.1 acceptance criteria
+
+- duplicate classes are reported separately;
+- confidence scores are documented;
+- duplicate detection is deterministic between runs;
+- no duplicate operation modifies the production library without approval;
+- automated regression tests cover duplicate detection algorithms and quality rules.
+## v1.2 — Guided operations dashboard and pipeline manager
 
 Status: Planned
 Priority: Highest feature release
@@ -271,9 +320,9 @@ Planned capabilities:
 
 The handover must describe the repository state rather than attempting to reproduce private AI reasoning. A receiving AI must be instructed to inspect the repository and verify the recorded state before proposing or applying changes.
 
-### v1.1 acceptance criteria
+### v1.2 acceptance criteria
 
-v1.1 is complete only when:
+v1.2 is complete only when:
 
 - one supported command or service starts the dashboard;
 - every protected pipeline stage can be run and monitored through the interface;
@@ -289,9 +338,8 @@ v1.1 is complete only when:
 - generated handovers distinguish verified state from assumptions and identify the exact next action;
 - automated tests cover routing, state transitions, authorization boundaries and approval enforcement;
 - documentation includes installation, operation, recovery and upgrade procedures;
-- a clean clone installs and runs the complete v1.1 test suite.
-
-## v1.2 — Images and artwork
+- a clean clone installs and runs the complete v1.2 test suite.
+## v1.3 — Images and artwork
 
 Status: Planned
 
@@ -327,8 +375,7 @@ Improve library artwork completeness and quality while keeping image operations 
 - support approved artwork-provider integration only after provider, licensing and provenance rules are documented;
 - record artwork source and provenance where artwork is acquired;
 - prevent low-confidence automated artwork assignment.
-
-## v1.3 — Certification environment
+## v1.4 — Certification environment
 
 Status: Planned
 
@@ -351,8 +398,7 @@ Provide a permanent, disposable environment for proving metadata, image and iden
 - recorded certification evidence;
 - operation-level certification status;
 - explicit promotion criteria for production eligibility.
-
-## v1.4 — Identity management
+## v1.5 — Identity management
 
 Status: Planned
 
@@ -379,66 +425,13 @@ Safely support metadata operations that can change album or artist identity.
 - rollback support.
 
 All identity-changing operations remain certification-only until individually validated and approved for production.
-
-## v1.5 — Library quality and duplicate detection
-
-Status: Planned
-
-### Release objective
-
-Detect structural, duplication and audio-quality problems beyond ordinary metadata fields.
-
-### Duplicate Detection Engine
-
-Objective: Provide safe, repeatable identification of duplicate content without modifying the authoritative music library.
-
-Planned capabilities:
-
-- exact duplicate file detection using audio hashes;
-- duplicate track detection across folders;
-- duplicate album detection;
-- duplicate artist identity detection;
-- duplicate embedded artwork detection;
-- duplicate folder artwork detection;
-- probable duplicate detection using audio and metadata evidence;
-- confidence scoring: Exact, Very High, High and Possible;
-- duplicate reports grouped by duplicate class;
-- preview of proposed duplicate resolution;
-- approval before any duplicate-related operation;
-- no automatic deletion or merge;
-- optional merge workflows only in a future certified release;
-- verification after approved duplicate resolution.
-
-Additional quality capabilities:
-
-- missing-track detection;
-- unexpected track-number gaps;
-- empty-folder detection;
-- unsupported-file detection;
-- invalid-filename detection;
-- unreadable-file detection;
-- corrupt-audio detection;
-- folder and tag consistency checks;
-- ReplayGain audit;
-- embedded-image consistency checks;
-- configurable quality thresholds;
-- quality trend reporting.
-
-### v1.5 acceptance criteria
-
-- duplicate classes are reported separately;
-- confidence scores are documented;
-- duplicate detection is deterministic between runs;
-- no duplicate operation modifies the production library without approval;
-- automated regression tests cover duplicate detection algorithms and quality rules.
-
 ## v1.6 — Music Assistant integration and Bluetooth playback reliability
 
 Status: Planned
 
 ### Release objective
 
-Reconcile the cleaned and certified authoritative library with Music Assistant, then provide repeatable diagnostics and conservative tuning for Bluetooth players used by Music Assistant.
+Reconcile the cleaned and certified authoritative library with Music Assistant after core library quality, certification and identity work is complete.
 
 Music Assistant remains a consumer. Filesystem findings remain authoritative over Music Assistant state.
 
@@ -470,6 +463,25 @@ Planned capabilities:
 - keep production and certification Music Assistant databases separate;
 - prevent direct manipulation of the production Music Assistant database unless a separately certified maintenance operation is introduced.
 
+### v1.6 acceptance criteria
+
+v1.6 is complete only when:
+
+- reconciliation identifies missing, stale, duplicate and orphaned Music Assistant entities;
+- Music Assistant rebuild procedures are documented and tested;
+- production and certification environments remain isolated;
+- no production Music Assistant database is changed without explicit approval;
+- automated tests cover Music Assistant reconciliation reports and state transitions.
+## v1.7 — Player performance and Bluetooth audio reliability
+
+Status: Planned
+
+### Release objective
+
+Provide repeatable diagnostics and conservative, reversible tuning for KINTYRE host audio and Bluetooth players, including faults such as pitch fluctuation, speed variation, timing instability or underruns during the first seconds of a track.
+
+This release concerns player and system audio performance. It is separate from Music Assistant library reconciliation and must remain useful for any supported audio source capable of exercising the affected player.
+
 ### Bluetooth playback diagnostics and tuning
 
 Objective: Diagnose and reduce playback instability such as pitch fluctuation, speed variation, underruns or timing instability during the first seconds of a track.
@@ -497,20 +509,33 @@ Planned capabilities:
 - expose Bluetooth health, active codec, recent errors and test results in the KINTYRE dashboard;
 - document known limitations where the receiving Bluetooth device controls behaviour that KINTYRE cannot correct.
 
-### v1.6 acceptance criteria
+Additional scope:
 
-v1.6 is complete only when:
+- establish a reproducible baseline before changing system audio settings;
+- identify whether the fault originates in decoding, resampling, buffering, Bluetooth transport, receiver behaviour or player activation;
+- support Music Assistant as one test source without making Music Assistant a prerequisite for diagnostics;
+- expose player-performance diagnostics and results through the KINTYRE dashboard;
+- retain system audio configuration on the system drive;
+- document every modified system file and service;
+- require explicit approval before changing PipeWire, WirePlumber, BlueZ, ALSA or service configuration;
+- restart audio services only through a documented, recoverable procedure;
+- preserve a tested rollback path for every tuning profile.
 
-- reconciliation identifies missing, stale, duplicate and orphaned Music Assistant entities;
-- Music Assistant rebuild procedures are documented and tested;
-- production and certification environments remain isolated;
-- a repeatable Bluetooth diagnostic captures the active transport and timing configuration;
-- tuning recommendations are evidence-based, reversible and device-aware;
-- a before-and-after playback test can demonstrate whether a proposed change improves the reported fault;
-- no production Music Assistant database or system audio configuration is changed without explicit approval;
-- automated tests cover reconciliation reports and application-level Bluetooth diagnostic parsing where practical.
+### v1.7 acceptance criteria
 
-## v1.7 — Classical metadata intelligence
+v1.7 is complete only when:
+
+- the active Bluetooth controller, device, profile, codec and audio path can be reported;
+- a repeatable diagnostic captures relevant sample-rate, buffering and timing information;
+- the start-of-track pitch or timing fault can be tested using a documented procedure;
+- recommendations are based on captured evidence rather than speculative tuning;
+- changes are reversible and preferably device-specific;
+- before-and-after results show whether a proposed change improved or worsened playback;
+- Music Assistant is not required for the underlying diagnostic framework;
+- no system audio configuration is changed without explicit approval;
+- rollback procedures are documented and tested;
+- application-level diagnostic parsing is covered by automated tests where practical.
+## v1.8 — Classical metadata intelligence
 
 Status: Planned
 
@@ -533,8 +558,7 @@ Improve analysis and certification of classical music metadata without forcing c
 - classical folder-structure analysis;
 - classical-specific reports;
 - certification fixtures for representative classical releases.
-
-## v1.8 — Performance and incremental operation
+## v1.9 — Performance and incremental operation
 
 Status: Planned
 
@@ -557,7 +581,6 @@ Reduce processing time while preserving determinism, traceability and safety.
 - regression benchmarks;
 - controlled cache invalidation;
 - dashboard progress and throughput metrics for long-running operations.
-
 ## v2.0 — Multi-user library management platform
 
 Status: Future
