@@ -8,6 +8,8 @@ from pathlib import Path
 from typing import Any
 
 from mutagen.flac import FLAC
+from mutagen.id3 import ID3, ID3NoHeaderError, TPE2
+from mutagen.mp4 import MP4
 
 from common import (
     PROJECT_ROOT,
@@ -73,23 +75,99 @@ def media_files(folder: Path) -> list[Path]:
     )
 
 
-def inspect_flac_album(
+WRITABLE_AUDIO_EXTENSIONS = frozenset(
+    {
+        ".flac",
+        ".mp3",
+        ".m4a",
+        ".m4b",
+        ".mp4",
+    }
+)
+
+
+def metadata_format(path: Path) -> str:
+    suffix = path.suffix.lower()
+
+    if suffix == ".flac":
+        return "FLAC"
+
+    if suffix == ".mp3":
+        return "MP3"
+
+    if suffix in {".m4a", ".m4b", ".mp4"}:
+        return "MP4"
+
+    raise ValueError(
+        f"Unsupported writable audio format: {path}"
+    )
+
+
+def read_albumartist(path: Path) -> list[str]:
+    format_name = metadata_format(path)
+
+    if format_name == "FLAC":
+        audio = FLAC(path)
+        values = audio.get("albumartist", [])
+
+    elif format_name == "MP3":
+        try:
+            tags = ID3(path)
+        except ID3NoHeaderError:
+            values = []
+        else:
+            frame = tags.get("TPE2")
+            values = (
+                list(frame.text)
+                if frame is not None
+                else []
+            )
+
+    elif format_name == "MP4":
+        audio = MP4(path)
+        tags = audio.tags or {}
+        values = tags.get("aART", [])
+
+    else:
+        raise RuntimeError(
+            f"Unhandled metadata format: {format_name}"
+        )
+
+    if isinstance(values, str):
+        values = [values]
+
+    return [
+        str(value).strip()
+        for value in values
+        if str(value).strip()
+    ]
+
+
+def inspect_album(
     folder: Path,
     proposed_value: str,
 ) -> dict[str, Any]:
     audio_files = media_files(folder)
 
-    flac_files = [
+    writable_files = [
         path
         for path in audio_files
-        if path.suffix.lower() == ".flac"
+        if path.suffix.lower()
+        in WRITABLE_AUDIO_EXTENSIONS
     ]
 
-    non_flac_files = [
+    unsupported_audio_files = [
         path
         for path in audio_files
-        if path.suffix.lower() != ".flac"
+        if path.suffix.lower()
+        not in WRITABLE_AUDIO_EXTENSIONS
     ]
+
+    format_counts = {
+        "FLAC": 0,
+        "MP3": 0,
+        "MP4": 0,
+    }
 
     files_to_update: list[str] = []
     already_matching: list[str] = []
@@ -98,28 +176,22 @@ def inspect_flac_album(
 
     expected = proposed_value.strip().casefold()
 
-    for path in flac_files:
+    for file_path in writable_files:
         try:
-            audio = FLAC(path)
-            current_values = [
-                str(value).strip()
-                for value in audio.get(
-                    "albumartist",
-                    [],
-                )
-                if str(value).strip()
-            ]
+            format_name = metadata_format(file_path)
+            format_counts[format_name] += 1
+            current_values = read_albumartist(file_path)
         except Exception as exc:
             metadata_errors.append(
                 {
-                    "path": str(path),
+                    "path": str(file_path),
                     "error": str(exc),
                 }
             )
             continue
 
         if not current_values:
-            files_to_update.append(str(path))
+            files_to_update.append(str(file_path))
             continue
 
         normalized = {
@@ -128,29 +200,35 @@ def inspect_flac_album(
         }
 
         if normalized == {expected}:
-            already_matching.append(str(path))
+            already_matching.append(str(file_path))
         else:
             conflicts.append(
                 {
-                    "path": str(path),
-                    "existing_values":
-                        current_values,
+                    "path": str(file_path),
+                    "existing_values": current_values,
                 }
             )
 
     return {
         "audio_file_count": len(audio_files),
-        "flac_file_count": len(flac_files),
+        "writable_file_count": len(writable_files),
+        "flac_file_count": format_counts["FLAC"],
+        "mp3_file_count": format_counts["MP3"],
+        "mp4_file_count": format_counts["MP4"],
+        "format_counts": format_counts,
+        "unsupported_audio_files": [
+            str(file_path)
+            for file_path in unsupported_audio_files
+        ],
         "non_flac_files": [
-            str(path)
-            for path in non_flac_files
+            str(file_path)
+            for file_path in audio_files
+            if file_path.suffix.lower() != ".flac"
         ],
         "files_to_update": files_to_update,
-        "already_matching":
-            already_matching,
+        "already_matching": already_matching,
         "conflicts": conflicts,
-        "metadata_errors":
-            metadata_errors,
+        "metadata_errors": metadata_errors,
     }
 
 
@@ -172,7 +250,16 @@ def validate_action(
 
     inspection: dict[str, Any] = {
         "audio_file_count": 0,
+        "writable_file_count": 0,
         "flac_file_count": 0,
+        "mp3_file_count": 0,
+        "mp4_file_count": 0,
+        "format_counts": {
+            "FLAC": 0,
+            "MP3": 0,
+            "MP4": 0,
+        },
+        "unsupported_audio_files": [],
         "non_flac_files": [],
         "files_to_update": [],
         "already_matching": [],
@@ -185,7 +272,7 @@ def validate_action(
         and operation == "ADD_ALBUMARTIST"
         and value_present
     ):
-        inspection = inspect_flac_album(
+        inspection = inspect_album(
             target,
             str(value),
         )
@@ -200,10 +287,10 @@ def validate_action(
         "approval_confirmed":
             action.get("approval")
             == "APPROVED",
-        "contains_flac":
-            inspection["flac_file_count"] > 0,
-        "only_flac_audio":
-            not inspection["non_flac_files"],
+        "contains_writable_audio":
+            inspection["writable_file_count"] > 0,
+        "only_writable_audio":
+            not inspection["unsupported_audio_files"],
         "metadata_readable":
             not inspection["metadata_errors"],
         "no_existing_conflicts":
@@ -228,12 +315,22 @@ def validate_action(
         "checks": checks,
         "audio_file_count":
             inspection["audio_file_count"],
+        "writable_file_count":
+            inspection["writable_file_count"],
         "flac_file_count":
             inspection["flac_file_count"],
+        "mp3_file_count":
+            inspection["mp3_file_count"],
+        "mp4_file_count":
+            inspection["mp4_file_count"],
+        "format_counts":
+            inspection["format_counts"],
         "files_to_update":
             inspection["files_to_update"],
         "already_matching":
             inspection["already_matching"],
+        "unsupported_audio_files":
+            inspection["unsupported_audio_files"],
         "non_flac_files":
             inspection["non_flac_files"],
         "conflicts":
@@ -277,7 +374,69 @@ def restore_backups(
     return restored, failures
 
 
-def write_albumartist_flac(
+def set_albumartist(
+    path: Path,
+    value: str,
+) -> None:
+    existing = read_albumartist(path)
+
+    if existing:
+        raise RuntimeError(
+            "AlbumArtist appeared after validation; "
+            f"refusing overwrite: {path}"
+        )
+
+    format_name = metadata_format(path)
+
+    if format_name == "FLAC":
+        audio = FLAC(path)
+        audio["albumartist"] = [value]
+        audio.save()
+
+    elif format_name == "MP3":
+        try:
+            tags = ID3(path)
+        except ID3NoHeaderError:
+            tags = ID3()
+
+        tags.delall("TPE2")
+        tags.add(
+            TPE2(
+                encoding=3,
+                text=[value],
+            )
+        )
+        tags.save(path)
+
+    elif format_name == "MP4":
+        audio = MP4(path)
+
+        if audio.tags is None:
+            audio.add_tags()
+
+        audio["aART"] = [value]
+        audio.save()
+
+    else:
+        raise RuntimeError(
+            f"Unhandled metadata format: {format_name}"
+        )
+
+    verified = read_albumartist(path)
+
+    normalized = {
+        item.casefold()
+        for item in verified
+    }
+
+    if normalized != {value.casefold()}:
+        raise RuntimeError(
+            "Post-write verification failed: "
+            f"{path}"
+        )
+
+
+def write_albumartist(
     transaction: dict[str, Any],
 ) -> dict[str, Any]:
     value = str(
@@ -285,8 +444,8 @@ def write_albumartist_flac(
     ).strip()
 
     files = [
-        Path(path)
-        for path
+        Path(item)
+        for item
         in transaction["files_to_update"]
     ]
 
@@ -303,6 +462,16 @@ def write_albumartist_flac(
         / action_id
     )
 
+    if backup_dir.exists():
+        counter = 1
+        base = backup_dir
+
+        while backup_dir.exists():
+            backup_dir = Path(
+                f"{base}-{counter}"
+            )
+            counter += 1
+
     backup_pairs: list[
         tuple[Path, Path]
     ] = []
@@ -316,6 +485,11 @@ def write_albumartist_flac(
         )
 
         for source in files:
+            if not source.is_file():
+                raise RuntimeError(
+                    f"Source file disappeared: {source}"
+                )
+
             backup = backup_dir / source.name
 
             if backup.exists():
@@ -334,46 +508,10 @@ def write_albumartist_flac(
             )
 
         for source, _backup in backup_pairs:
-            audio = FLAC(source)
-
-            existing = [
-                str(item).strip()
-                for item in audio.get(
-                    "albumartist",
-                    [],
-                )
-                if str(item).strip()
-            ]
-
-            if existing:
-                raise RuntimeError(
-                    "AlbumArtist appeared after "
-                    "validation; refusing overwrite: "
-                    f"{source}"
-                )
-
-            audio["albumartist"] = [value]
-            audio.save()
-
-            verified = FLAC(source).get(
-                "albumartist",
-                [],
+            set_albumartist(
+                source,
+                value,
             )
-
-            normalized = {
-                str(item).strip().casefold()
-                for item in verified
-                if str(item).strip()
-            }
-
-            if normalized != {
-                value.casefold()
-            }:
-                raise RuntimeError(
-                    "Post-write verification failed: "
-                    f"{source}"
-                )
-
             updated.append(str(source))
 
     except Exception as exc:
@@ -419,7 +557,7 @@ def handle_add_albumartist(
     if not execute:
         return transaction
 
-    return write_albumartist_flac(
+    return write_albumartist(
         transaction
     )
 
