@@ -89,14 +89,13 @@ class MusicAssistantClient:
         except json.JSONDecodeError as exc:
             raise MusicAssistantError("Music Assistant returned invalid JSON") from exc
 
-        if isinstance(document, dict):
-            if document.get("error_code") or document.get("error_message"):
-                raise MusicAssistantError(
-                    str(document.get("error_message") or document.get("error_code"))
-                )
-            if "result" in document:
-                return document["result"]
-        return document
+        if not isinstance(document, dict):
+            raise MusicAssistantError("Music Assistant returned an invalid response object")
+        if document.get("error_code") or document.get("error_message"):
+            raise MusicAssistantError(
+                str(document.get("error_message") or document.get("error_code"))
+            )
+        return document.get("result")
 
 
 def _items_from_result(result: Any) -> list[dict[str, Any]]:
