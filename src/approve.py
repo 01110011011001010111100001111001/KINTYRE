@@ -431,9 +431,11 @@ def set_decision(action_id: str, decision: str) -> None:
 def set_bulk_decision(
     filters: list[tuple[str, str, str]],
     decision: str,
+    *,
+    select_all: bool = False,
 ) -> None:
-    """Apply one approval decision to all matching actions."""
-    if not filters:
+    """Apply one approval decision to matching or all actions."""
+    if not filters and not select_all:
         raise ValueError(
             "Bulk decisions require at least one filter."
         )
@@ -453,7 +455,7 @@ def set_bulk_decision(
             f"Invalid actions list in {APPROVAL_PLAN}"
         )
 
-    matches = filter_actions(actions, filters)
+    matches = list(actions) if select_all else filter_actions(actions, filters)
 
     if not matches:
         raise ValueError(
@@ -488,14 +490,18 @@ def set_bulk_decision(
                 "action_id": action.get("id"),
                 "previous_state": previous,
                 "new_state": decision,
-                "filters": [
-                    {
-                        "field": field,
-                        "operator": operator,
-                        "value": value,
-                    }
-                    for field, operator, value in filters
-                ],
+                "filters": (
+                    [{"all": True}]
+                    if select_all
+                    else [
+                        {
+                            "field": field,
+                            "operator": operator,
+                            "value": value,
+                        }
+                        for field, operator, value in filters
+                    ]
+                ),
             }
         )
 
@@ -602,6 +608,12 @@ def parse_args() -> argparse.Namespace:
                 "or FIELD~VALUE. May be repeated."
             ),
         )
+        decision_parser.add_argument(
+            "--all",
+            action="store_true",
+            dest="all_actions",
+            help="Select every action in the approval plan.",
+        )
 
     return parser.parse_args()
 
@@ -614,9 +626,17 @@ def main() -> int:
     elif args.command == "status":
         show_status()
     else:
-        if args.action_id and args.filter:
+        selectors = sum(
+            bool(value)
+            for value in (
+                args.action_id,
+                args.filter,
+                args.all_actions,
+            )
+        )
+        if selectors > 1:
             raise ValueError(
-                "Use either action_id or --filter, not both."
+                "Use exactly one of action_id, --filter, or --all."
             )
 
         if args.action_id:
@@ -633,9 +653,15 @@ def main() -> int:
                 filters,
                 DECISIONS[args.command],
             )
+        elif args.all_actions:
+            set_bulk_decision(
+                [],
+                DECISIONS[args.command],
+                select_all=True,
+            )
         else:
             raise ValueError(
-                "Provide an action_id or at least one --filter."
+                "Provide an action_id, at least one --filter, or --all."
             )
 
     return 0

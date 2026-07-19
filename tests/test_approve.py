@@ -876,3 +876,21 @@ class TestApprovalAuditLogging(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class TestApproveAllCLI(unittest.TestCase):
+    def test_approve_all_selects_every_action(self) -> None:
+        with unittest.mock.patch.object(
+            sys,
+            "argv",
+            ["approve.py", "approve", "--all"],
+        ), unittest.mock.patch.object(
+            approve,
+            "set_bulk_decision",
+        ) as bulk:
+            result = approve.main()
+        self.assertEqual(result, 0)
+        bulk.assert_called_once_with(
+            [],
+            "APPROVED",
+            select_all=True,
+        )
