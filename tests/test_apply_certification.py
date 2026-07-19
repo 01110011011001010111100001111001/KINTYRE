@@ -130,5 +130,46 @@ class TestApplyPlanSafety(unittest.TestCase):
         self.assertEqual([item["status"] for item in transactions], ["BLOCKED", "BLOCKED"])
 
 
+class TestProductionSafetyGuards(unittest.TestCase):
+    def test_target_must_be_inside_declared_library(self) -> None:
+        with mock.patch.object(apply, "DATA_ROOT", Path("/data/Music")), mock.patch.object(
+            apply,
+            "LIBRARIES",
+            {"CONTEMPORARY": Path("/data/Music/CONTEMPORARY")},
+        ):
+            self.assertIsNone(
+                apply.target_scope_error(
+                    Path("/data/Music/CONTEMPORARY/Artist/Album"),
+                    "CONTEMPORARY",
+                )
+            )
+            self.assertIsNotNone(
+                apply.target_scope_error(Path("/tmp/Album"), "CONTEMPORARY")
+            )
+            self.assertIsNotNone(
+                apply.target_scope_error(
+                    Path("/data/Music/CLASSICAL/Album"),
+                    "CONTEMPORARY",
+                )
+            )
+
+    def test_action_id_cannot_escape_backup_directory(self) -> None:
+        self.assertEqual(apply.safe_component("../../outside"), "outside")
+        self.assertEqual(apply.safe_component("ACT-000001"), "ACT-000001")
+
+    def test_backup_capacity_refuses_insufficient_space(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            media = root / "track.mp3"
+            media.write_bytes(b"x" * 100)
+            transactions = [{"validation": "PASS", "files_to_update": [str(media)]}]
+            usage = shutil._ntuple_diskusage(total=1000, used=950, free=50)
+            with mock.patch.object(apply, "BACKUP_ROOT", root / "backups"), mock.patch.object(
+                apply, "BACKUP_FREE_SPACE_MARGIN_BYTES", 100
+            ), mock.patch.object(apply.shutil, "disk_usage", return_value=usage):
+                with self.assertRaisesRegex(RuntimeError, "Insufficient system-drive space"):
+                    apply.ensure_backup_capacity(transactions)
+
+
 if __name__ == "__main__":
     unittest.main()

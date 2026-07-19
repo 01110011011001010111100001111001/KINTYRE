@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import shutil
 from pathlib import Path
 from typing import Any
@@ -12,7 +13,7 @@ from mutagen.flac import FLAC
 from mutagen.id3 import ID3, ID3NoHeaderError, TPE2
 from mutagen.mp4 import MP4
 
-from common import PROJECT_ROOT, SUPPORTED_AUDIO_EXTENSIONS, timestamp_slug, utc_timestamp
+from common import DATA_ROOT, LIBRARIES, PROJECT_ROOT, SUPPORTED_AUDIO_EXTENSIONS, timestamp_slug, utc_timestamp
 from approve import append_audit_events
 
 APPROVAL_DIR = PROJECT_ROOT / "runtime" / "approval"
@@ -23,6 +24,7 @@ BACKUP_ROOT = APPLY_DIR / "backups"
 SUPPORTED_OPERATIONS = {"ADD_ALBUMARTIST"}
 WRITABLE_AUDIO_EXTENSIONS = frozenset({".flac", ".mp3", ".m4a", ".m4b", ".mp4"})
 CONFIRMATION_PHRASE = "I_APPROVE_KINTYRE_APPLY"
+BACKUP_FREE_SPACE_MARGIN_BYTES = 1024 * 1024 * 1024
 
 
 def write_json(path: Path, payload: dict[str, Any]) -> None:
@@ -42,6 +44,63 @@ def sha256_file(path: Path) -> str:
             digest.update(chunk)
     return digest.hexdigest()
 
+
+
+def is_within(path: Path, root: Path) -> bool:
+    try:
+        path.resolve().relative_to(root.resolve())
+        return True
+    except (OSError, ValueError):
+        return False
+
+
+def target_scope_error(target: Path, library: Any) -> str | None:
+    if target.is_symlink():
+        return "Target folder is a symbolic link."
+    if not is_within(target, DATA_ROOT):
+        return f"Target is outside protected music root: {DATA_ROOT}"
+    library_name = str(library or "").strip().upper()
+    library_root = LIBRARIES.get(library_name)
+    if library_root is None:
+        return f"Unknown library: {library_name or '<missing>'}"
+    if not is_within(target, library_root):
+        return f"Target is outside declared library root: {library_root}"
+    return None
+
+
+def safe_component(value: Any) -> str:
+    component = re.sub(r"[^A-Za-z0-9._-]+", "_", str(value or "UNKNOWN")).strip("._")
+    return component or "UNKNOWN"
+
+
+def required_backup_bytes(transactions: list[dict[str, Any]]) -> int:
+    total = 0
+    seen: set[str] = set()
+    for transaction in transactions:
+        if transaction.get("validation") != "PASS":
+            continue
+        for item in transaction.get("files_to_update", []):
+            path = Path(item)
+            key = str(path.resolve())
+            if key in seen:
+                continue
+            seen.add(key)
+            total += path.stat().st_size
+    return total
+
+
+def ensure_backup_capacity(transactions: list[dict[str, Any]]) -> dict[str, int]:
+    BACKUP_ROOT.mkdir(parents=True, exist_ok=True)
+    required = required_backup_bytes(transactions)
+    free = shutil.disk_usage(BACKUP_ROOT).free
+    margin = max(BACKUP_FREE_SPACE_MARGIN_BYTES, required // 10)
+    needed = required + margin
+    if free < needed:
+        raise RuntimeError(
+            "Insufficient system-drive space for verified backups: "
+            f"required={required} margin={margin} free={free}"
+        )
+    return {"required_backup_bytes": required, "safety_margin_bytes": margin, "free_bytes": free}
 
 def media_files(folder: Path) -> list[Path]:
     return sorted(
@@ -87,8 +146,9 @@ def read_albumartist(path: Path) -> list[str]:
 
 def inspect_album(folder: Path, proposed_value: str) -> dict[str, Any]:
     audio_files = media_files(folder)
-    writable_files = [p for p in audio_files if p.suffix.lower() in WRITABLE_AUDIO_EXTENSIONS]
-    unsupported = [p for p in audio_files if p.suffix.lower() not in WRITABLE_AUDIO_EXTENSIONS]
+    symbolic_links = [p for p in audio_files if p.is_symlink()]
+    writable_files = [p for p in audio_files if not p.is_symlink() and p.suffix.lower() in WRITABLE_AUDIO_EXTENSIONS]
+    unsupported = [p for p in audio_files if not p.is_symlink() and p.suffix.lower() not in WRITABLE_AUDIO_EXTENSIONS]
     format_counts = {"FLAC": 0, "MP3": 0, "MP4": 0}
     files_to_update: list[str] = []
     already_matching: list[str] = []
@@ -119,6 +179,7 @@ def inspect_album(folder: Path, proposed_value: str) -> dict[str, Any]:
         "mp4_file_count": format_counts["MP4"],
         "format_counts": format_counts,
         "unsupported_audio_files": [str(p) for p in unsupported],
+        "symbolic_link_audio_files": [str(p) for p in symbolic_links],
         "non_flac_files": [str(p) for p in audio_files if p.suffix.lower() != ".flac"],
         "files_to_update": files_to_update,
         "already_matching": already_matching,
@@ -136,6 +197,7 @@ def empty_inspection() -> dict[str, Any]:
         "mp4_file_count": 0,
         "format_counts": {"FLAC": 0, "MP3": 0, "MP4": 0},
         "unsupported_audio_files": [],
+        "symbolic_link_audio_files": [],
         "non_flac_files": [],
         "files_to_update": [],
         "already_matching": [],
@@ -147,6 +209,7 @@ def empty_inspection() -> dict[str, Any]:
 def validate_action(action: dict[str, Any]) -> dict[str, Any]:
     target = Path(str(action.get("folder", "")))
     operation = str(action.get("action", ""))
+    scope_error = target_scope_error(target, action.get("library")) if target.exists() else None
     value = action.get("proposed_value")
     value_present = isinstance(value, str) and bool(value.strip())
     inspection = empty_inspection()
@@ -155,11 +218,13 @@ def validate_action(action: dict[str, Any]) -> dict[str, Any]:
 
     checks = {
         "folder_exists": target.is_dir(),
+        "target_scope_valid": scope_error is None,
         "supported_operation": operation in SUPPORTED_OPERATIONS,
         "value_present": value_present,
         "approval_confirmed": action.get("approval") == "APPROVED",
         "contains_writable_audio": inspection["writable_file_count"] > 0,
         "only_writable_audio": not inspection["unsupported_audio_files"],
+        "no_symbolic_link_audio": not inspection["symbolic_link_audio_files"],
         "metadata_readable": not inspection["metadata_errors"],
         "no_existing_conflicts": not inspection["conflicts"],
     }
@@ -172,6 +237,7 @@ def validate_action(action: dict[str, Any]) -> dict[str, Any]:
         "target": str(target),
         "value": value,
         "checks": checks,
+        "scope_error": scope_error,
         **inspection,
     }
 
@@ -268,7 +334,7 @@ def backup_files(files: list[Path], backup_dir: Path) -> list[tuple[Path, Path]]
 def write_albumartist(transaction: dict[str, Any], *, run_id: str | None = None) -> dict[str, Any]:
     value = str(transaction["value"]).strip()
     files = [Path(item) for item in transaction["files_to_update"]]
-    action_id = str(transaction.get("id", "UNKNOWN"))
+    action_id = safe_component(transaction.get("id", "UNKNOWN"))
     if not files:
         return {**transaction, "status": "NO_CHANGE", "validation": "PASS", "files_updated": [], "files_updated_count": 0}
 
@@ -372,9 +438,11 @@ def main() -> int:
     validated = [validate_action(action) for action in actions]
     mark_duplicate_targets(validated)
     preflight_failed = any(item["validation"] != "PASS" for item in validated)
+    capacity: dict[str, int] | None = None
     if args.execute and preflight_failed:
         transactions = validated
     elif args.execute:
+        capacity = ensure_backup_capacity(validated)
         transactions = execute_batch(validated)
     else:
         transactions = validated
@@ -387,6 +455,7 @@ def main() -> int:
         "generated_at": generated_at,
         "mode": mode,
         "preflight_passed": not preflight_failed,
+        "backup_capacity": capacity,
         "transaction_count": len(transactions),
         "successful": successful,
         "failed": failed,
