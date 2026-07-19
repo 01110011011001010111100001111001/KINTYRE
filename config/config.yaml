@@ -58,3 +58,13 @@ scan:
   exclude_directories:
     - lost+found
   follow_symbolic_links: false
+
+  # Artwork commissioning uses the supported HTTP/JSON-RPC API only.
+  # Store the bearer token outside this repository and pass it with
+  # --token-file or KINTYRE_MA_TOKEN.
+  artwork_commissioning:
+    enabled: false
+    api_url: http://127.0.0.1:8095
+    page_size: 250
+    request_delay_seconds: 0.05
+    runtime_dir: /home/richard/kintyre-dam/runtime/music-assistant

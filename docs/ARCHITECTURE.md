@@ -95,3 +95,8 @@ Changes to AlbumArtist, album title, artist identity, compilation status, MusicB
 ## Repository privacy
 
 Do not commit production inventories, media file lists, collection statistics, generated reports, commissioning evidence, backups, caches, databases, secrets or machine-specific private data.
+
+
+## Music Assistant artwork commissioning boundary
+
+`src/commission_artwork.py` is a consumer-side commissioning utility. It calls Music Assistant's authenticated HTTP/JSON-RPC API, inventories library albums and artists, and reads entity details to provoke normal metadata and image resolution. It never writes `/data/Music`, never opens the Music Assistant database, and does not bypass Music Assistant provider logic. Dry-run is the default; live operation requires an exact confirmation phrase. Runtime reports and resumable state remain on the system drive.

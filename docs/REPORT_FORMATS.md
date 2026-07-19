@@ -68,3 +68,10 @@ Apply reports may reference backup paths on the system drive. Backups and report
 ## Compatibility rules
 
 Do not rename released fields without migration. Prefer additive schema changes. Never manually edit generated reports, approval plans or audits. Never commit production reports, inventories, backups or collection-specific evidence.
+
+
+## Artwork commissioning report
+
+Path: `runtime/music-assistant/artwork-commissioning-report.json`
+
+Fields include `mode`, `media_types`, `target_count`, status `counts`, `state_path`, and per-entity `outcomes`. Outcome statuses are `PLANNED`, `TOUCHED`, `SKIPPED_COMPLETED`, or `FAILED`. The separate state file contains completed entity keys and enables safe resume after interruption.

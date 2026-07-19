@@ -27,3 +27,10 @@ The production-approved plan contained 1,205 transactions. Live execution comple
 ### Documentation correction
 
 Documentation now distinguishes discovery, audit and writable format support; documents `approve --all`; and provides the exact end-to-end production workflow and confirmation phrase used by the released CLI.
+
+
+## Music Assistant artwork commissioning
+
+- Added non-destructive, authenticated Music Assistant artwork commissioning for albums and artists.
+- Added dry-run, explicit live confirmation, pagination, rate limiting, resumable state, structured reporting and regression tests.
+- Documented the strict boundary: Music Assistant API only; no media writes and no direct database manipulation.
