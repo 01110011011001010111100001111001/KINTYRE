@@ -5,10 +5,10 @@
 ## Operating model
 
 ```text
-Scan → Audit → Analysis → Preview → Approval → Apply → Verify
+Scan → Metadata Audit → Analysis → Preview → Approval → Apply → Verification
 ```
 
-The media library remains unchanged until Apply executes explicitly approved actions.
+The media library remains unchanged until Apply executes actions exported as `APPROVED`.
 
 ## Activate
 
@@ -17,7 +17,7 @@ cd /home/richard/kintyre-dam
 source .venv/bin/activate
 ```
 
-## Read-only pipeline
+## 1. Run the read-only pipeline
 
 ```bash
 python src/scan.py
@@ -26,39 +26,93 @@ python src/analyze_library.py
 python src/preview.py
 ```
 
-Review outputs under `runtime/index/`, `runtime/reports/`, `runtime/analysis/` and `runtime/preview/`.
+Review outputs under `runtime/index/`, `runtime/reports/`, `runtime/analysis/` and `runtime/preview/` before recording approvals.
 
-## Approval
-
-```bash
-python src/approve.py --help
-```
-
-States are `PENDING`, `APPROVED`, `REJECTED` and `DEFERRED`. Decisions are persisted separately from Preview output. Bulk operations require filters and reject zero matches. Repeating the same decision is idempotent.
-
-Approval records and approved-action exports are stored under `runtime/approval/`.
-
-## Apply
+## 2. Initialize Approval
 
 ```bash
-python src/apply.py --help
+python src/approve.py init
 ```
 
-Before live execution confirm successful dry-run, expected paths and values, explicit approvals, backups, certification of identity-changing operations and the intended target library.
+To discard an existing approval working copy and rebuild it from the current Preview plan:
 
-## Post-apply verification
+```bash
+python src/approve.py init --reset
+```
 
-After Apply:
+Approval states are `PENDING`, `APPROVED`, `REJECTED` and `DEFERRED`.
 
-1. rerun Scan;
-2. rerun Metadata Audit;
-3. compare findings;
-4. inspect Apply and audit records;
-5. refresh or rebuild the disposable Music Assistant consumer where required;
-6. verify album, artist and artwork behaviour.
+## 3. Record decisions
 
-A metadata write can succeed while Music Assistant retains stale database identities.
+One action:
+
+```bash
+python src/approve.py approve ACTION_ID
+python src/approve.py reject ACTION_ID
+python src/approve.py defer ACTION_ID
+python src/approve.py reset ACTION_ID
+```
+
+Filtered batch, using `FIELD=VALUE` for exact matching and `FIELD~VALUE` for contains matching:
+
+```bash
+python src/approve.py approve --filter 'action=ADD_ALBUMARTIST'
+python src/approve.py approve --filter 'folder~Artist Name' --filter 'action=ADD_ALBUMARTIST'
+```
+
+Multiple filters are combined with logical AND. A zero-match bulk operation is rejected.
+
+All actions:
+
+```bash
+python src/approve.py approve --all
+```
+
+Exactly one selector may be used: an action ID, filters, or `--all`. Repeating the same decision is idempotent.
+
+Check totals:
+
+```bash
+python src/approve.py status
+```
+
+Approval records and the approved-action export are stored under `runtime/approval/`.
+
+## 4. Dry-run Apply
+
+```bash
+python src/apply.py
+```
+
+This validates the approved export, paths, operation, target formats, duplicate targets and current metadata without writing media. Continue only when the report shows zero blocked transactions.
+
+## 5. Execute Apply
+
+```bash
+python src/apply.py --execute --confirm I_APPROVE_KINTYRE_APPLY
+```
+
+Live execution is refused unless both options and the exact confirmation phrase are supplied.
+
+Apply currently writes AlbumArtist metadata for:
+
+- `.flac`
+- `.mp3`
+- `.m4a`
+- `.m4b`
+- `.mp4`
+
+Other formats may be scanned or audited but are not writable by Apply.
+
+## 6. Verify
+
+```bash
+python src/scan.py
+python src/audit_metadata.py
+```
+
+Then compare findings, inspect `runtime/apply/apply-report.json` and `runtime/approval/approval-audit.json`, and refresh or rebuild Music Assistant where required. A successful metadata write does not by itself remove stale Music Assistant database identities.
 
 ## Recovery
 
-For failed live execution, stop further work, preserve reports and logs, inspect rollback results, restore from transaction backups where required, then rerun Scan and Audit.
+Apply creates transaction backups and verifies writes. If any transaction fails during a batch, KINTYRE attempts batch rollback of transactions already applied in that run. Stop further work, preserve the Apply report and audit log, inspect rollback fields and restore from backups if any rollback failure is reported.

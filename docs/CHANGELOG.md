@@ -4,28 +4,26 @@
 
 ### Added
 
-- Scan Engine
-- Metadata Audit Engine
-- Analysis Engine
-- Preview Engine
+- Scan, Metadata Audit, Analysis and Preview engines
 - stable action identifiers
 - four-state Approval model
 - generic exact and contains filters
-- bulk Approval operations
+- single-action, filtered bulk and explicit `--all` Approval operations
 - atomic Approval persistence
 - Approval summaries and approved-action export
 - append-only Approval audit logging
-- Apply dry-run integration
-- controlled live-write foundations
-- backups and rollback handling
-- post-write verification
+- Apply dry run and explicitly confirmed live execution
+- FLAC, MP3, M4A, M4B and MP4 AlbumArtist metadata writers
+- duplicate-target detection
+- per-transaction backups and post-write verification
+- transaction rollback and batch rollback after a later failure
 - Apply outcome audit events
-- automated regression tests
+- automated regression and real-media certification tests
 
-### Validation
+### Production validation
 
-The complete automated test suite passed before release and again from a fresh GitHub clone with freshly installed dependencies.
+The production-approved plan contained 1,205 transactions. Live execution completed with 1,205 successful transactions and zero failures after the full automated test suite passed.
 
 ### Documentation correction
 
-The initial v1 documentation update left obsolete pre-v1 content and private commissioning figures in public documents. This correction replaces that material with current, public-safe v1 documentation.
+Documentation now distinguishes discovery, audit and writable format support; documents `approve --all`; and provides the exact end-to-end production workflow and confirmation phrase used by the released CLI.

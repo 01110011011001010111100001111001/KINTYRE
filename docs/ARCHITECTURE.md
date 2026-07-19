@@ -1,6 +1,7 @@
 # KINTYRE Architecture
 
 **Version:** 1.0
+
 **Status:** Released
 
 ## Purpose
@@ -31,13 +32,24 @@ Media Library → Scan → Metadata Audit → Analysis → Preview → Approval 
 
 | Engine | Responsibility | Writes media |
 |---|---|---:|
-| Scan | Discover media and build indexes | No |
-| Metadata Audit | Read tags and report findings | No |
+| Scan | Discover configured media and build indexes | No |
+| Metadata Audit | Read supported tags and report findings | No |
 | Analysis | Aggregate findings | No |
 | Preview | Produce deterministic proposed actions | No |
 | Approval | Record decisions and export approved actions | No |
 | Apply | Validate and execute approved actions | Yes |
 | Verification | Rescan, re-audit and inspect results | No |
+
+## Format boundaries
+
+Format support is deliberately layered.
+
+1. `SUPPORTED_AUDIO_EXTENSIONS` in `src/common.py` is the core discovery set.
+2. Scan uses the subset enabled by `scan.include` in `config/config.yaml`.
+3. Metadata Audit has its own explicit readable-extension set.
+4. Apply has a narrower writable set: `.flac`, `.mp3`, `.m4a`, `.m4b` and `.mp4`.
+
+This prevents the system from treating discovery support as permission or capability to write tags.
 
 ## Preview Engine
 
@@ -52,22 +64,29 @@ Primary outputs:
 
 ## Approval Engine
 
-States:
+States are `PENDING`, `APPROVED`, `REJECTED` and `DEFERRED`.
 
-- `PENDING`
-- `APPROVED`
-- `REJECTED`
-- `DEFERRED`
+The engine supports:
 
-Supports single and bulk decisions, exact and contains filters, logical AND across filters, idempotent updates, reset to `PENDING`, atomic persistence, approved-action export and append-only audit events.
+- one action selected by ID;
+- filtered batches using exact and contains operators;
+- logical AND across repeated filters;
+- explicit whole-plan selection with `--all`;
+- idempotent decisions;
+- reset to `PENDING`;
+- atomic persistence;
+- approved-action export;
+- append-only audit events.
 
-Outputs are stored under `runtime/approval/`.
+Exactly one selector type is accepted for a decision command. Outputs are stored under `runtime/approval/`.
 
 ## Apply Engine
 
-Apply consumes approved actions. Controls include dry-run, validation, blocked-transaction handling, explicit live confirmation, backups, rollback handling, post-write verification, non-zero failure behaviour and Apply outcome events.
+Apply consumes `runtime/approval/approved-actions.json`. Running without `--execute` is dry run. Live writes require both `--execute` and the exact confirmation phrase `I_APPROVE_KINTYRE_APPLY`.
 
-Outputs are stored under `runtime/apply/`.
+Controls include validation, duplicate-target detection, blocked-transaction handling, backups, post-write verification, transaction rollback, batch rollback after a failure, non-zero failure status and Apply outcome audit events.
+
+The released write operation is `ADD_ALBUMARTIST`; writable containers are FLAC, MP3 and MP4-family (`.m4a`, `.m4b`, `.mp4`). Outputs are stored under `runtime/apply/`.
 
 ## Identity-changing operations
 

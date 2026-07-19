@@ -16,38 +16,55 @@ runtime/
 
 ## Scan
 
-Typical location: `runtime/index/album-index.csv`.
+Scan indexes are stored under `runtime/index/`; the principal album index is `album-index.csv`. Scan output reflects the configured extension subset, not Apply write support.
 
-## Metadata audit
+## Metadata Audit
 
-Stored under `runtime/reports/`.
+Audit reports are stored under `runtime/reports/` and describe readable tag findings for the audit engine's supported formats.
 
 ## Analysis
 
-Stored under `runtime/analysis/`.
+Analysis artifacts are stored under `runtime/analysis/`.
 
 ## Preview
 
-Stored under `runtime/preview/`.
+Stored under `runtime/preview/`:
 
 - `preview-summary.json`
 - `apply-plan.json`
 - `albumartist-fixes.csv`
 - `review-summary.json`
 
+`apply-plan.json` is proposed work only and is never consumed directly for live writes.
+
 ## Approval
 
-Stored under `runtime/approval/`.
+Stored under `runtime/approval/`:
 
-- `approval-plan.json`
-- `approval-summary.json`
-- `approved-actions.json`
-- `approval-audit.json`
+- `approval-plan.json` — working copy with `PENDING`, `APPROVED`, `REJECTED` or `DEFERRED` decisions
+- `approval-summary.json` — decision counts
+- `approved-actions.json` — only actions currently approved; this is Apply's input
+- `approval-audit.json` — append-only decision and Apply outcome events
 
 ## Apply
 
-Stored under `runtime/apply/`.
+Stored under `runtime/apply/`:
 
 - `apply-report.json`
 
-Do not rename released fields without migration. Prefer additive fields. Never manually edit generated reports. Never commit production reports or inventories.
+The report schema is currently `1.2` and includes:
+
+- execution `mode` (`DRY_RUN` or `EXECUTE`);
+- `preflight_passed`;
+- transaction, success and failure counts;
+- per-transaction validation and status;
+- target-file and writable-format validation;
+- duplicate-target results;
+- backup and verification results;
+- rollback and batch-rollback results where applicable.
+
+Apply reports may reference backup paths on the system drive. Backups and reports must not be placed on the authoritative media drive or committed to the public repository.
+
+## Compatibility rules
+
+Do not rename released fields without migration. Prefer additive schema changes. Never manually edit generated reports, approval plans or audits. Never commit production reports, inventories, backups or collection-specific evidence.

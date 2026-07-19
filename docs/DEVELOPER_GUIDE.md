@@ -32,8 +32,6 @@ runtime/cache/
 runtime/staging/
 ```
 
-The canonical Preview directory is `runtime/preview/`.
-
 ## Modules
 
 - `scan.py`
@@ -44,13 +42,28 @@ The canonical Preview directory is `runtime/preview/`.
 - `apply.py`
 - `common.py`
 
+## Format contracts
+
+Do not collapse format support into one claim.
+
+- `common.SUPPORTED_AUDIO_EXTENSIONS` is the broad core discovery set.
+- Scan intersects configured `scan.include` entries with that set.
+- Audit maintains an explicit readable set appropriate to its tag readers.
+- Apply maintains `WRITABLE_AUDIO_EXTENSIONS = {'.flac', '.mp3', '.m4a', '.m4b', '.mp4'}`.
+
+Adding a discovery extension does not authorize metadata writes. New writable formats require a writer implementation, validation, backup/restore support, post-write verification and real-media certification tests.
+
 ## Approval rules
 
-Bulk updates must require at least one filter, combine filters with logical AND, reject zero matches, update each action once, preserve idempotency, persist atomically and log only meaningful transitions.
+Decision commands must accept exactly one selector type: action ID, one or more filters, or `--all`. Repeated filters combine with logical AND. Filtered and all-action operations reject zero matches, update each action once, preserve idempotency, persist atomically and log only meaningful transitions.
+
+The supported commands are `approve`, `reject`, `defer` and `reset`; `reset` returns the selected actions to `PENDING`.
 
 ## Apply rules
 
-Apply must consume approved actions only, validate before writing, support dry-run, block invalid work, back up before writes, verify after writes, report rollback failures, return failure status for blocked or failed execution and record outcomes in the audit trail.
+Apply must consume approved actions only, validate before writing, default to dry run, block unsupported operations or formats, detect duplicate targets, require explicit live confirmation, back up before writes, verify after writes, roll back a failed transaction, roll back earlier transactions when a batch later fails, return failure status for blocked or failed execution and record outcomes in the approval audit trail.
+
+The released operation is `ADD_ALBUMARTIST`. Writable extensions are FLAC, MP3, M4A, M4B and MP4.
 
 ## Testing
 
@@ -59,4 +72,4 @@ python -m py_compile src/*.py tests/*.py
 python -m unittest discover -s tests -v
 ```
 
-The v1 release baseline contains 42 passing tests.
+Do not hard-code a passing-test count in long-lived documentation. The authoritative count is the result of the current complete test run.
