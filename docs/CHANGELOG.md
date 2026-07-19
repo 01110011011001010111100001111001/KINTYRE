@@ -34,3 +34,18 @@ Documentation now distinguishes discovery, audit and writable format support; do
 - Added non-destructive, authenticated Music Assistant artwork commissioning for albums and artists.
 - Added dry-run, explicit live confirmation, pagination, rate limiting, resumable state, structured reporting and regression tests.
 - Documented the strict boundary: Music Assistant API only; no media writes and no direct database manipulation.
+
+### Artwork commissioning operational validation
+
+- Validated token-file authentication, paginated enumeration and complete commissioning through the supported API.
+- Validated resumable state, `SKIPPED_COMPLETED` behaviour and deliberate recommissioning after archiving state.
+- Clarified that `TOUCHED` records API success, not guaranteed artwork.
+- Clarified that downstream enrichment is asynchronous and provider-dependent.
+- Documented metadata remediation, Music Assistant rescan or rebuild, commissioning and artwork verification as distinct stages.
+- Corrected examples so deployment-specific values are explicitly assigned rather than presented as literal filenames or URLs.
+- Kept credentials, endpoints, production names, counts, logs, reports and runtime state out of the public repository.
+
+### Roadmap decision
+
+- Added an optional AI Metadata Recovery Assistant for cases unresolved by deterministic tools and conventional metadata services.
+- AI output is advisory only and must enter the normal Preview, Approval and Apply controls before any production modification.

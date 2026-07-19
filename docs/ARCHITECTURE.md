@@ -100,3 +100,19 @@ Do not commit production inventories, media file lists, collection statistics, g
 ## Music Assistant artwork commissioning boundary
 
 `src/commission_artwork.py` is a consumer-side commissioning utility. It calls Music Assistant's authenticated HTTP/JSON-RPC API, inventories library albums and artists, and reads entity details to provoke normal metadata and image resolution. It never writes `/data/Music`, never opens the Music Assistant database, and does not bypass Music Assistant provider logic. Dry-run is the default; live operation requires an exact confirmation phrase. Runtime reports and resumable state remain on the system drive.
+
+## Artwork commissioning lifecycle
+
+```text
+Authoritative media library → deterministic metadata remediation → approved Apply → verification → Music Assistant rescan or rebuild → entity commissioning through the supported API → asynchronous Music Assistant enrichment → artwork verification and reconciliation
+```
+
+KINTYRE owns target enumeration, execution evidence, resumable state and reporting. Music Assistant owns provider selection, metadata resolution, image retrieval, image decoding and caching.
+
+A successful entity request is recorded as `TOUCHED`. This establishes API success only and is distinct from the later operational outcome of obtaining valid artwork.
+
+Commissioning cannot compensate for unresolved identity defects. Missing or incorrect Artist, AlbumArtist, album title, compilation state or external identifiers must return to the normal Audit → Analysis → Preview → Approval → Apply → Verify pipeline.
+
+## Integration evidence rule
+
+KINTYRE documentation and implementation must distinguish successful API communication, asynchronous downstream processing and independently verified final outcome. Claims about external-system behaviour must be supported by automated tests, verified upstream implementation or direct operational evidence.

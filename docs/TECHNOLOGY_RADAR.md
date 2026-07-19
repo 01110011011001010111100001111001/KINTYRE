@@ -38,6 +38,9 @@ The radar is advisory. Adoption requires an ADR and test evidence.
 - APScheduler
 - Typer
 - librosa
+- OpenAI API for optional unresolved-metadata advice
+- Ollama for optional local metadata assistance
+- local language-model inference for privacy-sensitive metadata recovery
 
 ## Hold unless justified
 
@@ -47,3 +50,5 @@ The radar is advisory. Adoption requires an ADR and test evidence.
 - direct Music Assistant database manipulation
 - global audio tuning when device-specific rules suffice
 - autonomous AI modification of the production library
+- AI as the primary metadata authority
+- AI suggestions that bypass Preview, Approval or certification

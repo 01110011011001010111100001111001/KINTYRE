@@ -73,3 +73,15 @@ python -m unittest discover -s tests -v
 ```
 
 Do not hard-code a passing-test count in long-lived documentation. The authoritative count is the result of the current complete test run.
+
+## Music Assistant artwork commissioning development rules
+
+Commissioning code must remain read-only with respect to the authoritative library, use supported Music Assistant APIs, be deterministic, dry-run by default, explicitly confirmed for execution, rate-limited, resumable, idempotent from KINTYRE's perspective and complete in per-entity reporting.
+
+`TOUCHED` means that the entity-detail request completed successfully. It must never be represented as proof that artwork was resolved, downloaded, decoded, cached or displayed.
+
+External integration behaviour must be described at three separate levels: request accepted; downstream processing scheduled or performed; final outcome independently verified. Do not infer external behaviour from API success alone. Assertions must be grounded in automated tests, verified upstream implementation or captured operational evidence.
+
+## Optional AI metadata recovery development rules
+
+AI-assisted recovery is a last-resort advisory stage after deterministic evidence and conventional metadata services are exhausted. Implementations must use a provider abstraction, be disabled by default, keep credentials outside the repository, support local or remote providers where configured, send only permitted evidence, record provider/model/prompt provenance, require validated structured output, fail closed, never write directly to the authoritative library, convert accepted suggestions into normal preview actions and preserve Approval, certification, Apply, backup, verification and audit.

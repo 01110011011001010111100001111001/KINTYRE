@@ -75,3 +75,11 @@ Do not rename released fields without migration. Prefer additive schema changes.
 Path: `runtime/music-assistant/artwork-commissioning-report.json`
 
 Fields include `mode`, `media_types`, `target_count`, status `counts`, `state_path`, and per-entity `outcomes`. Outcome statuses are `PLANNED`, `TOUCHED`, `SKIPPED_COMPLETED`, or `FAILED`. The separate state file contains completed entity keys and enables safe resume after interruption.
+
+### Artwork commissioning interpretation
+
+`TOUCHED` records successful completion of the Music Assistant entity-detail request. It is not an artwork-completeness result.
+
+Artwork discovery, provider matching, download, decoding, caching and client display may occur later and are outside the commissioning report boundary.
+
+Artwork verification must therefore be reported separately and should distinguish at least: entity has artwork; entity has no artwork; artwork provenance; unreadable or invalid image; provider lookup failure; unresolved or ambiguous identity; stale Music Assistant entity or cache; verification timestamp.

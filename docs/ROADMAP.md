@@ -19,6 +19,7 @@ This is the authoritative release plan for KINTYRE. The release order is now sta
 - Maintained OSS is evaluated before equivalent custom development.
 - KINTYRE integrates, safeguards and orchestrates proven OSS rather than reimplementing mature functionality.
 - Significant technology decisions require an ADR.
+- Exhaust deterministic evidence before invoking AI. AI is an optional advisor of last resort and never an autonomous modifier of the authoritative library.
 
 ## OSS-first policy
 
@@ -260,6 +261,64 @@ Provide incremental scanning, changed-file detection, persistent indexes, cached
 Status: Future
 
 Potential scope: authentication, roles, approval delegation, schedules, notifications, multi-library configuration, REST API, plugin ecosystem, retention policies, deployment management and high availability only if justified.
+
+## Cross-release capability — Optional AI Metadata Recovery Assistant
+
+Status: Good-to-have future capability
+Priority: After deterministic identity tooling is operational
+
+### Objective
+
+Provide an optional advisory process for tracks, albums or artists that remain unresolved after KINTYRE has exhausted deterministic evidence and configured metadata services.
+
+Candidate cases include missing Artist, AlbumArtist or album title; `Unknown Artist` or `Unknown Album`; damaged or contradictory tags; orphaned tracks; unresolved compilation identity; and records for which MusicBrainz, Picard, beets, acoustic lookup and other configured tools cannot produce a defensible result.
+
+### Evidence available to the assistant
+
+Subject to configuration and privacy controls, a request may contain filename and relative folder hierarchy; parent artist and album folder names; neighbouring filenames and track sequence; track and disc numbers; duration and format; readable tags and identifiers; MusicBrainz or AcoustID results; audit findings; duplicate and acoustic evidence; artwork evidence where useful; logical library type; competing identities; and reasons earlier deterministic stages failed.
+
+Folder and filename evidence are first-class inputs because they may preserve artist, album, work, performer or edition information absent from media tags.
+
+### Provider model
+
+The feature is optional and disabled by default. A configurable adapter may support OpenAI, another hosted AI service, Ollama, a local language model or future compatible providers. Configuration defines provider type, model, endpoint and secret reference. Credentials remain outside version control. KINTYRE should use supported programmatic provider interfaces rather than depend on a consumer chat login.
+
+### Required output
+
+The assistant returns structured proposals only: proposed Artist, AlbumArtist and album title; compilation state where relevant; identifiers where defensible; confidence; concise evidence-based explanation; alternatives where ambiguity remains; provider/model provenance; and an explicit unresolved result when confidence is insufficient.
+
+### Safety boundary
+
+AI never writes tags, renames folders, moves files, changes Music Assistant or modifies the authoritative library directly.
+
+```text
+AI evidence request → structured suggestion → validation → Preview → Approval → certified Apply where identity-changing → Verification
+```
+
+Low-confidence or conflicting suggestions remain deferred for human review.
+
+### Deterministic-first escalation
+
+1. inspect existing tags and folder or filename evidence;
+2. use deterministic rules;
+3. query configured metadata and identity services;
+4. use acoustic or duplicate evidence where appropriate;
+5. correlate neighbouring tracks and album structure;
+6. invoke the optional AI assistant only for unresolved cases.
+
+### Privacy and cost controls
+
+Configurable opt-in, evidence preview before remote transmission, redaction and path minimisation, request/cost limits, caching by evidence hash, no duplicate paid request for unchanged evidence, secret-safe provider-call audit and a local-provider option.
+
+### Acceptance
+
+An ADR compares hosted and local providers; the core pipeline works with AI disabled; credentials are secret-safe; schemas are validated; malformed or low-confidence output fails closed; suggestions never bypass Preview or Approval; identity-changing suggestions require certification; reports preserve provenance and operator decision; and tests cover provider absence, redaction, caching, malformed output, low confidence, proposal generation and failure handling.
+
+## Cross-release capability — Artwork verification
+
+Status: Planned companion capability
+
+Provide a post-commissioning audit that distinguishes missing artist artwork, missing album artwork, invalid images, inadequate resolution, stale Music Assistant entities, provider failures, ambiguous identities, local embedded artwork versus provider artwork and successful commissioning without successful artwork resolution.
 
 ## Release governance
 

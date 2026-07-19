@@ -30,3 +30,9 @@ Custom code should focus on:
 ## Selection criteria
 
 Assess licence, maintenance, security, deterministic automation, local operation, scale, read-only capability, integration surface, data location, backup, rollback, complexity and replacement cost.
+
+## AI advisory boundary
+
+Optional AI providers may assist with metadata records that remain unresolved after deterministic processing and conventional identity services. They are advisory evidence providers, not authoritative engines.
+
+KINTYRE retains control of evidence selection and redaction, structured validation, confidence policy, proposal creation, operator Approval, certification, Apply, backup, verification, rollback, provenance and audit. The authoritative media library must remain fully manageable when no AI provider is configured or reachable.

@@ -120,28 +120,89 @@ Apply creates transaction backups and verifies writes. If any transaction fails 
 
 ## Music Assistant artwork commissioning
 
-This optional operation works only on Music Assistant, the rebuildable consumer. It does not edit media files or manipulate the Music Assistant database directly. It enumerates library artists and albums through the supported HTTP/JSON-RPC API and reads each detail record so metadata providers and image handling are exercised proactively.
+Artwork commissioning is an optional consumer-side operation. It works only through Music Assistant's supported authenticated API. It does not edit media files, alter the authoritative library or manipulate the Music Assistant database directly.
 
-Create a user-readable token file outside the repository, for example `~/.config/kintyre/ma-token`, containing only a Music Assistant long-lived API token.
+The command enumerates library artists and albums and requests each entity's detail record. In the validated Music Assistant implementation, those detail requests can schedule normal asynchronous metadata enrichment.
 
-Dry-run and inventory:
+### Correct operating order
 
-```bash
-python src/commission_artwork.py \
-  --url http://127.0.0.1:8095 \
-  --token-file ~/.config/kintyre/ma-token
+Artwork commissioning is not a substitute for metadata remediation:
+
+```text
+Scan → Metadata Audit → Analysis → Preview → Approval → Apply → Verification → Music Assistant rescan or rebuild → Artwork commissioning → Artwork verification
 ```
 
-Commission all album and artist records:
+Incorrect or incomplete identity metadata can prevent Music Assistant from matching artists, albums and artwork correctly. In particular, a missing AlbumArtist may cause Music Assistant to use `Various Artists` as a fallback where the album is not genuinely a compilation.
+
+### Credentials
+
+Provide the Music Assistant token through either `--token-file PATH`, where the file contains only the token, or the `KINTYRE_MA_TOKEN` environment variable.
+
+Token files must remain outside the repository. Never commit credentials, server addresses, runtime reports or commissioning state.
+
+Define deployment-specific values before using the examples:
+
+```bash
+export KINTYRE_MA_URL='http://music-assistant-host:port'
+export KINTYRE_MA_TOKEN_FILE='/path/to/token-only-file'
+```
+
+These are placeholders. Replace them before running the command; do not paste them literally.
+
+### Dry-run inventory
 
 ```bash
 python src/commission_artwork.py \
-  --url http://127.0.0.1:8095 \
-  --token-file ~/.config/kintyre/ma-token \
+  --url "$KINTYRE_MA_URL" \
+  --token-file "$KINTYRE_MA_TOKEN_FILE" \
+  --media-type all \
+  --page-size 250
+```
+
+Use `--limit 25` for a small trial. Use `--media-type albums` or `--media-type artists` to restrict scope.
+
+### Execute
+
+```bash
+python src/commission_artwork.py \
+  --url "$KINTYRE_MA_URL" \
+  --token-file "$KINTYRE_MA_TOKEN_FILE" \
+  --media-type all \
+  --page-size 250 \
   --execute \
   --confirm I_APPROVE_MA_ARTWORK_COMMISSIONING
 ```
 
-The operation is rate-limited, resumable and idempotent from KINTYRE's perspective. Reports and resume state are written under `runtime/music-assistant/`. Use `--limit 25` for a small live trial and `--media-type albums` or `--media-type artists` to restrict scope. Delete the state file only when an intentional complete recommissioning is required.
+Live execution requires the exact confirmation phrase.
 
-This feature cannot guarantee that an external metadata provider has artwork for every identity. Its report distinguishes API failures from successful entity touches; remaining missing artwork must then be investigated as provider coverage, identity, local-file artwork, or Music Assistant cache behaviour.
+### Result semantics
+
+- `PLANNED` — target identified during dry-run.
+- `TOUCHED` — the Music Assistant entity-detail API request completed.
+- `SKIPPED_COMPLETED` — the entity was already recorded in resume state.
+- `FAILED` — the entity request failed.
+
+`TOUCHED` does not mean that artwork was found, downloaded, decoded, cached or displayed. Music Assistant performs downstream metadata and image processing asynchronously according to its enabled providers and cache state.
+
+### Resume state and deliberate recommissioning
+
+Reports and state are written under `runtime/music-assistant/`. The state file records completed entity keys, so later runs skip completed entities.
+
+Do not clear state merely because artwork remains missing. Recommissioning is not a substitute for correcting identity metadata or provider coverage.
+
+For an intentional full recommissioning, archive the existing state first:
+
+```bash
+mkdir -p runtime/music-assistant/state-backups
+test ! -f runtime/music-assistant/artwork-commissioning-state.json || \
+mv runtime/music-assistant/artwork-commissioning-state.json \
+"runtime/music-assistant/state-backups/artwork-commissioning-state.$(date +%Y%m%d-%H%M%S).json"
+```
+
+Then execute commissioning once.
+
+### Artwork verification and troubleshooting
+
+After commissioning, allow Music Assistant's asynchronous enrichment to proceed; inspect artist and album artwork coverage; review Music Assistant logs for provider failures, image decoding failures, cache problems and source metadata warnings; distinguish local embedded artwork, provider artwork and unresolved identities; and return unresolved identity problems to KINTYRE's normal workflow.
+
+A successful commissioning report proves that KINTYRE completed the requested API work. It does not certify complete artwork coverage.
