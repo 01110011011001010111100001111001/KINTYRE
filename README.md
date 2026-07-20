@@ -59,6 +59,7 @@ Use `approve --all` only after reviewing the Preview plan. Running `apply.py` wi
 
 ## Documentation
 
+- [AI Engineering Handover](docs/HANDOVER.md)
 - [Installation](INSTALL.md)
 - [Architecture](docs/ARCHITECTURE.md)
 - [User Guide](docs/USER_GUIDE.md)

@@ -1,5 +1,16 @@
 # KINTYRE Changelog
 
+## Unreleased
+
+### Engineering continuity
+
+- Added `docs/HANDOVER.md` as the self-contained continuity and engineering
+  briefing for an incoming AI assistant.
+- Established mandatory repository-first startup, evidence, testing,
+  documentation and sprint-completion rules.
+- Clarified that the future generated handover described by ADR-0001 will
+  complement, not replace, the maintained handover document.
+
 ## v1.0 — 17 July 2026
 
 ### Added
