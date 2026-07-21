@@ -83,3 +83,36 @@ Fields include `mode`, `media_types`, `target_count`, status `counts`, `state_pa
 Artwork discovery, provider matching, download, decoding, caching and client display may occur later and are outside the commissioning report boundary.
 
 Artwork verification must therefore be reported separately and should distinguish at least: entity has artwork; entity has no artwork; artwork provenance; unreadable or invalid image; provider lookup failure; unresolved or ambiguous identity; stale Music Assistant entity or cache; verification timestamp.
+
+## Artwork verification report
+
+Path: `runtime/music-assistant/artwork-verification.json`
+
+The report contains:
+
+- `schema_version`;
+- `generated_at`;
+- `evidence_boundary`;
+- aggregate status `counts`;
+- per-entity `records`.
+
+Each record contains `media_type`, `item_id`, `provider`, `name`, `status`,
+`artwork_count`, `thumb_count`, `image_types`, `image_providers`, and an
+optional `reason`.
+
+Statuses are:
+
+- `PRESENT` — one or more `thumb` images are present in the canonical
+  Music Assistant entity-detail response.
+- `MISSING` — no image metadata was returned.
+- `NON_PRIMARY_ONLY` — image metadata exists but contains no `thumb`.
+- `ERROR` — the entity-detail request failed.
+
+The report's evidence boundary is explicit:
+
+- artwork presence: verified from Music Assistant detail metadata;
+- retrievability: not tested;
+- image validity: not tested.
+
+This report must not be interpreted as proof that an image can be downloaded,
+decoded, cached or displayed by every client.

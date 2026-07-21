@@ -56,6 +56,20 @@ Documentation now distinguishes discovery, audit and writable format support; do
 - Corrected examples so deployment-specific values are explicitly assigned rather than presented as literal filenames or URLs.
 - Kept credentials, endpoints, production names, counts, logs, reports and runtime state out of the public repository.
 
+## Music Assistant artwork verification
+
+- Added a read-only Artwork Verification Engine for albums and artists.
+- Verified artwork presence from canonical Music Assistant entity-detail
+  responses and `metadata.images`.
+- Added `PRESENT`, `MISSING`, `NON_PRIMARY_ONLY`, and `ERROR` outcomes.
+- Added deterministic JSON reporting with artwork counts, image types,
+  provenance providers and explicit evidence boundaries.
+- Added regression tests for missing artwork, primary artwork, non-primary-only
+  artwork, API failures and report semantics.
+- Live-validated a bounded album sample without modifying Music Assistant or
+  `/data/Music`.
+- Explicitly records image retrievability and validity as `NOT_TESTED`.
+
 ### Roadmap decision
 
 - Added an optional AI Metadata Recovery Assistant for cases unresolved by deterministic tools and conventional metadata services.

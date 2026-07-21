@@ -395,8 +395,16 @@ The public repository currently declares:
 - Released core pipeline: Scan, Metadata Audit, Analysis, Preview, Approval,
   Apply, and Verification workflow.
 - Artwork commissioning is implemented and operationally validated.
-- Artwork verification is documented as a separate required stage but is not
-  part of the committed public source tree at the time this handover is introduced.
+- Artwork verification is implemented as a read-only engine in
+  `src/verify_artwork.py`, with regression tests in
+  `tests/test_verify_artwork.py`.
+- The verifier uses canonical Music Assistant entity-detail calls and reports
+  `PRESENT`, `MISSING`, `NON_PRIMARY_ONLY`, or `ERROR`.
+- A bounded live verification of 25 albums completed successfully with
+  10 `PRESENT` and 15 `MISSING`; this result is runtime evidence only and is not
+  committed.
+- The full automated suite passed with 65 tests.
+- Retrievability and image validity remain explicitly `NOT_TESTED`.
 - The roadmap names `v1.0.1` safe KINTYRE naming normalization as the next
   maintenance release.
 
@@ -428,14 +436,21 @@ At creation of this document, the active work is:
 2. Keep ADR-0001 as the accepted architectural decision for a future
    repository-driven, secret-redacted handover generator.
 3. Audit and synchronize documentation without changing production behaviour.
-4. After this documentation sprint is committed and pushed, resume the planned
-   read-only Artwork Verification Engine work.
+4. Complete and close the read-only Artwork Verification Engine sprint.
 
-The Artwork Verification Engine must be based on verified Music Assistant API
-behaviour, remain read-only with respect to both the authoritative media
-library and Music Assistant state, produce deterministic reports, distinguish
-artwork presence from retrievability and validity, include tests, and update
-all affected documentation plus this handover.
+The Artwork Verification Engine is now implemented against verified Music
+Assistant API behaviour. It remains read-only with respect to both the
+authoritative media library and Music Assistant state, produces deterministic
+reports, distinguishes artwork presence from retrievability and validity, and
+includes regression tests.
+
+Before sprint completion:
+
+1. Review the complete diff.
+2. Confirm no credentials, runtime reports or production evidence are staged.
+3. Commit and push the implementation, tests and documentation.
+4. Confirm a clean working tree and synchronized remote.
+5. Record the next planned sprint as `v1.0.1` safe KINTYRE naming normalization.
 
 ## 15. End-of-sprint handover update template
 

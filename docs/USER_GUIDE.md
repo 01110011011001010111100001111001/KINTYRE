@@ -206,3 +206,30 @@ Then execute commissioning once.
 After commissioning, allow Music Assistant's asynchronous enrichment to proceed; inspect artist and album artwork coverage; review Music Assistant logs for provider failures, image decoding failures, cache problems and source metadata warnings; distinguish local embedded artwork, provider artwork and unresolved identities; and return unresolved identity problems to KINTYRE's normal workflow.
 
 A successful commissioning report proves that KINTYRE completed the requested API work. It does not certify complete artwork coverage.
+
+Run the read-only verifier after commissioning:
+
+```bash
+python src/verify_artwork.py \
+  --url "$KINTYRE_MA_URL" \
+  --token-file "$KINTYRE_MA_TOKEN_FILE" \
+  --media-type all \
+  --page-size 250
+```
+
+Use `--limit 25` for a bounded live check. Use `--media-type albums` or
+`--media-type artists` to restrict scope.
+
+The verifier requests canonical Music Assistant entity details and evaluates
+`metadata.images`. Result statuses are:
+
+- `PRESENT` — at least one primary `thumb` image is present.
+- `MISSING` — Music Assistant returned no image metadata.
+- `NON_PRIMARY_ONLY` — image metadata exists, but no primary `thumb` exists.
+- `ERROR` — the entity-detail request failed.
+
+The verifier is read-only with respect to Music Assistant and `/data/Music`.
+The current evidence boundary is deliberately limited to artwork presence in
+Music Assistant metadata. Image retrievability, decoding, cache state and
+client display validity are recorded as `NOT_TESTED` until those interfaces are
+independently verified.
