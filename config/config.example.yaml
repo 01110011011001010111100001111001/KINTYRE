@@ -3,25 +3,25 @@ project:
   mode: audit
 
 storage:
-  music_root: /data/Music
+  music_root: /path/to/music
 
-  database_dir: /home/richard/kintyre-dam/runtime/database
-  reports_dir: /home/richard/kintyre-dam/runtime/reports
-  logs_dir: /home/richard/kintyre-dam/runtime/logs
-  cache_dir: /home/richard/kintyre-dam/runtime/cache
-  previews_dir: /home/richard/kintyre-dam/runtime/preview
-  staging_dir: /home/richard/kintyre-dam/runtime/staging
+  database_dir: /path/to/kintyre/runtime/database
+  reports_dir: /path/to/kintyre/runtime/reports
+  logs_dir: /path/to/kintyre/runtime/logs
+  cache_dir: /path/to/kintyre/runtime/cache
+  previews_dir: /path/to/kintyre/runtime/preview
+  staging_dir: /path/to/kintyre/runtime/staging
 
 libraries:
   contemporary:
     name: CONTEMPORARY
-    root: /data/Music/CONTEMPORARY
+    root: /path/to/music/CONTEMPORARY
     enabled: true
     profile: contemporary
 
   classical:
     name: CLASSICAL
-    root: /data/Music/CLASSICAL
+    root: /path/to/music/CLASSICAL
     enabled: true
     profile: classical
 
@@ -34,14 +34,14 @@ protection:
 
 music_assistant:
   objective: clean_library
-  local_music_path: /data/Music
+  local_music_path: /path/to/music
   container_music_path: /media
   providers:
     contemporary:
-      host_path: /data/Music/CONTEMPORARY
+      host_path: /path/to/music/CONTEMPORARY
       container_path: /media/contemporary
     classical:
-      host_path: /data/Music/CLASSICAL
+      host_path: /path/to/music/CLASSICAL
       container_path: /media/classical
 
 scan:
@@ -67,4 +67,4 @@ scan:
     api_url: http://127.0.0.1:8095
     page_size: 250
     request_delay_seconds: 0.05
-    runtime_dir: /home/richard/kintyre-dam/runtime/music-assistant
+    runtime_dir: /path/to/kintyre/runtime/music-assistant

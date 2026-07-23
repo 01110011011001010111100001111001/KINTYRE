@@ -69,3 +69,6 @@ runtime/music-assistant/
 # Keep directory structure
 !runtime/.gitkeep
 !runtime/**/.gitkeep
+
+# Local deployment configuration
+config/config.yaml

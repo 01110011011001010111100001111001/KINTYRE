@@ -168,6 +168,9 @@ def load_config(
     2. config/config.yml
     3. config/config.json
 
+    For a new installation, copy config/config.example.yaml
+    to config/config.yaml and replace the example values.
+
     Missing configuration is allowed. Stable project
     defaults are returned.
     """
