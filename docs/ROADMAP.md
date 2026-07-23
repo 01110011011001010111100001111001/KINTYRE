@@ -91,11 +91,14 @@ passed, and production remained untouched.
 
 ## D6 — REPLACE
 
-Verify the production before-state, create and verify a complete backup, replace one album and prove whole-album rollback.
+Complete. REPLACE verifies the production before-state, creates and verifies a
+complete backup, performs one bounded album replacement and retains rollback
+evidence.
 
 ## D7 — CHECK
 
-Verify media readability, tags, artwork, audio essence and Music Assistant representation. Define closure and rollback conditions.
+Complete. CHECK verifies media readability, metadata, artwork, audio essence and
+Music Assistant representation, and defines the final certification boundary.
 
 ## D8 — First bounded production album
 
