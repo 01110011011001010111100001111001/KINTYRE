@@ -61,7 +61,7 @@ v1 is released and frozen. The v2 documentation baseline and roadmap D1 toolchai
 
 ## Immediate next step
 
-Implement roadmap D2 COPY for one representative CONTEMPORARY album. Begin with repository-first inspection of the existing source, tests, configuration and runtime-path conventions. Do not implement FIX or invoke external tagging against production.
+Implement roadmap D3 FIX against the retained representative COPY transaction. Begin with repository-first inspection of the existing source, tests, configuration and runtime-path conventions. Do not implement FIX or invoke external tagging against production.
 
 ## Mandatory startup
 
@@ -79,7 +79,9 @@ directory into `runtime/staging/transactions/<transaction-id>/album`, writes
 read-only source and destination manifests, verifies sizes and SHA-256 hashes,
 and writes a deterministic sorted JSON report. It never writes production.
 
-The v1 modules remain frozen and untouched. D2 is not complete until one
-representative production album has been copied read-only and the retained
-transaction evidence has been reviewed. The immediate next step is that bounded
-D2 commissioning run; do not begin FIX.
+The v1 modules remain frozen and untouched. D2 completed on 23 July 2026
+with transaction `D2-COPY-ABBA-VOYAGE-20260723`: 11 files, 10 audio files
+and 81,569,309 bytes copied from ABBA/Voyage. The retained source and
+destination manifests match by size and SHA-256 and the COPY report is PASS.
+The immediate next step is D3 FIX against this retained copy; production remains
+protected and must not be modified.

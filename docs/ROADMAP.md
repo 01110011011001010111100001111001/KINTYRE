@@ -23,7 +23,7 @@ Recorded exact installed versions, paths, plugins and effective configuration fo
 Select one representative CONTEMPORARY album, create an isolated system-drive transaction, record an immutable source manifest and copy the complete album without changing production.
 
 
-D2 implementation checkpoint — 23 July 2026: `src/copy_album.py` now implements isolated, verified, read-only album COPY transactions with immutable manifests and security checks. Unit coverage is present. D2 remains open until one representative CONTEMPORARY album is copied and its retained evidence is reviewed.
+D2 completed — 23 July 2026: `src/copy_album.py` implements isolated, verified, read-only album COPY transactions with immutable manifests and security checks. The representative commissioning transaction `D2-COPY-ABBA-VOYAGE-20260723` copied ABBA/Voyage in full: 11 files, including 10 audio files, 81,569,309 bytes. Production and staged manifests matched by size and SHA-256; the retained report status is PASS.
 
 ## D3 — FIX
 

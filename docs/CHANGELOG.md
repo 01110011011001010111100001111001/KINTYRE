@@ -25,6 +25,7 @@
 - Implemented the v2 COPY transaction engine for one CONTEMPORARY album.
 - Added complete-directory copying, immutable manifests, SHA-256 verification, path/symlink protection and deterministic JSON evidence.
 - Added unit tests for successful copying, source isolation, symlink rejection, transaction collision and transaction-ID traversal rejection.
+- Completed D2 commissioning with transaction `D2-COPY-ABBA-VOYAGE-20260723`: 11 files, 10 audio files and 81,569,309 bytes copied and independently revalidated against the immutable source and destination manifests.
 
 ## v1.0 — 17 July 2026
 
