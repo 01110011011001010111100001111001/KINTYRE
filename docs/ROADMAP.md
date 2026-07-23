@@ -6,6 +6,27 @@ v1 is released and frozen as the historical baseline. Future architecture is v2.
 
 Every milestone delivers one complete testable outcome, protects production until approval, updates documentation, adds tests, verifies rollback where writes exist, and ends committed, pushed and clean.
 
+## Release acceptance
+
+A milestone or release is accepted only when:
+
+- implementation is complete;
+- relevant tests pass;
+- documentation reflects the verified state;
+- the capability directly improves the library or is essential to delivering a
+  defined measurable improvement;
+- the expected improvement and verification evidence are explicit; and
+- any production write has a tested recovery or rollback path.
+
+Before roadmap work begins, ask:
+
+> Will this leave the user's library in a measurably better state?
+
+If the answer is **No**, the work does not proceed.
+
+Progress is measured by the quality, completeness and functionality of the
+resulting library, not by feature count or pipeline activity.
+
 ## D0 — Documentation baseline
 
 Status: Current
@@ -33,7 +54,23 @@ Commissioning succeeded against retained transaction `D2-COPY-ABBA-VOYAGE-202607
 
 ## D4 — REVIEW
 
-Produce complete before/after metadata, artwork, file-layout and audio-integrity evidence. Unexpected changes and ambiguity are visible and blocking.
+Produce deterministic machine-readable and human-readable review evidence from
+the retained successful COPY and FIX transaction. REVIEW performs no external
+tool invocation and modifies neither the staged album nor production.
+
+REVIEW must answer:
+
+1. What changed?
+2. Is the result trustworthy?
+3. How will the proposed changes measurably improve the resulting library and
+   downstream behaviour?
+4. Is the exact reviewed transaction ready to proceed to APPROVE?
+
+It must present identity and release evidence, metadata and artwork differences,
+file-layout effects, audio-integrity verification, ambiguity, warnings,
+expected library outcomes and a clear recommendation. Unexpected, unexplained
+or non-beneficial changes are blocking. REVIEW recommends; D5 APPROVE alone
+records the human decision.
 
 ## D5 — APPROVE
 

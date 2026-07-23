@@ -4,6 +4,22 @@
 
 This document defines the target v2 architecture. The released v1 implementation remains a frozen historical baseline.
 
+## Outcome principle
+
+The purpose of the KINTYRE pipeline is to produce a complete, accurate,
+consistent and fully functioning music library while protecting the
+authoritative collection.
+
+The pipeline is not itself the product outcome. Every stage must either:
+
+- directly produce a measurable library improvement; or
+- provide an essential safety, evidence, approval, promotion or verification
+  capability required to deliver that defined improvement.
+
+Before a capability is accepted into the roadmap, it must identify the concrete
+library problem, expected user-visible or measurable benefit, verification
+evidence and reversal path. If it cannot do so, it is not built.
+
 ## Architectural model
 
 ```text
@@ -63,7 +79,19 @@ Run verified OSS only against the copy. Capture executable, version, invocation,
 
 ### REVIEW
 
-Show all file, metadata, artwork, identity, track-mapping and audio-integrity differences. Unexpected or unexplained changes block approval.
+Show all file, metadata, artwork, identity, track-mapping and audio-integrity
+differences. Unexpected or unexplained changes block approval.
+
+REVIEW must answer four questions:
+
+1. What changed?
+2. Is the result trustworthy?
+3. How will the proposed changes improve the resulting library and its
+   downstream behaviour?
+4. Is the exact reviewed transaction ready to proceed to APPROVE?
+
+REVIEW records evidence and a recommendation. It does not make the human
+approval decision.
 
 ### APPROVE
 

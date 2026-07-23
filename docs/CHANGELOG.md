@@ -1,3 +1,16 @@
+## 23 July 2026 — outcome-driven library mission documented
+
+- Defined KINTYRE's primary success criterion as a measurably improved,
+  complete and working music library.
+- Established the permanent rule that work is not built unless it directly
+  improves the library or is essential to a defined measurable improvement.
+- Required every capability to identify its concrete library problem, expected
+  benefit, verification evidence and reversal path.
+- Expanded D4 REVIEW to explain expected library benefit and downstream
+  behaviour before approval.
+- Corrected stale HANDOVER statements so D2 COPY and D3 FIX are recorded as
+  complete and D4 REVIEW is the active milestone.
+
 ## 23 July 2026 — v2 D3 FIX completed
 
 - Added `src/fix_album.py`, a bounded Beets/MusicBrainz FIX workflow for retained COPY transactions.

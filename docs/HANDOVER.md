@@ -41,7 +41,11 @@ KINTYRE performs safe copy, production isolation, evidence, review, approval, ba
 
 ## Status
 
-v1 is released and frozen. The v2 documentation baseline and roadmap D1 toolchain inventory are complete. No v2 workflow stage is implemented yet. Target capability must never be documented as live.
+v1 is released and frozen. The v2 documentation baseline, D1 toolchain
+inventory, D2 COPY and D3 FIX are complete. D2 and D3 were commissioned against
+retained transaction `D2-COPY-ABBA-VOYAGE-20260723`; 75 tests pass. D4 REVIEW is
+the active milestone. Target capability must never be documented as live before
+implementation and commissioning are complete.
 
 ### Verified D1 toolchain
 
@@ -61,7 +65,30 @@ v1 is released and frozen. The v2 documentation baseline and roadmap D1 toolchai
 
 ## Immediate next step
 
-Begin roadmap D4 REVIEW using the retained D3 FIX evidence from transaction `D2-COPY-ABBA-VOYAGE-20260723`. REVIEW must interpret and present the captured external-tool evidence without modifying the staged copy or production.
+Begin roadmap D4 REVIEW using the retained D3 FIX evidence from transaction
+`D2-COPY-ABBA-VOYAGE-20260723`. REVIEW must interpret and present the captured
+external-tool evidence without modifying the staged copy or production. It must
+also state the concrete expected benefit to the resulting library before the
+transaction can proceed to APPROVE.
+
+## Permanent outcome rule
+
+Before beginning any sprint, answer:
+
+> Will this work leave the user's library in a measurably better state?
+
+If the answer is **No**, do not build it. Essential infrastructure is allowed
+only when it directly enables a defined, measurable library improvement.
+
+Each accepted capability must identify:
+
+- the concrete library problem;
+- the expected improvement;
+- the evidence that will verify it; and
+- the reversal path.
+
+This outcome rule takes precedence over feature count, abstraction,
+architectural elegance, dashboards and reports.
 
 ## Mandatory startup
 
@@ -83,8 +110,9 @@ The v1 modules remain frozen and untouched. D2 completed on 23 July 2026
 with transaction `D2-COPY-ABBA-VOYAGE-20260723`: 11 files, 10 audio files
 and 81,569,309 bytes copied from ABBA/Voyage. The retained source and
 destination manifests match by size and SHA-256 and the COPY report is PASS.
-The immediate next step is D3 FIX against this retained copy; production remains
-protected and must not be modified.
+D2 is complete. Its retained transaction is the commissioned input used by D3
+FIX and the current evidence source for D4 REVIEW. Production remains protected
+and must not be modified.
 
 ## v2 D3 FIX implementation checkpoint
 
