@@ -42,13 +42,12 @@ KINTYRE performs safe copy, production isolation, evidence, review, approval, ba
 ## Status
 
 v1 is released and frozen. The v2 documentation baseline, D1 toolchain
-inventory, D2 COPY, D3 FIX, D4 REVIEW and D5 APPROVE are complete. D2 through D5
-were commissioned against retained transaction `D2-COPY-ABBA-VOYAGE-20260723`.
-The retained REVIEW recommendation is PASS, the recorded album-level decision is
-APPROVED, approval evidence is immutable and bound to the exact REVIEW evidence,
-88 tests pass, and production remained untouched. D6 REPLACE is the active
-milestone. Target capability must never be documented as live before implementation
-and commissioning are complete.
+inventory, D2 COPY, D3 FIX, D4 REVIEW, D5 APPROVE, D6 REPLACE and D7 CHECK are
+complete. The retained commissioning transaction
+`D2-COPY-ABBA-VOYAGE-20260723` progressed through the complete evidence chain.
+The workflow is now COPY → FIX → REVIEW → APPROVE → REPLACE → CHECK. Target
+capability must never be documented as live before implementation and
+commissioning are complete.
 
 ### Verified D1 toolchain
 
