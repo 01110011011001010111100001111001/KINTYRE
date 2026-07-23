@@ -102,7 +102,9 @@ Music Assistant representation, and defines the final certification boundary.
 
 ## D8 — First bounded production album
 
-Run the full workflow on one approved representative album and retain complete evidence.
+Complete. The full workflow was executed on retained transaction
+`D2-COPY-ABBA-VOYAGE-20260723`. COPY, FIX, REVIEW, APPROVE, REPLACE and CHECK
+evidence were retained, with production change and verification completed.
 
 ## D9 — Bounded contemporary batches
 
