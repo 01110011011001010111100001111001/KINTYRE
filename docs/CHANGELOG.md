@@ -2,8 +2,16 @@
 
 ## Unreleased — v2 simplified architecture baseline
 
+### Added
+
+- Completed the D1 read-only OSS toolchain inventory.
+- Recorded verified executable paths and versions for Python, Beets, MusicBrainz Picard, Chromaprint and FFprobe.
+- Proved a fully isolated Beets invocation with unchanged source checksum, no copied media and no production access.
+
 ### Changed
 
+- Advanced the immediate v2 milestone from D1 inventory to D2 COPY.
+- Documented that Beets must be invoked with explicit no-copy, no-move, no-write and no-autotag controls when used for isolated inspection.
 - Replaced the discarded certification-platform architecture with `COPY → FIX → REVIEW → APPROVE → REPLACE → CHECK`.
 - Established one album as the transaction, approval, replacement and rollback boundary.
 - Reduced KINTYRE's target responsibility to orchestration, safety, evidence, approval, backup, replacement, rollback and checking.

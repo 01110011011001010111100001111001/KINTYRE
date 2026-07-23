@@ -14,7 +14,9 @@ Replace the discarded certification-platform model with `COPY → FIX → REVIEW
 
 ## D1 — Read-only toolchain inventory
 
-Record exact installed versions, paths, plugins, configuration, write/move/copy/rename/delete settings and isolated invocation capability for proposed OSS tools. No unverified capability is treated as fact.
+Status: Complete — 23 July 2026
+
+Recorded exact installed versions, paths, plugins and effective configuration for the proposed OSS toolchain. Verified that no Beets or Picard configuration references `/data/Music`. Proved an isolated Beets invocation using explicit no-copy, no-move, no-write and no-autotag controls: the disposable source checksum remained unchanged, no media was copied, one isolated database record was created and the production repository remained clean.
 
 ## D2 — COPY
 
