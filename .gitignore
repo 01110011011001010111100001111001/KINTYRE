@@ -54,6 +54,9 @@ runtime/apply/*
 !runtime/approval/.gitkeep
 !runtime/apply/.gitkeep
 
+# v2 transaction workspaces (system-drive runtime evidence)
+runtime/staging/transactions/
+
 # Local commissioning and Music Assistant snapshots
 runtime/fixtures/
 runtime/ma-db-*/

@@ -66,3 +66,20 @@ Implement roadmap D2 COPY for one representative CONTEMPORARY album. Begin with 
 ## Mandatory startup
 
 Read relevant documentation; inspect branch, commit, tags, status, source and tests; run tests when feasible; verify live dependencies; label facts and unknowns; deliver the smallest complete change with atomic commands; protect production; update docs and tests; verify diff, secrets, tests, commit, push and clean status.
+
+## v2 D2 COPY implementation checkpoint
+
+The COPY stage is implemented in `src/copy_album.py`; do not name it `src/copy.py`
+because `src/` is inserted before the standard library during tests and that name
+would shadow Python's `copy` module.
+
+COPY accepts exactly one album below the configured CONTEMPORARY root, rejects
+path escape, traversal, symbolic links and special files, copies the complete
+directory into `runtime/staging/transactions/<transaction-id>/album`, writes
+read-only source and destination manifests, verifies sizes and SHA-256 hashes,
+and writes a deterministic sorted JSON report. It never writes production.
+
+The v1 modules remain frozen and untouched. D2 is not complete until one
+representative production album has been copied read-only and the retained
+transaction evidence has been reviewed. The immediate next step is that bounded
+D2 commissioning run; do not begin FIX.

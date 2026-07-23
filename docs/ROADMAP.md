@@ -22,6 +22,9 @@ Recorded exact installed versions, paths, plugins and effective configuration fo
 
 Select one representative CONTEMPORARY album, create an isolated system-drive transaction, record an immutable source manifest and copy the complete album without changing production.
 
+
+D2 implementation checkpoint — 23 July 2026: `src/copy_album.py` now implements isolated, verified, read-only album COPY transactions with immutable manifests and security checks. Unit coverage is present. D2 remains open until one representative CONTEMPORARY album is copied and its retained evidence is reviewed.
+
 ## D3 — FIX
 
 Run one verified OSS workflow against the copy and capture exact evidence. Do not build a generic adapter framework.

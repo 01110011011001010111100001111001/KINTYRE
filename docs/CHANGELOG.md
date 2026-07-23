@@ -20,6 +20,12 @@
 - Replaced the previous multi-engine roadmap with thin vertical milestones.
 - Deferred dashboards, generic frameworks, policy engines, custom metadata intelligence, AI matching and multi-user work.
 
+
+### Added
+- Implemented the v2 COPY transaction engine for one CONTEMPORARY album.
+- Added complete-directory copying, immutable manifests, SHA-256 verification, path/symlink protection and deterministic JSON evidence.
+- Added unit tests for successful copying, source isolation, symlink rejection, transaction collision and transaction-ID traversal rejection.
+
 ## v1.0 — 17 July 2026
 
 Released the deterministic Scan, Metadata Audit, Analysis, Preview, Approval and Apply baseline with backup, rollback, verification and automated tests. Post-v1 work added Music Assistant artwork commissioning, read-only artwork verification and engineering continuity documentation.
