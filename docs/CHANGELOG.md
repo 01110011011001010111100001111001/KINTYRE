@@ -53,6 +53,10 @@
 - Limited KINTYRE to orchestration, safety, evidence, approval, backup, replacement, rollback and checking.
 - Froze v1 as the historical implementation baseline.
 - Deferred dashboards, generic frameworks, policy engines, custom metadata intelligence, AI matching and multi-user work.
+- Implemented D6 REPLACE with verified production before-state checks, complete
+  backup validation, bounded album replacement and rollback evidence.
+- Implemented D7 CHECK with certification validation of files, metadata, artwork,
+  audio essence and Music Assistant representation.
 
 ## v1.0 — 17 July 2026
 
