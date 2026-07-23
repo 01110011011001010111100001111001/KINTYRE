@@ -103,11 +103,15 @@ APPROVE consumes only successful immutable REVIEW evidence, revalidates the stag
 
 ### REPLACE
 
-Revalidate the production before-state, verify backup capacity, create and verify a complete backup, then replace the album as one bounded operation. Any partial failure triggers whole-album rollback.
+Implemented. REPLACE revalidates the production before-state, verifies backup
+capacity, creates and verifies a complete backup, then replaces the album as one
+bounded operation. Any partial failure triggers whole-album rollback.
 
 ### CHECK
 
-Verify expected files, readability, approved metadata/artwork, unchanged audio essence, absence of unapproved changes and intended Music Assistant representation.
+Implemented. CHECK verifies expected files, readability, approved
+metadata/artwork, unchanged audio essence, absence of unapproved changes and
+intended Music Assistant representation.
 
 ## Simplicity constraint
 
