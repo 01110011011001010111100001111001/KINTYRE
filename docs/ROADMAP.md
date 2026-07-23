@@ -75,9 +75,19 @@ warning-only metadata unavailability. The full repository suite passes:
 
 ## D5 — APPROVE
 
-Status: Active
+Status: Complete — 23 July 2026
 
-Persist an album-level decision tied to the exact reviewed evidence. Any change invalidates approval.
+`src/approve_transaction.py` consumes only successful immutable REVIEW evidence,
+records one album-level `PENDING`, `APPROVED`, `REJECTED` or `DEFERRED` decision,
+and binds it to the exact REVIEW files and staged album through SHA-256 and
+manifest digests. It independently revalidates the staged album against the FIX
+after-manifest, refuses missing or non-PASS REVIEW evidence, and never overwrites
+an existing approval. APPROVE modifies neither staged media nor production. Seven
+focused tests cover the stage contract. Commissioning completed successfully
+against retained transaction `D2-COPY-ABBA-VOYAGE-20260723`: REVIEW status and
+recommendation were PASS, operator Richard recorded APPROVED, the immutable
+approval report was verified against the exact REVIEW evidence, all 88 tests
+passed, and production remained untouched.
 
 ## D6 — REPLACE
 

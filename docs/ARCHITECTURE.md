@@ -2,7 +2,7 @@
 
 ## Status
 
-This document defines the v2 architecture. The released v1 implementation remains a frozen historical baseline. D1 through D4 are implemented; D5 APPROVE is the active milestone.
+This document defines the v2 architecture. The released v1 implementation remains a frozen historical baseline. D1 through D5 are implemented and commissioned; D6 REPLACE is the active milestone.
 
 ## Outcome principle
 
@@ -98,6 +98,8 @@ audio essence. It does not make the human approval decision.
 ### APPROVE
 
 Record `PENDING`, `APPROVED`, `REJECTED` or `DEFERRED`. Approval is tied to the exact reviewed source and proposed manifests. Any later working-copy change invalidates it.
+
+APPROVE consumes only successful immutable REVIEW evidence, revalidates the staged album against the retained FIX after-manifest, and writes one immutable `approval/approval-report.json`. The report records the exact REVIEW evidence SHA-256 digests and staged manifest digest. APPROVE never modifies staged or production media and never overwrites an existing decision.
 
 ### REPLACE
 

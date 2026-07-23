@@ -2,7 +2,7 @@
 
 **Repository:** `https://github.com/01110011011001010111100001111001/KINTYRE`
 **Released baseline:** v1
-**Active direction:** v2 implementation — D5 APPROVE
+**Active direction:** v2 implementation — D6 REPLACE
 
 > Repository, tests and live evidence outrank memory. No guessing—ever.
 
@@ -42,12 +42,12 @@ KINTYRE performs safe copy, production isolation, evidence, review, approval, ba
 ## Status
 
 v1 is released and frozen. The v2 documentation baseline, D1 toolchain
-inventory, D2 COPY, D3 FIX and D4 REVIEW implementation are complete. D2 and D3
-were commissioned against retained transaction `D2-COPY-ABBA-VOYAGE-20260723`;
-81 tests pass. D5 APPROVE is the active milestone. D4 has been implementation-
-validated but has not yet been commissioned against the retained production-derived
-transaction; do not claim commissioning until live REVIEW evidence has been generated
-and inspected. Target capability must never be documented as live before implementation
+inventory, D2 COPY, D3 FIX, D4 REVIEW and D5 APPROVE are complete. D2 through D5
+were commissioned against retained transaction `D2-COPY-ABBA-VOYAGE-20260723`.
+The retained REVIEW recommendation is PASS, the recorded album-level decision is
+APPROVED, approval evidence is immutable and bound to the exact REVIEW evidence,
+88 tests pass, and production remained untouched. D6 REPLACE is the active
+milestone. Target capability must never be documented as live before implementation
 and commissioning are complete.
 
 ### Verified D1 toolchain
@@ -68,10 +68,11 @@ and commissioning are complete.
 
 ## Immediate next step
 
-Begin roadmap D5 APPROVE. It must consume only successful immutable D4 REVIEW
-evidence, persist an explicit album-level decision tied to the exact reviewed
-transaction and evidence digests, and never modify the staged album or production.
-Any change to the reviewed transaction must invalidate approval.
+Begin roadmap D6 REPLACE with repository-first inspection. D6 must consume
+only a currently valid exact D5 approval, revalidate the authoritative production
+before-state, create and verify a complete backup, perform one bounded album
+replacement, and prove whole-album rollback without weakening the established
+COPY → FIX → REVIEW → APPROVE evidence chain.
 
 ## Permanent outcome rule
 
@@ -170,3 +171,25 @@ Six D4 tests cover successful certification, audio-essence blocking, overwrite
 protection, missing FIX evidence, all supported audio extensions and warning-only
 metadata unavailability. The complete repository suite passes: 81 tests.
 Production remains untouched. D4 implementation is complete; D5 APPROVE is next.
+
+
+## v2 D5 APPROVE implementation checkpoint
+
+The APPROVE stage is implemented in `src/approve_transaction.py`. It accepts only
+an existing transaction with successful immutable D4 REVIEW evidence and a valid
+`PENDING`, `APPROVED`, `REJECTED` or `DEFERRED` album-level decision. It verifies
+transaction identity, requires PASS in both the REVIEW report and findings, and
+revalidates the current staged album against the retained FIX after-manifest.
+
+APPROVE writes one immutable `approval/approval-report.json` containing the
+decision, optional operator, exact REVIEW evidence paths and SHA-256 digests, the
+FIX after-manifest digest and the current staged-album manifest digest. Existing
+approval evidence is never overwritten. The stage modifies neither staged media
+nor production. Seven focused tests cover successful recording, non-PASS REVIEW,
+missing evidence, changed staged content, overwrite protection, invalid decisions
+and exact evidence binding. Commissioning completed successfully on 23 July
+2026 against retained transaction `D2-COPY-ABBA-VOYAGE-20260723`. The REVIEW
+status and recommendation were PASS, operator Richard recorded the album-level
+decision APPROVED, `approval/approval-report.json` was verified read-only and
+bound to the exact REVIEW evidence, all 88 tests passed, and production remained
+untouched. D5 is complete; D6 REPLACE is next.
