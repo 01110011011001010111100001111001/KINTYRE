@@ -61,7 +61,7 @@ v1 is released and frozen. The v2 documentation baseline and roadmap D1 toolchai
 
 ## Immediate next step
 
-Commission roadmap D3 FIX against retained transaction `D2-COPY-ABBA-VOYAGE-20260723`. Inspect the exact Beets output and retained evidence before declaring D3 complete. Do not invoke external tagging against production.
+Begin roadmap D4 REVIEW using the retained D3 FIX evidence from transaction `D2-COPY-ABBA-VOYAGE-20260723`. REVIEW must interpret and present the captured external-tool evidence without modifying the staged copy or production.
 
 ## Mandatory startup
 
@@ -99,5 +99,14 @@ set, changed audio essence or non-zero Beets exit produces retained FAIL
 evidence. Production is never provided to Beets.
 
 The module is deliberately one verified workflow, not a generic adapter
-framework. D3 is an implementation checkpoint until commissioned against
-`D2-COPY-ABBA-VOYAGE-20260723`.
+framework.
+
+D3 commissioning completed successfully on 23 July 2026 against retained
+transaction `D2-COPY-ABBA-VOYAGE-20260723`. Beets 2.12.0 reported a 100% match
+for ABBA — Voyage using MusicBrainz release
+`034779cb-e14d-4845-a9db-6001c635928d`. All 10 staged audio files received
+metadata changes. The complete file set was preserved, ffprobe audio
+packet-data hashes were identical before and after, Beets exited with status 0,
+no verification errors were recorded, all evidence under `fix/` was made
+read-only, and 75 tests passed. Production remained untouched. D3 is complete;
+D4 REVIEW is next.

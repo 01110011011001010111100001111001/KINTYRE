@@ -1,10 +1,14 @@
-## 23 July 2026 — v2 D3 FIX implementation checkpoint
+## 23 July 2026 — v2 D3 FIX completed
 
 - Added `src/fix_album.py`, a bounded Beets/MusicBrainz FIX workflow for retained COPY transactions.
 - Added isolated tool configuration, database and cache plus immutable execution evidence.
 - Added before/after file manifests and ffprobe packet-data verification to protect audio essence.
 - Added five FIX tests covering isolation, COPY-evidence validation, audio-integrity failure and evidence collision.
-- D3 remains pending production commissioning against the retained ABBA/Voyage transaction.
+- Commissioned FIX against retained transaction `D2-COPY-ABBA-VOYAGE-20260723`.
+- Beets 2.12.0 produced a 100% MusicBrainz match for ABBA — Voyage using release `034779cb-e14d-4845-a9db-6001c635928d`.
+- All 10 staged audio files received metadata changes while ffprobe packet-data hashes remained unchanged.
+- Beets exited with status 0, no verification errors were recorded, all evidence was retained read-only, and 75 tests passed.
+- Production remained untouched. D3 is complete and D4 REVIEW is next.
 
 # KINTYRE Changelog
 

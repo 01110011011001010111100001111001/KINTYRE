@@ -27,7 +27,9 @@ D2 completed — 23 July 2026: `src/copy_album.py` implements isolated, verified
 
 ## D3 — FIX
 
-Implementation checkpoint — 23 July 2026: `src/fix_album.py` runs one bounded Beets/MusicBrainz workflow against a retained successful COPY transaction only. It uses an isolated configuration, database and cache; disables copy, move and resume; writes only the staged album; captures executable, version, invocation, configuration fingerprint, stdout, stderr and exit state; and verifies the complete file set and ffprobe packet-data hashes before and after execution. Ambiguous quiet-mode matches are skipped. Production is never passed to the external tool. Commissioning remains required before D3 is complete.
+Completed — 23 July 2026: `src/fix_album.py` runs one bounded Beets/MusicBrainz workflow against a retained successful COPY transaction only. It uses an isolated configuration, database and cache; disables copy, move and resume; writes only the staged album; captures executable, version, invocation, configuration fingerprint, stdout, stderr and exit state; and verifies the complete file set and ffprobe packet-data hashes before and after execution. Ambiguous quiet-mode matches are skipped. Production is never passed to the external tool.
+
+Commissioning succeeded against retained transaction `D2-COPY-ABBA-VOYAGE-20260723`. Beets 2.12.0 produced a 100% MusicBrainz match for ABBA — Voyage using release `034779cb-e14d-4845-a9db-6001c635928d`. All 10 staged audio files received metadata changes, the audio packet-data hashes remained unchanged, Beets exited with status 0, no verification errors were recorded, all FIX evidence was retained read-only, and 75 tests passed.
 
 ## D4 — REVIEW
 
