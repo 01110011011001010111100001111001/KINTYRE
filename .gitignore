@@ -60,3 +60,12 @@ runtime/staging/transactions/
 # Local commissioning and Music Assistant snapshots
 runtime/fixtures/
 runtime/ma-db-*/
+
+# KINTYRE generated runtime data
+runtime/staging/
+runtime/replacement/
+runtime/music-assistant/
+
+# Keep directory structure
+!runtime/.gitkeep
+!runtime/**/.gitkeep
