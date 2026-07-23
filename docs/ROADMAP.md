@@ -27,7 +27,7 @@ D2 completed — 23 July 2026: `src/copy_album.py` implements isolated, verified
 
 ## D3 — FIX
 
-Run one verified OSS workflow against the copy and capture exact evidence. Do not build a generic adapter framework.
+Implementation checkpoint — 23 July 2026: `src/fix_album.py` runs one bounded Beets/MusicBrainz workflow against a retained successful COPY transaction only. It uses an isolated configuration, database and cache; disables copy, move and resume; writes only the staged album; captures executable, version, invocation, configuration fingerprint, stdout, stderr and exit state; and verifies the complete file set and ffprobe packet-data hashes before and after execution. Ambiguous quiet-mode matches are skipped. Production is never passed to the external tool. Commissioning remains required before D3 is complete.
 
 ## D4 — REVIEW
 

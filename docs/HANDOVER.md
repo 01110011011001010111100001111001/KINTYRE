@@ -61,7 +61,7 @@ v1 is released and frozen. The v2 documentation baseline and roadmap D1 toolchai
 
 ## Immediate next step
 
-Implement roadmap D3 FIX against the retained representative COPY transaction. Begin with repository-first inspection of the existing source, tests, configuration and runtime-path conventions. Do not implement FIX or invoke external tagging against production.
+Commission roadmap D3 FIX against retained transaction `D2-COPY-ABBA-VOYAGE-20260723`. Inspect the exact Beets output and retained evidence before declaring D3 complete. Do not invoke external tagging against production.
 
 ## Mandatory startup
 
@@ -85,3 +85,19 @@ and 81,569,309 bytes copied from ABBA/Voyage. The retained source and
 destination manifests match by size and SHA-256 and the COPY report is PASS.
 The immediate next step is D3 FIX against this retained copy; production remains
 protected and must not be modified.
+
+## v2 D3 FIX implementation checkpoint
+
+The FIX stage is implemented in `src/fix_album.py`. It accepts only an existing
+successful COPY transaction, verifies that `album/` still matches immutable D2
+destination evidence, and invokes Beets with an isolated configuration, library
+database and cache. Copying, moving and resume are disabled; quiet fallback
+skips ambiguity. The exact executable, version, command, configuration digest,
+stdout, stderr, exit code, before/after manifests and ffprobe audio packet-data
+hashes are retained under `transaction/fix/` and made read-only. A changed file
+set, changed audio essence or non-zero Beets exit produces retained FAIL
+evidence. Production is never provided to Beets.
+
+The module is deliberately one verified workflow, not a generic adapter
+framework. D3 is an implementation checkpoint until commissioned against
+`D2-COPY-ABBA-VOYAGE-20260723`.

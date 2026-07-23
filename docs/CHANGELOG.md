@@ -1,3 +1,11 @@
+## 23 July 2026 — v2 D3 FIX implementation checkpoint
+
+- Added `src/fix_album.py`, a bounded Beets/MusicBrainz FIX workflow for retained COPY transactions.
+- Added isolated tool configuration, database and cache plus immutable execution evidence.
+- Added before/after file manifests and ffprobe packet-data verification to protect audio essence.
+- Added five FIX tests covering isolation, COPY-evidence validation, audio-integrity failure and evidence collision.
+- D3 remains pending production commissioning against the retained ABBA/Voyage transaction.
+
 # KINTYRE Changelog
 
 ## Unreleased — v2 simplified architecture baseline
