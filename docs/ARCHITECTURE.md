@@ -2,7 +2,7 @@
 
 ## Status
 
-This document defines the target v2 architecture. The released v1 implementation remains a frozen historical baseline.
+This document defines the v2 architecture. The released v1 implementation remains a frozen historical baseline. D1 through D4 are implemented; D5 APPROVE is the active milestone.
 
 ## Outcome principle
 
@@ -90,8 +90,10 @@ REVIEW must answer four questions:
    downstream behaviour?
 4. Is the exact reviewed transaction ready to proceed to APPROVE?
 
-REVIEW records evidence and a recommendation. It does not make the human
-approval decision.
+REVIEW records immutable `review-report.json`, `review-findings.json` and
+`review-summary.md` evidence plus a PASS or BLOCK recommendation. It independently
+revalidates COPY/FIX evidence, staged manifests, supported-format metadata and
+audio essence. It does not make the human approval decision.
 
 ### APPROVE
 

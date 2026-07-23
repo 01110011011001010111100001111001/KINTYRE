@@ -29,7 +29,7 @@ resulting library, not by feature count or pipeline activity.
 
 ## D0 — Documentation baseline
 
-Status: Current
+Status: Complete — 23 July 2026
 
 Replace the discarded certification-platform model with `COPY → FIX → REVIEW → APPROVE → REPLACE → CHECK` across all documentation. Preserve accurate v1 facts while making v2 the target contract.
 
@@ -54,25 +54,28 @@ Commissioning succeeded against retained transaction `D2-COPY-ABBA-VOYAGE-202607
 
 ## D4 — REVIEW
 
-Produce deterministic machine-readable and human-readable review evidence from
-the retained successful COPY and FIX transaction. REVIEW performs no external
-tool invocation and modifies neither the staged album nor production.
+Completed — 23 July 2026: `src/review_album.py` produces deterministic,
+immutable machine-readable and human-readable review evidence from a retained
+successful COPY and FIX transaction. It performs no external remediation and
+modifies neither the staged album nor production.
 
-REVIEW must answer:
+REVIEW independently verifies transaction identity, evidence digests, the
+current staged manifest and unchanged ffprobe audio essence. For every
+configured supported audio extension it independently reads and compares album
+artist, artist, album, title, track, disc, genre, date, MusicBrainz identifiers
+and embedded artwork state. It records per-file differences, warnings,
+blockers, concrete expected library improvements and a PASS or BLOCK
+recommendation in `review-report.json`, `review-findings.json` and
+`review-summary.md`.
 
-1. What changed?
-2. Is the result trustworthy?
-3. How will the proposed changes measurably improve the resulting library and
-   downstream behaviour?
-4. Is the exact reviewed transaction ready to proceed to APPROVE?
-
-It must present identity and release evidence, metadata and artwork differences,
-file-layout effects, audio-integrity verification, ambiguity, warnings,
-expected library outcomes and a clear recommendation. Unexpected, unexplained
-or non-beneficial changes are blocking. REVIEW recommends; D5 APPROVE alone
-records the human decision.
+Six tests cover successful certification, audio-essence blocking, immutable
+overwrite protection, missing FIX evidence, all supported audio extensions and
+warning-only metadata unavailability. The full repository suite passes:
+81 tests. REVIEW recommends; D5 APPROVE alone records the human decision.
 
 ## D5 — APPROVE
+
+Status: Active
 
 Persist an album-level decision tied to the exact reviewed evidence. Any change invalidates approval.
 

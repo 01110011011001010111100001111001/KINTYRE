@@ -2,7 +2,7 @@
 
 **Repository:** `https://github.com/01110011011001010111100001111001/KINTYRE`
 **Released baseline:** v1
-**Active direction:** v2 documentation-first redesign
+**Active direction:** v2 implementation — D5 APPROVE
 
 > Repository, tests and live evidence outrank memory. No guessing—ever.
 
@@ -42,10 +42,13 @@ KINTYRE performs safe copy, production isolation, evidence, review, approval, ba
 ## Status
 
 v1 is released and frozen. The v2 documentation baseline, D1 toolchain
-inventory, D2 COPY and D3 FIX are complete. D2 and D3 were commissioned against
-retained transaction `D2-COPY-ABBA-VOYAGE-20260723`; 75 tests pass. D4 REVIEW is
-the active milestone. Target capability must never be documented as live before
-implementation and commissioning are complete.
+inventory, D2 COPY, D3 FIX and D4 REVIEW implementation are complete. D2 and D3
+were commissioned against retained transaction `D2-COPY-ABBA-VOYAGE-20260723`;
+81 tests pass. D5 APPROVE is the active milestone. D4 has been implementation-
+validated but has not yet been commissioned against the retained production-derived
+transaction; do not claim commissioning until live REVIEW evidence has been generated
+and inspected. Target capability must never be documented as live before implementation
+and commissioning are complete.
 
 ### Verified D1 toolchain
 
@@ -65,11 +68,10 @@ implementation and commissioning are complete.
 
 ## Immediate next step
 
-Begin roadmap D4 REVIEW using the retained D3 FIX evidence from transaction
-`D2-COPY-ABBA-VOYAGE-20260723`. REVIEW must interpret and present the captured
-external-tool evidence without modifying the staged copy or production. It must
-also state the concrete expected benefit to the resulting library before the
-transaction can proceed to APPROVE.
+Begin roadmap D5 APPROVE. It must consume only successful immutable D4 REVIEW
+evidence, persist an explicit album-level decision tied to the exact reviewed
+transaction and evidence digests, and never modify the staged album or production.
+Any change to the reviewed transaction must invalidate approval.
 
 ## Permanent outcome rule
 
@@ -136,5 +138,35 @@ for ABBA — Voyage using MusicBrainz release
 metadata changes. The complete file set was preserved, ffprobe audio
 packet-data hashes were identical before and after, Beets exited with status 0,
 no verification errors were recorded, all evidence under `fix/` was made
-read-only, and 75 tests passed. Production remained untouched. D3 is complete;
-D4 REVIEW is next.
+read-only, and 75 tests passed. Production remained untouched. D3 is complete.
+
+## v2 D4 REVIEW implementation checkpoint
+
+The REVIEW stage is implemented in `src/review_album.py`. It accepts only an
+existing transaction with successful COPY and FIX evidence, independently
+revalidates retained evidence and the current staged album, and performs no
+external remediation or write to staged or production media.
+
+REVIEW reads metadata independently for every configured supported audio
+extension and compares authoritative and staged values for album artist, artist,
+album, title, track, disc, genre, date, MusicBrainz identifiers and embedded
+artwork state. It verifies transaction consistency, manifest digests, staged
+file integrity and unchanged ffprobe audio essence. Metadata that cannot be read
+is retained as a warning; missing or inconsistent required evidence, changed
+audio essence, unexpected file changes and unexplained or non-beneficial changes
+block progression.
+
+The stage writes immutable transaction-scoped evidence under `review/`:
+
+- `review-report.json` — canonical stage status, recommendation, evidence links,
+  counts, warnings and blockers;
+- `review-findings.json` — deterministic per-file metadata differences and
+  identified library improvements;
+- `review-summary.md` — human-readable review of changes, trust, expected benefit
+  and readiness for approval.
+
+REVIEW recommends `PASS` or `BLOCK`; it never records the human decision.
+Six D4 tests cover successful certification, audio-essence blocking, overwrite
+protection, missing FIX evidence, all supported audio extensions and warning-only
+metadata unavailability. The complete repository suite passes: 81 tests.
+Production remains untouched. D4 implementation is complete; D5 APPROVE is next.

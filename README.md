@@ -35,9 +35,9 @@ One album is one transaction.
 
 The released v1 code provides Scan, Metadata Audit, Analysis, Preview, Approval, Apply, backup, rollback, verification and Music Assistant artwork utilities. It remains the historical baseline but is not the future architecture.
 
-### v2 — documentation-first redesign
+### v2 — active implementation
 
-v2 replaces the expanding internal-engine design with the six-stage album workflow above. The documentation is the implementation contract. v2 code begins only after this baseline is approved.
+The v2 workflow is under active implementation. D1 toolchain inventory, D2 COPY, D3 FIX and D4 REVIEW are complete and covered by 81 passing tests. D5 APPROVE is the active milestone. Production remains unchanged through the implemented COPY, FIX and REVIEW stages.
 
 ## Documentation
 

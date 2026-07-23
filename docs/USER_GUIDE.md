@@ -2,7 +2,7 @@
 
 ## Status
 
-This guide defines target v2 operation. Current v1 commands remain available through their built-in `--help` until v2 stage commands exist.
+This guide defines v2 operation. COPY, FIX and REVIEW are implemented; D5 APPROVE is the active milestone. Current v1 commands remain available through their built-in `--help`.
 
 ## Rule
 
@@ -12,7 +12,7 @@ Never allow an identification or tagging tool to work directly on `/data/Music`.
 
 1. **COPY** — select exactly one album; record its production before-state; copy it to an isolated system-drive transaction.
 2. **FIX** — run the verified OSS workflow against the copy only.
-3. **REVIEW** — inspect every metadata, artwork, file-layout, identifier, track-mapping and audio-integrity change.
+3. **REVIEW** — run `python src/review_album.py <transaction-id>` to independently verify COPY/FIX evidence, inspect metadata and artwork differences across all supported audio formats, confirm unchanged audio essence, and generate immutable `review-report.json`, `review-findings.json` and `review-summary.md` evidence. A PASS recommendation permits consideration by APPROVE; BLOCK stops the transaction.
 4. **APPROVE** — approve, reject or defer the exact reviewed transaction.
 5. **REPLACE** — revalidate production, verify a complete backup and replace the album as one action.
 6. **CHECK** — verify files, tags, artwork, audio essence and Music Assistant.

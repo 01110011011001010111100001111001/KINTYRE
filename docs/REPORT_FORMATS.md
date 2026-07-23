@@ -16,7 +16,20 @@ Tool name/path/version, redacted configuration fingerprint, arguments, times, ex
 
 ## REVIEW
 
-Before/after inventory, metadata changes, artwork validation, track mapping, audio-integrity evidence, unexpected changes, ambiguity, blockers and proposed manifest hash.
+REVIEW writes immutable evidence under `transactions/<transaction-id>/review/`.
+
+- `review-report.json` is canonical and records schema/stage/status,
+  recommendation, transaction paths, evidence digests, counts, warnings,
+  blockers, expected improvements and generated evidence references.
+- `review-findings.json` records deterministic per-file before/after metadata
+  differences, embedded artwork state, identity changes and identified library
+  improvements.
+- `review-summary.md` presents the same result for human review: what changed,
+  whether the result is trustworthy, the expected measurable library benefit
+  and whether the transaction is ready for APPROVE.
+
+A successful REVIEW recommendation is `PASS`; blocking evidence produces
+`BLOCK`. REVIEW never records the human approval decision.
 
 ## APPROVE
 
