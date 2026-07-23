@@ -2,7 +2,7 @@
 
 ## Status
 
-This guide defines v2 operation. COPY, FIX and REVIEW are implemented; D5 APPROVE is the active milestone. Current v1 commands remain available through their built-in `--help`.
+This guide defines v2 operation. COPY, FIX, REVIEW, APPROVE, REPLACE and CHECK are implemented stages of the workflow. Current v1 commands remain available through their built-in `--help`.
 
 ## Rule
 
