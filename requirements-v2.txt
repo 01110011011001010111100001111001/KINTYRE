@@ -1,0 +1,7 @@
+beets
+mutagen
+pyacoustid
+Pillow
+musicbrainzngs
+requests
+PyYAML

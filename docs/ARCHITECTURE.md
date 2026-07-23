@@ -1,118 +1,82 @@
-# KINTYRE Architecture
+# KINTYRE v2 Architecture
 
-**Version:** 1.0
+## Status
 
-**Status:** Released
+This document defines the target v2 architecture. The released v1 implementation remains a frozen historical baseline.
 
-## Purpose
-
-KINTYRE is a deterministic, audit-first platform for commissioning and maintaining music libraries consumed by Music Assistant. The media library is authoritative. Music Assistant is a rebuildable consumer.
-
-## Principles
-
-- Protect source media.
-- Separate observation from modification.
-- Require explicit approval before Apply.
-- Keep generated data off the media drive.
-- Preserve decision and execution history.
-- Prefer conservative, reversible operations.
-- Certify identity-changing operations before production use.
-
-## Storage separation
-
-The media drive contains media only. The system drive contains source code, configuration, virtual environments, reports, indexes, approvals, audit records, logs, caches, staging, backups and application databases.
-
-## Pipeline
+## Architectural model
 
 ```text
-Media Library → Scan → Metadata Audit → Analysis → Preview → Approval → Apply → Verification
+Authoritative album in /data/Music
+                │
+                ▼
+              COPY
+                │
+                ▼
+        isolated working copy
+                │
+                ▼
+               FIX
+        verified external OSS
+                │
+                ▼
+             REVIEW
+      before/after + evidence
+                │
+                ▼
+            APPROVE
+       explicit album decision
+                │
+                ▼
+            REPLACE
+     backup + bounded replacement
+                │
+                ▼
+              CHECK
+ library + Music Assistant + rollback proof
 ```
 
-## Engine responsibilities
+The stage names are the architecture. Internal code serves these stages rather than creating a second conceptual platform.
 
-| Engine | Responsibility | Writes media |
-|---|---|---:|
-| Scan | Discover configured media and build indexes | No |
-| Metadata Audit | Read supported tags and report findings | No |
-| Analysis | Aggregate findings | No |
-| Preview | Produce deterministic proposed actions | No |
-| Approval | Record decisions and export approved actions | No |
-| Apply | Validate and execute approved actions | Yes |
-| Verification | Rescan, re-audit and inspect results | No |
+## Transaction boundary
 
-## Format boundaries
+One album directory is one transaction. It contains the source manifest, working copy, tool/version/configuration evidence, before/after review, decision, backup, replacement result, CHECK result and rollback result when used.
 
-Format support is deliberately layered.
+Per-file details remain visible, but approval and replacement occur at album level.
 
-1. `SUPPORTED_AUDIO_EXTENSIONS` in `src/common.py` is the core discovery set.
-2. Scan uses the subset enabled by `scan.include` in `config/config.yaml`.
-3. Metadata Audit has its own explicit readable-extension set.
-4. Apply has a narrower writable set: `.flac`, `.mp3`, `.m4a`, `.m4b` and `.mp4`.
+## Trust boundaries
 
-This prevents the system from treating discovery support as permission or capability to write tags.
+- `/data/Music` is authoritative and protected.
+- Workspaces, caches, logs, reports and backups remain on the system drive.
+- External tools may modify only the working copy.
+- Music Assistant is checked after replacement but is not the identity authority.
 
-## Preview Engine
+## Stage contracts
 
-Canonical directory: `runtime/preview/`.
+### COPY
 
-Primary outputs:
+Validate the selected production album, record the before-state, copy the complete album and prove production remained unchanged.
 
-- `preview-summary.json`
-- `apply-plan.json`
-- `albumartist-fixes.csv`
-- `review-summary.json`
+### FIX
 
-## Approval Engine
+Run verified OSS only against the copy. Capture executable, version, invocation, configuration fingerprint, logs and exit state. Preserve audio essence and unresolved ambiguity.
 
-States are `PENDING`, `APPROVED`, `REJECTED` and `DEFERRED`.
+### REVIEW
 
-The engine supports:
+Show all file, metadata, artwork, identity, track-mapping and audio-integrity differences. Unexpected or unexplained changes block approval.
 
-- one action selected by ID;
-- filtered batches using exact and contains operators;
-- logical AND across repeated filters;
-- explicit whole-plan selection with `--all`;
-- idempotent decisions;
-- reset to `PENDING`;
-- atomic persistence;
-- approved-action export;
-- append-only audit events.
+### APPROVE
 
-Exactly one selector type is accepted for a decision command. Outputs are stored under `runtime/approval/`.
+Record `PENDING`, `APPROVED`, `REJECTED` or `DEFERRED`. Approval is tied to the exact reviewed source and proposed manifests. Any later working-copy change invalidates it.
 
-## Apply Engine
+### REPLACE
 
-Apply consumes `runtime/approval/approved-actions.json`. Running without `--execute` is dry run. Live writes require both `--execute` and the exact confirmation phrase `I_APPROVE_KINTYRE_APPLY`.
+Revalidate the production before-state, verify backup capacity, create and verify a complete backup, then replace the album as one bounded operation. Any partial failure triggers whole-album rollback.
 
-Controls include validation, duplicate-target detection, blocked-transaction handling, backups, post-write verification, transaction rollback, batch rollback after a failure, non-zero failure status and Apply outcome audit events.
+### CHECK
 
-The released write operation is `ADD_ALBUMARTIST`; writable containers are FLAC, MP3 and MP4-family (`.m4a`, `.m4b`, `.mp4`). Outputs are stored under `runtime/apply/`.
+Verify expected files, readability, approved metadata/artwork, unchanged audio essence, absence of unapproved changes and intended Music Assistant representation.
 
-## Identity-changing operations
+## Simplicity constraint
 
-Changes to AlbumArtist, album title, artist identity, compilation status, MusicBrainz identifiers or folder identity can change consumer grouping. They must first be tested in a disposable certification environment with a separate Music Assistant instance and database.
-
-## Repository privacy
-
-Do not commit production inventories, media file lists, collection statistics, generated reports, commissioning evidence, backups, caches, databases, secrets or machine-specific private data.
-
-
-## Music Assistant artwork commissioning boundary
-
-`src/commission_artwork.py` is a consumer-side commissioning utility. It calls Music Assistant's authenticated HTTP/JSON-RPC API, inventories library albums and artists, and reads entity details to provoke normal metadata and image resolution. It never writes `/data/Music`, never opens the Music Assistant database, and does not bypass Music Assistant provider logic. Dry-run is the default; live operation requires an exact confirmation phrase. Runtime reports and resumable state remain on the system drive.
-
-## Artwork commissioning lifecycle
-
-```text
-Authoritative media library → deterministic metadata remediation → approved Apply → verification → Music Assistant rescan or rebuild → entity commissioning through the supported API → asynchronous Music Assistant enrichment → artwork verification and reconciliation
-```
-
-KINTYRE owns target enumeration, execution evidence, resumable state and reporting. Music Assistant owns provider selection, metadata resolution, image retrieval, image decoding and caching.
-
-A successful entity request is recorded as `TOUCHED`. This establishes API success only and is distinct from the later operational outcome of obtaining valid artwork.
-
-Commissioning cannot compensate for unresolved identity defects. Missing or incorrect Artist, AlbumArtist, album title, compilation state or external identifiers must return to the normal Audit → Analysis → Preview → Approval → Apply → Verify pipeline.
-
-## Integration evidence rule
-
-KINTYRE documentation and implementation must distinguish successful API communication, asynchronous downstream processing and independently verified final outcome. Claims about external-system behaviour must be supported by automated tests, verified upstream implementation or direct operational evidence.
+Do not introduce separate certification, comparator, policy, workspace-manager, promotion or adapter products. Small modules may perform those functions internally, but the public and architectural model remains the six-stage workflow.

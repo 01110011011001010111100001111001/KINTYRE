@@ -1,80 +1,31 @@
-# KINTYRE Installation Guide
+# KINTYRE Installation
 
-**Version:** 1.0
+## Status
 
-## Requirements
+The repository contains the released v1 implementation and the target documentation for v2. The v2 workflow is not yet implemented.
 
-- Linux
-- Python 3.12 or later
-- Git
-- A mounted music library
-
-## Install
+## Existing v1 environment
 
 ```bash
-git clone https://github.com/01110011011001010111100001111001/KINTYRE.git
-cd KINTYRE
+cd /home/richard/kintyre-dam
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
-```
-
-## Configure
-
-Review `config/config.yaml` before running the pipeline.
-
-- `storage.music_root` identifies the authoritative media root.
-- `libraries` defines logical libraries.
-- `scan.include` defines the active discovery extensions.
-- Runtime data, approvals, reports, logs, caches, staging and backups must remain on the system drive.
-
-The common discovery constants cover AAC, AIFF/AIF, ALAC, APE, DFF, DSF, FLAC, M4A, M4B, MP3, MP4, OGA, OGG, Opus, WAV, WMA and WavPack. Apply writes only FLAC, MP3, M4A, M4B and MP4 metadata.
-
-## Validate installation
-
-```bash
-python -m py_compile src/*.py tests/*.py
 python -m unittest discover -s tests -v
 ```
 
-## Run the complete workflow
+A successful v1 installation does not prove the v2 OSS toolchain is installed or configured.
 
-```bash
-python src/scan.py
-python src/audit_metadata.py
-python src/analyze_library.py
-python src/preview.py
-python src/approve.py init
-python src/approve.py approve --all
-python src/approve.py status
-python src/apply.py
-python src/apply.py --execute --confirm I_APPROVE_KINTYRE_APPLY
-python src/scan.py
-python src/audit_metadata.py
-```
+## v2 installation boundary
 
-`python src/apply.py` is dry-run mode. Do not run the live command unless the dry run reports zero blocked transactions and the approved actions have been reviewed.
+Before v2 implementation, perform a read-only inventory of exact versions, executable paths and configuration for proposed tools, including beets, Picard, Chromaprint/AcoustID, FFmpeg/ffprobe, Mutagen and image-validation tooling.
 
-## Approval alternatives
+No external tool may receive production write, move, rename or delete access. Its writable target must be an isolated system-drive copy.
 
-Approve one action:
+## Storage
 
-```bash
-python src/approve.py approve ACTION_ID
-```
-
-Approve matching actions using exact or contains filters:
-
-```bash
-python src/approve.py approve --filter 'action=ADD_ALBUMARTIST'
-python src/approve.py approve --filter 'folder~Artist Name' --filter 'action=ADD_ALBUMARTIST'
-```
-
-Approve every action explicitly:
-
-```bash
-python src/approve.py approve --all
-```
-
-Exactly one selector is allowed: an action ID, one or more `--filter` arguments, or `--all`.
+- Production media: `/data/Music`
+- Repository: `/home/richard/kintyre-dam`
+- v2 working data: system drive only
+- Never place workspaces, logs, caches, databases or backups on the media drive.

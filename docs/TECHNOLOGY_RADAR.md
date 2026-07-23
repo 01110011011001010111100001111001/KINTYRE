@@ -1,54 +1,17 @@
-# KINTYRE Technology Radar
-
-The radar is advisory. Adoption requires an ADR and test evidence.
+# KINTYRE v2 Technology Radar
 
 ## Adopt
 
-- FFmpeg / ffprobe
-- cryptographic hashing
-- MusicBrainz
-- Chromaprint
-- Pillow
-- Pydantic Settings
-- existing unittest coverage, with pytest compatibility where useful
+Python, Git, JSON transaction evidence, Mutagen, FFmpeg/ffprobe, filesystem manifests, system-drive workspaces and complete-album backup/rollback.
 
 ## Trial
 
-- NiceGUI
-- FastAPI
-- Grafana OSS
-- beets
-- MusicBrainz Picard
-- imagehash
-- rsgain
-- MkDocs Material
+beets, MusicBrainz Picard, MusicBrainz identifiers, Chromaprint/AcoustID, Cover Art Archive and Music Assistant reconciliation during CHECK.
 
 ## Assess
 
-- Streamlit
-- Prometheus-compatible metrics
-- Loki-compatible logging
-- Datasette
-- dupeGuru
-- rdfind
-- fdupes
-- ImageMagick
-- OpenCV
-- SQLite FTS5
-- APScheduler
-- Typer
-- librosa
-- OpenAI API for optional unresolved-metadata advice
-- Ollama for optional local metadata assistance
-- local language-model inference for privacy-sensitive metadata recovery
+Alternative artwork providers, decoded-audio hashing, filesystem snapshot/reflink assistance and a small local UI only after the command/service workflow is proven.
 
-## Hold unless justified
+## Hold
 
-- OpenSearch before SQLite search is proven insufficient
-- custom React frontend
-- custom fingerprint algorithms
-- direct Music Assistant database manipulation
-- global audio tuning when device-specific rules suffice
-- autonomous AI modification of the production library
-- AI as the primary metadata authority
-- AI suggestions that bypass Preview, Approval or certification
+Proprietary matching, generic adapter framework, generic policy engine, standalone certification engine, dashboard-first development, AI-first identification, direct Music Assistant database manipulation, multi-user platform and automatic production writes by external tools.

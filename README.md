@@ -1,73 +1,54 @@
 # KINTYRE
 
-Deterministic, audit-first commissioning and metadata management for Music Assistant libraries.
+KINTYRE is a safety and orchestration layer for repairing a production music library with mature open-source tools.
 
-## Release
+KINTYRE does not replace beets, MusicBrainz Picard, MusicBrainz, Chromaprint/AcoustID or the Cover Art Archive. Those tools perform music-domain identification and remediation. KINTYRE controls how their work reaches the authoritative library.
 
-Current stable release: **v1.0**
-
-## Workflow
+## Permanent v2 workflow
 
 ```text
-Scan → Metadata Audit → Analysis → Preview → Approval → Apply → Verification
+COPY → FIX → REVIEW → APPROVE → REPLACE → CHECK
 ```
 
-## Implemented in v1.0
+One album is one transaction.
 
-- Scan, Metadata Audit, Analysis and Preview engines
-- Four-state approval model: `PENDING`, `APPROVED`, `REJECTED`, `DEFERRED`
-- Single-action, filtered bulk and explicit all-action approval operations
-- Atomic approval persistence, approved-action export and append-only audit logging
-- Apply dry-run and explicitly confirmed live execution
-- FLAC, MP3 and MP4-family AlbumArtist metadata writes
-- Transaction backups, post-write verification and batch rollback on failure
-- Duplicate-target detection and automated regression/certification tests
+- **COPY** — copy one production album into an isolated system-drive workspace.
+- **FIX** — run verified OSS tools only against the copy.
+- **REVIEW** — show the complete before/after result and supporting evidence.
+- **APPROVE** — record an explicit album-level decision.
+- **REPLACE** — back up and replace the production album as one controlled action.
+- **CHECK** — verify files, tags, artwork, audio integrity and Music Assistant.
 
-## Supported media formats
+## Permanent boundaries
 
-KINTYRE deliberately distinguishes discovery from metadata writing.
+- `/data/Music` is the authoritative production library.
+- The data drive contains media/data only.
+- Applications, reports, logs, caches, staging, backups and temporary files remain on the system drive.
+- External remediation tools never receive production write access.
+- Ambiguous albums are deferred, never forced.
+- Music Assistant is a rebuildable downstream consumer.
+- Every replacement is reviewable, approved, traceable and reversible.
 
-- **Core discovery set:** AAC, AIFF/AIF, ALAC, APE, DFF, DSF, FLAC, M4A, M4B, MP3, MP4, OGA, OGG, Opus, WAV, WMA and WavPack. The active Scan set is configured by `scan.include` in `config/config.yaml`.
-- **Metadata Audit:** reads the formats explicitly supported by `src/audit_metadata.py`.
-- **Apply writes:** `.flac`, `.mp3`, `.m4a`, `.m4b` and `.mp4` only.
+## Project status
 
-A format being discoverable or auditable does not imply that Apply can write it.
+### v1 — frozen historical baseline
 
-## Safety model
+The released v1 code provides Scan, Metadata Audit, Analysis, Preview, Approval, Apply, backup, rollback, verification and Music Assistant artwork utilities. It remains the historical baseline but is not the future architecture.
 
-The media library is authoritative and protected. Scan, Metadata Audit, Analysis, Preview and Approval are read-only with respect to media. Only Apply may modify metadata, and only for actions exported as `APPROVED`.
+### v2 — documentation-first redesign
 
-Applications, reports, logs, databases, caches, staging, backups and generated runtime files belong on the system drive. The media drive contains media only.
-
-## Complete command sequence
-
-```bash
-python src/scan.py
-python src/audit_metadata.py
-python src/analyze_library.py
-python src/preview.py
-python src/approve.py init
-python src/approve.py approve --all
-python src/approve.py status
-python src/apply.py
-python src/apply.py --execute --confirm I_APPROVE_KINTYRE_APPLY
-python src/scan.py
-python src/audit_metadata.py
-```
-
-Use `approve --all` only after reviewing the Preview plan. Running `apply.py` without `--execute` is the mandatory dry run.
+v2 replaces the expanding internal-engine design with the six-stage album workflow above. The documentation is the implementation contract. v2 code begins only after this baseline is approved.
 
 ## Documentation
 
-- [AI Engineering Handover](docs/HANDOVER.md)
-- [Installation](INSTALL.md)
+- [Vision](docs/VISION.md)
 - [Architecture](docs/ARCHITECTURE.md)
+- [Roadmap](docs/ROADMAP.md)
 - [User Guide](docs/USER_GUIDE.md)
 - [Developer Guide](docs/DEVELOPER_GUIDE.md)
+- [AI Engineering Handover](docs/HANDOVER.md)
+- [Technology Strategy](docs/TECHNOLOGY_STRATEGY.md)
+- [Technology Radar](docs/TECHNOLOGY_RADAR.md)
+- [Technology Decisions](docs/TECHNOLOGY_DECISIONS.md)
 - [Report Formats](docs/REPORT_FORMATS.md)
-- [Roadmap](docs/ROADMAP.md)
 - [Changelog](docs/CHANGELOG.md)
-
-## Repository privacy
-
-The public repository contains source code, tests and generic documentation. Production-library inventories, collection statistics, filenames, generated reports, commissioning results, databases, caches and backups must not be committed.

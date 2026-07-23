@@ -1,38 +1,25 @@
-# KINTYRE Technology Strategy
+# KINTYRE v2 Technology Strategy
 
-## Mission
+Use mature OSS for music intelligence and write only the KINTYRE code required to execute the six-stage workflow safely.
 
-KINTYRE integrates, safeguards and orchestrates proven open-source technologies into a deterministic, recoverable music-library platform.
+## Intended roles
 
-## Custom KINTYRE value
+These are strategic roles, not proof of live installation:
 
-Custom code should focus on:
+- beets — candidate bounded FIX workflow;
+- MusicBrainz Picard — expert/ambiguous FIX;
+- MusicBrainz — release and recording identity;
+- Chromaprint/AcoustID — supporting recording evidence;
+- Cover Art Archive — preferred release-linked artwork;
+- Mutagen — metadata inspection and verification;
+- FFmpeg/ffprobe — readability and audio-stream verification;
+- image tooling — decoded artwork validation;
+- Music Assistant — downstream CHECK target.
 
-- protected workflow orchestration;
-- approvals and policy enforcement;
-- certification;
-- provenance and audit trails;
-- backup, verification and rollback;
-- cross-tool normalization;
-- Music Assistant reconciliation;
-- AI development handover;
-- coherent operator experience.
+## Build versus integrate
 
-## Boundaries
+Integrate matching, provider queries, working-copy tag writing, artwork acquisition and fingerprints.
 
-- External tools provide evidence or bounded capabilities.
-- KINTYRE owns workflow state and safety decisions.
-- Grafana is read-only observability.
-- Music Assistant is a rebuildable consumer.
-- No external component modifies the production library outside approved Apply.
-- Optional integrations fail safely and clearly.
+Build album selection and COPY, transaction evidence, isolation, REVIEW, APPROVE, verified backup, REPLACE, rollback, CHECK and audit.
 
-## Selection criteria
-
-Assess licence, maintenance, security, deterministic automation, local operation, scale, read-only capability, integration surface, data location, backup, rollback, complexity and replacement cost.
-
-## AI advisory boundary
-
-Optional AI providers may assist with metadata records that remain unresolved after deterministic processing and conventional identity services. They are advisory evidence providers, not authoritative engines.
-
-KINTYRE retains control of evidence selection and redaction, structured validation, confidence policy, proposal creation, operator Approval, certification, Apply, backup, verification, rollback, provenance and audit. The authoritative media library must remain fully manageable when no AI provider is configured or reachable.
+No abstraction framework precedes the first proven workflow. No external tool writes production. No AI component is required for the first v2 release.
